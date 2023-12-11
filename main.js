@@ -1,4 +1,5 @@
-// Primer desafio entregable -- Back-End--
+// Segundo desafio entregable -- Back-End--
+
 
 class ProductManager {
 
@@ -59,37 +60,3 @@ class ProductManager {
 
 
 // ***** Ejemplo de uso: *****
-
-
-//1) Crea instancia de clase “ProductManager”
-
-const manager = new ProductManager();
-
-//2) Llama a “getProducts” recién creada la instancia, devuelve array vacío []
-
-manager.getProducts();
-
-//3) Llama a “addProduct” :
-
-manager.addProduct("producto prueba", "este es un producto prueba", 200, "sin imagen", "abc123", 25);
-
-
-//4) El objeto se agrega con id unico
-
-
-manager.addProduct("Arroz", "Para sushi", 200, "sin imagen", "abc124", 30);
-manager.addProduct("Jamon", "Pata negra", 200, "sin imagen", "abc125", 50);
-
-//5)Llama a “getProducts” nuevamente, aparecen productos recién agregados
-
-manager.getProducts();
-
-
-//6) Llama a “addProduct” campos repetidos, arrojar error por código repetido.
-
-manager.addProduct("Arroz", "Para sushi", 200, "sin imagen", "abc124", 30);
-
-//7) Llama a "getProductsById", devuelve error si no lo encuentra o devuelve el producto en caso de encontrarlo
-
-manager.getProductsById(3);
-manager.getProductsById(71);

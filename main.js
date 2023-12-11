@@ -1,5 +1,5 @@
 // Segundo desafio entregable -- Back-End--
-const fs = require('fs').promises;
+const fs = require('fs');
 
 class ProductManager {
 
@@ -62,26 +62,13 @@ class ProductManager {
         }
 
 
-
-
-
-        // const prod = this.products.find(item => item.id === id);
-
-        // if (prod) {
-        //     console.log(`Genial! Se entontró el producto: ${prod.title} `, prod);
-        // } else {
-        //     console.log('Vaya! No hemos encontrado el producto que buscas');
-        // }
-        // return prod;
-
-
     }
 
     // Nuevo codigo Desafio 2
 
     async readFile() {
         try {
-            const response = await fs.readFile(this.path, 'utf-8');
+            const response = await fs.readFileSync(this.path, 'utf-8');
             const arrayProds = JSON.parse(response);
             return arrayProds;
         } catch (error) {
@@ -91,7 +78,7 @@ class ProductManager {
 
     async saveFile(arrayProds) {
         try {
-            await fs.writeFile(this.path, JSON.stringify(arrayProds, null, 2))
+            await fs.writeFileSync(this.path, JSON.stringify(arrayProds, null, 2))
         } catch (error) {
             console.log('Error! no se ha podido guardar el archivo', error)
         }
@@ -105,13 +92,36 @@ class ProductManager {
             const indexProd = arrayProds.findIndex(item => item.id === id);
 
             if (indexProd !== -1) {
-                arrayProds.splice(indexProd, 1, updatedProd);
+
+                const replacedProds = { ...arrayProds[indexProd], ...updatedProd }
+                arrayProds.splice(indexProd, 1, replacedProds);
                 await this.saveFile(arrayProds);
+                console.log('Producto actualizado correctamente')
             } else {
                 console.log('No se encontro el producto')
             }
         } catch (error) {
             console.log('Parece que hubo un problema con la actualizacion', error)
+        }
+    }
+
+    // Borrar producto
+
+    async deleteProduct(id) {
+        try {
+            const arrayProds = await this.readFile();
+            const indexProd = arrayProds.findIndex(item => item.id === id);
+
+            if (indexProd !== -1) {
+
+                arrayProds.splice(indexProd, 1);
+                await this.saveFile(arrayProds);
+                console.log('Producto eliminado correctamente')
+            } else {
+                console.log('No se encontro el producto que desea eliminar')
+            }
+        } catch (error) {
+            console.log('Parece que hubo un problema con el elemento que desea eliminar', error)
         }
     }
 
@@ -129,56 +139,68 @@ const manager = new ProductManager('./products.json');
 
 manager.getProducts();
 
-// LLamar metodo addProducts
+// LLamar metodo addProducts y agregamos 3 productos
 
 
-const prod1 = {
-    title: "producto 1",
-    description: "Este es un producto prueba",
+const arroz = {
+    title: "Arroz",
+    description: "Ideal para sushi",
     price: 200,
     thumbnail: "Sin imagen",
     code: "abc123",
     stock: 20
 }
 
-manager.addProduct(prod1);
+manager.addProduct(arroz);
 
-const prod2 = {
-    title: "producto 2",
-    description: "Este es un producto prueba",
+const choco = {
+    title: "Chocolate",
+    description: "en rama",
     price: 200,
     thumbnail: "Sin imagen",
     code: "abc124",
     stock: 25
 }
 
-manager.addProduct(prod2);
+manager.addProduct(choco);
 
-// Omitimos campo stock de producto
 
-const prod3 = {
-    title: "producto 3",
-    description: "Este es un producto prueba",
+const carne = {
+    title: "carne",
+    description: "Tapa de cuadril",
     price: 200,
     thumbnail: "Sin imagen",
     code: "abc125",
+    stock: 25
+}
+
+manager.addProduct(carne);
+
+// Omitimos campo stock de producto
+
+const cafe = {
+    title: "café",
+    description: "Etíope de especialidad",
+    price: 200,
+    thumbnail: "Sin imagen",
+    code: "abc126",
     // stock: 25
 }
 
-manager.addProduct(prod3);
+manager.addProduct(cafe);
 
-// R epetimos codigo producto
+// Repetimos codigo producto
 
-const prod4 = {
-    title: "producto 4",
-    description: "Este es un producto prueba",
+const pan = {
+    title: "pan",
+    description: "de molde bimbo",
     price: 200,
     thumbnail: "Sin imagen",
     code: "abc124",
     stock: 25
 }
 
-manager.addProduct(prod4);
+manager.addProduct(pan);
 
 
 // mostrar producto recien agregados mediante getProducts()
@@ -193,3 +215,31 @@ async function GettingById() {
 }
 
 GettingById();
+
+// Llamar metodo updateProducts para sustituir producto
+
+
+const provo = {
+    title: "Provolone",
+    description: "provolone ahumado",
+    price: 200,
+    thumbnail: "Sin imagen",
+    code: "abc127",
+    stock: 25
+};
+
+async function testUpdate() {
+    await manager.updateProduct(1, provo);
+
+}
+
+testUpdate();
+
+// Llamar testDelete() para eliminar producto
+
+async function testDelete() {
+    await manager.deleteProduct(3);
+
+}
+
+testDelete();

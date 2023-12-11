@@ -110,11 +110,11 @@ class ProductManager {
     async deleteProduct(id) {
         try {
             const arrayProds = await this.readFile();
-            const indexProd = arrayProds.findIndex(item => item.id === id);
+            const indexDelProd = arrayProds.findIndex(item => item.id === id);
 
-            if (indexProd !== -1) {
+            if (indexDelProd !== -1) {
 
-                arrayProds.splice(indexProd, 1);
+                arrayProds.splice(indexDelProd, 1);
                 await this.saveFile(arrayProds);
                 console.log('Producto eliminado correctamente')
             } else {
@@ -238,7 +238,7 @@ testUpdate();
 // Llamar testDelete() para eliminar producto
 
 async function testDelete() {
-    await manager.deleteProduct(3);
+    await manager.deleteProduct(2);
 
 }
 

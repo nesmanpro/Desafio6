@@ -43,9 +43,12 @@ app.get('/products/:pid', async (req, res) => {
     try {
         let pid = req.params.pid;
         const prod = await manager.getProductsById(pid);
-
-
-        prod ? res.send(prod) : console.log('No se ha encontrado el producto');
+        const error = { Error: 'Lo sentimos! no se ha encontrado el producto que andas buscando.' };
+        if (prod) {
+            res.send(prod)
+        } else {
+            res.send({ error })
+        }
 
     } catch (error) {
         res.status(500).json({ msg: 'Error interno del servidor' });

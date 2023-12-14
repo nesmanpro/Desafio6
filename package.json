@@ -4,10 +4,10 @@
   },
   "name": "2-clase-after",
   "version": "1.0.0",
-  "main": "main.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/main.js"
+    "dev": "nodemon src/app.js"
   },
   "keywords": [],
   "author": "",

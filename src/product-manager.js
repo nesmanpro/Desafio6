@@ -51,14 +51,16 @@ class ProductManager {
             const prod = arrayProducts.find(item => item.id === id);
 
             if (prod) {
-                console.log(`Genial! Se entontró el producto!`);
+                console.log(`Genial! Se entontró el producto! ${prod.title}`);
                 return prod;
             } else {
                 console.log('Vaya! No hemos encontrado el producto que buscas');
+                return null;
             }
 
         } catch (error) {
             console.log('Error al leer el archivo', error)
+            throw error;
         }
 
 
@@ -73,6 +75,7 @@ class ProductManager {
             return arrayProds;
         } catch (error) {
             console.log('Error! Parece que no se ha leido el archivo', error)
+            return [];
         }
     }
 

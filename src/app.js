@@ -57,7 +57,6 @@ app.get('/products/:pid', async (req, res) => {
 
 
 
-
 // Iniciar el servidor
 app.listen(puerto, () => {
     console.log(`Servidor escuchando en http://localhost:${puerto}`);

@@ -88,14 +88,5 @@
         "thumbnail": "Sin imagen",
         "code": "hijkl7",
         "stock": 20
-    },
-    {
-        "id": "11",
-        "title": "Lejia",
-        "description": "Deja todo blanco",
-        "price": 300,
-        "thumbnail": "Sin imagen",
-        "code": "wefrl8",
-        "stock": 20
     }
 ]

@@ -4,7 +4,7 @@
         "title": "Pan",
         "description": "De molde Bimbo",
         "price": 200,
-        "thumbnail": "Sin imagen",
+        "thumbnail": [],
         "code": "abc124",
         "stock": 25
     },
@@ -13,7 +13,7 @@
         "title": "Leche",
         "description": "Entera La Serenísima",
         "price": 150,
-        "thumbnail": "Sin imagen",
+        "thumbnail": [],
         "code": "def456",
         "stock": 30
     },
@@ -22,7 +22,7 @@
         "title": "Arroz",
         "description": "Largo fino Molinos Ala",
         "price": 80,
-        "thumbnail": "Sin imagen",
+        "thumbnail": [],
         "code": "ghi789",
         "stock": 40
     },
@@ -31,7 +31,7 @@
         "title": "Huevos",
         "description": "Docena Grandes",
         "price": 250,
-        "thumbnail": "Sin imagen",
+        "thumbnail": [],
         "code": "mno321",
         "stock": 20
     },
@@ -40,7 +40,7 @@
         "title": "Aceite",
         "description": "Girasol Cada Día",
         "price": 180,
-        "thumbnail": "Sin imagen",
+        "thumbnail": [],
         "code": "pqr567",
         "stock": 35
     },
@@ -49,7 +49,7 @@
         "title": "Yogur",
         "description": "Natural La Serenísima",
         "price": 50,
-        "thumbnail": "Sin imagen",
+        "thumbnail": [],
         "code": "stu890",
         "stock": 50
     },
@@ -58,7 +58,7 @@
         "title": "Papel Higiénico",
         "description": "Rollo x4",
         "price": 120,
-        "thumbnail": "Sin imagen",
+        "thumbnail": [],
         "code": "vwx123",
         "stock": 15
     },
@@ -67,7 +67,7 @@
         "title": "Galletas",
         "description": "Chocolate Cerealitas",
         "price": 100,
-        "thumbnail": "Sin imagen",
+        "thumbnail": [],
         "code": "yzab45",
         "stock": 28
     },
@@ -76,7 +76,7 @@
         "title": "Jabón de baño",
         "description": "Aloe Vera",
         "price": 70,
-        "thumbnail": "Sin imagen",
+        "thumbnail": [],
         "code": "cdefg6",
         "stock": 45
     },
@@ -85,7 +85,7 @@
         "title": "Detergente",
         "description": "Lavavajillas Magistral",
         "price": 300,
-        "thumbnail": "Sin imagen",
+        "thumbnail": [],
         "code": "hijkl7",
         "stock": 20
     }

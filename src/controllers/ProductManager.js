@@ -1,26 +1,34 @@
-// Tercer desafio entregable -- Back-End--
-const fs = require('fs');
+// Primera preentrega PF-- Back-End--
+const fs = require('fs').promises;
 
 class ProductManager {
 
 
     constructor(path) {
-        this.products = [];
         this.path = path;
-        this.productId = 0;
+        this.products = this.readFile() || [];
+        this.nextProductId = 1;
+    }
+
+    async init() {
+        await this.readFile();
     }
 
     async addProduct(newObject) {
 
         // desestructurando el nuevo objeto
-        let { title, description, price, thumbnail, code, stock } = newObject;
+        let { title, description, code, price, stock, category, thumbnails = [], status = true } = newObject;
 
-        if (!title || !description || !price || !thumbnail || !code || !stock) {
+        if (!title || !description || !code || !category) {
             console.log('Te faltó uno de los campos, recordá que todos son obligatorios');
-            return;
+            return { status: 400, msg: "Te faltó uno de los campos, recordá que todos son obligatorios" };
         }
 
-        if (this.products.some(item => item.code === code)) {
+        // Verifica que el precio y el stock sean números y no estén indefinidos
+        if (typeof price !== 'number' || typeof stock !== 'number') {
+            console.log("Vaya! Parece que no han introducido un valor numerico en Precio y/o Stock .");
+            return { status: 400, msg: "Error: Precio y stock deben ser numericos." };
+        } else if (this.products.some(item => item.code === code)) {
             console.log('Vaya!, parece que el codigo esta repetido y debe ser unico.');
             return;
         }
@@ -29,20 +37,27 @@ class ProductManager {
             id: ++this.productId,
             title,
             description,
-            price,
-            thumbnail,
+            price: Number(price),
+            thumbnails,
             code,
-            stock
+            stock: Number(stock),
+            status,
+            category
         }
 
         this.products.push(newProduct);
 
         // guardando array
         await this.saveFile(this.products);
+        console.log(`El producto ${title} se agregó exitosamente.`);
+        return { status: 200, msg: `El producto ${title} se agregó exitosamente.` };
     }
 
-    getProducts() {
-        console.log(this.products)
+    async getProducts() {
+        if (!this.products || this.products.length === 0) {
+            await this.readFile();
+        }
+        return this.products;
     }
 
     async getProductsById(id) {
@@ -70,18 +85,26 @@ class ProductManager {
 
     async readFile() {
         try {
-            const response = await fs.readFileSync(this.path, 'utf-8');
-            const arrayProds = JSON.parse(response);
-            return arrayProds;
+            if (await fs.stat(this.path)) {
+                const response = await fs.readFile(this.path, 'utf8');
+                console.log(response);
+                this.products = JSON.parse(response);
+                this.nextProductId = this.products.length > 0 ? Math.max(...this.products.map(p => p.id)) + 1 : 1;
+                return this.products;
+            }
         } catch (error) {
-            console.log('Error! Parece que no se ha leido el archivo', error)
-            return [];
+            if (error.code === 'ENOENT') {
+                console.log("El archivo no existe. Se iniciará un nuevo arreglo de productos.");
+                this.products = [];
+            } else {
+                throw error;
+            }
         }
     }
 
     async saveFile(arrayProds) {
         try {
-            await fs.writeFileSync(this.path, JSON.stringify(arrayProds, null, 2))
+            await fs.writeFile(this.path, JSON.stringify(arrayProds, null, 2), 'utf8')
         } catch (error) {
             console.log('Error! no se ha podido guardar el archivo', error)
         }
@@ -96,7 +119,7 @@ class ProductManager {
 
             if (indexProd !== -1) {
 
-                const replacedProds = { ...arrayProds[indexProd], ...updatedProd }
+                const replacedProds = { ...arrayProds[indexProd], ...updatedProd, id: id };
                 arrayProds.splice(indexProd, 1, replacedProds);
                 await this.saveFile(arrayProds);
                 console.log('Producto actualizado correctamente')
@@ -119,14 +142,16 @@ class ProductManager {
 
                 arrayProds.splice(indexDelProd, 1);
                 await this.saveFile(arrayProds);
-                console.log('Producto eliminado correctamente')
+                console.log(`Producto con id ${id} eliminado correctamente`)
             } else {
                 console.log('No se encontro el producto que desea eliminar')
             }
         } catch (error) {
             console.log('Parece que hubo un problema con el elemento que desea eliminar', error)
         }
+
     }
+
 
 }
 

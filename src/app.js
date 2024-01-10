@@ -1,63 +1,27 @@
-// ***** Testeo de uso: *****
 
-// importar product manager, declaramos puerto, llamamos express y creamos app
+// Declaramos puerto, llamamos express y creamos app y fs
 
 const express = require('express');
-const ProductManager = require('./product-manager');
 const app = express();
-const puerto = 8080;
+const fs = require('fs');
+const bodyParser = require('body-parser');
 
-// crear instancia ProductManager.
+const PUERTO = 8080;
 
-const manager = new ProductManager('./db/products.json');
+// Middleware
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
+// Creamos las rutas para prods y carts
 
-// Creamos ruta
-app.get('/', (req, res) => {
-    res.send('Mi primera chamba pero con Express!')
-})
+const cartsRouter = require('./routes/carts.router');
+const productsRouter = require('./routes/products.router');
 
-
-// Endpoint para obtener productos y filtrarlo con query param limit
-app.get('/products', async (req, res) => {
-    try {
-        const limit = parseInt(req.query.limit);
-        const allProds = await manager.readFile();
-
-
-        if (!isNaN(limit)) {
-            const limitedProducts = allProds.slice(0, limit);
-            res.send(limitedProducts);
-        } else {
-            res.send(allProds);
-        }
-
-    } catch (error) {
-        res.status(500).json({ error: 'Error interno del servidor' });
-    }
-});
-
-
-// Endpoint para obtener productos por id
-app.get('/products/:pid', async (req, res) => {
-    try {
-        let pid = req.params.pid;
-        const prod = await manager.getProductsById(pid);
-        const error = { Error: 'Lo sentimos! no se ha encontrado el producto que andas buscando.' };
-        if (prod) {
-            res.send(prod)
-        } else {
-            res.send({ error })
-        }
-
-    } catch (error) {
-        res.status(500).json({ msg: 'Error interno del servidor' });
-    }
-});
-
+app.use('/api/carts', cartsRouter);
+app.use('/api/products', productsRouter);
 
 
 // Iniciar el servidor
-app.listen(puerto, () => {
-    console.log(`Servidor escuchando en http://localhost:${puerto}`);
+app.listen(PUERTO, () => {
+    console.log(`Servidor escuchando en http://localhost:${PUERTO}`);
 });

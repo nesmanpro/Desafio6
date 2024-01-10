@@ -5,8 +5,8 @@
 const express = require('express');
 const app = express();
 const puerto = 8080;
-const productsRouter = require('./routes/products.router')
-const cartsRouter = require('./routes/carts.router')
+const productsRouter = require('./routes/products.routes')
+const cartsRouter = require('./routes/carts.routes')
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));

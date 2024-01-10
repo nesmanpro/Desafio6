@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const CartManager = require('../controllers/ProductManager');
+const CartManager = require('../controllers/CartManager');
 const cartsManager = new CartManager('src/models/carts.json');
 
 // Rutas
@@ -14,9 +14,9 @@ router.get('/', async (req, res) => {
 
         if (!isNaN(limit)) {
             const limitedCarts = allCarts.slice(0, limit);
-            res.send(limitedCarts);
+            res.json(limitedCarts);
         } else {
-            res.send(allCarts);
+            res.json(allCarts);
         }
 
     } catch (error) {
@@ -25,16 +25,16 @@ router.get('/', async (req, res) => {
 });
 
 
-// Endpoint para obtener productos por id
+// Endpoint para obtener carrito por id
 router.get('/:pid', async (req, res) => {
     try {
         let cid = req.params.pid;
-        const cart = await cartsManager.getProductsById(cid);
-        const error = { Error: 'Lo sentimos! no se ha encontrado el producto que andas buscando.' };
+        const cart = await cartsManager.getCartsById(cid);
+        const error = { Error: 'Lo sentimos! no se ha encontrado el carrito que andas buscando.' };
         if (cart) {
-            res.send(cart)
+            res.json(cart)
         } else {
-            res.send({ error })
+            res.json({ error })
         }
 
     } catch (error) {

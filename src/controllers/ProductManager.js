@@ -13,36 +13,51 @@ class ProductManager {
     async addProduct(newObject) {
 
         // desestructurando el nuevo objeto
-        let { title, description, price, thumbnail, code, stock } = newObject;
+        let { title, description, code, price, stock, category, thumbnails = [], status = true } = newObject;
 
-        if (!title || !description || !price || !thumbnail || !code || !stock) {
-            console.log('Te faltó uno de los campos, recordá que todos son obligatorios');
-            return;
+        if (!title || !description || !code || !category) {
+            console.log('Te faltó uno de los campos de texto, recordá que todos son obligatorios');
+            return { status: 400, msg: "Error: Te faltó uno de los campos de texto, recordá que todos son obligatorios (title, description, code, category)" };
+        }
+
+        if (typeof price !== 'number' || typeof stock !== 'number') {
+            console.log("Vaya! Recuerda que precio y stock son valores numericos.");
+            return { status: 400, msg: "Error: Recuerda que precio y stock son valores numericos." };
         }
 
         if (this.products.some(item => item.code === code)) {
             console.log('Vaya!, parece que el codigo esta repetido y debe ser unico.');
-            return;
+            return console.log('Vaya!, parece que el codigo esta repetido y debe ser unico.');;
         }
 
+        let existingProducts = await this.readFile();
+
         const newProduct = {
-            id: ++this.productId,
+            id: existingProducts.length > 0 ? Math.max(...existingProducts.map(p => p.id)) + 1 : 1,
             title,
             description,
-            price,
-            thumbnail,
+            price: Number(price),
+            thumbnails,
             code,
-            stock
+            stock: Number(stock),
+            status,
+            category
         }
 
         this.products.push(newProduct);
+        const updatedProducts = [...existingProducts, newProduct];
 
         // guardando array
-        await this.saveFile(this.products);
+        await this.saveFile(updatedProducts);
+        console.log(`El producto ${title} se agregó con éxito.`);
+        return newProduct;
     }
 
-    getProducts() {
-        console.log(this.products)
+    async getProducts() {
+        if (!this.products || this.products.length === 0) {
+            return this.readFile()
+        }
+        return this.products;
     }
 
     async getProductsById(id) {
@@ -66,7 +81,6 @@ class ProductManager {
 
     }
 
-    // Nuevo codigo Desafio 2
 
     async readFile() {
         try {
@@ -78,6 +92,7 @@ class ProductManager {
             return [];
         }
     }
+
 
     async saveFile(arrayProds) {
         try {
@@ -100,6 +115,7 @@ class ProductManager {
                 arrayProds.splice(indexProd, 1, replacedProds);
                 await this.saveFile(arrayProds);
                 console.log('Producto actualizado correctamente')
+                return replacedProds;
             } else {
                 console.log('No se encontro el producto')
             }
@@ -114,7 +130,8 @@ class ProductManager {
         try {
             const arrayProds = await this.readFile();
             const indexDelProd = arrayProds.findIndex(item => item.id === id);
-
+            console.log('ID a eliminar:', id);
+            console.log('ID de productos en el array:', arrayProds.map(item => item.id));
             if (indexDelProd !== -1) {
 
                 arrayProds.splice(indexDelProd, 1);

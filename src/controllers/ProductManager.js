@@ -1,5 +1,5 @@
 // Primera preentrega PF-- Back-End--
-const fs = require('fs').promises;
+const fs = require('fs');
 
 class ProductManager {
 
@@ -85,8 +85,8 @@ class ProductManager {
 
     async readFile() {
         try {
-            if (await fs.stat(this.path)) {
-                const response = await fs.readFile(this.path, 'utf8');
+            if (await fs.statSync(this.path)) {
+                const response = await fs.readFileSync(this.path, 'utf8');
                 console.log(response);
                 this.products = JSON.parse(response);
                 this.nextProductId = this.products.length > 0 ? Math.max(...this.products.map(p => p.id)) + 1 : 1;
@@ -104,7 +104,7 @@ class ProductManager {
 
     async saveFile(arrayProds) {
         try {
-            await fs.writeFile(this.path, JSON.stringify(arrayProds, null, 2), 'utf8')
+            await fs.writeFileSync(this.path, JSON.stringify(arrayProds, null, 2), 'utf8')
         } catch (error) {
             console.log('Error! no se ha podido guardar el archivo', error)
         }

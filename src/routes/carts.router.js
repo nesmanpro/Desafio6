@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const CartManager = require('../controllers/CartManager');
-const cartManager = new CartManager('.src/models/carts.json');
+const cartManager = new CartManager('./src/models/carts.json');
 
 // Ruta Post (/api/carts/)
 

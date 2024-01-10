@@ -3,10 +3,7 @@
 
 const express = require('express');
 const app = express();
-const fs = require('fs');
-const bodyParser = require('body-parser');
-
-const PUERTO = 8080;
+const PORT = 8080;
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
@@ -22,6 +19,6 @@ app.use('/api/products', productsRouter);
 
 
 // Iniciar el servidor
-app.listen(PUERTO, () => {
-    console.log(`Servidor escuchando en http://localhost:${PUERTO}`);
+app.listen(PORT, () => {
+    console.log(`Servidor escuchando en http://localhost:${PORT}`);
 });

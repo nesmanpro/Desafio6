@@ -1,28 +1,32 @@
-# Proyecto - Manejo de archivos con métodos asíncronos
+# Gestión de Productos y Carritos con Node.js y Express (PreentregaPF 1)
 
-Este proyecto corresponde a la implementación de un servidor con Express que gestiona productos mediante endpoints definidos. Se utilizó la clase `ProductManager` para la gestión de productos con persistencia de datos basada en archivos.
+Este proyecto tiene como objetivo crear un servidor utilizando Node.js y Express que gestione dos grupos de rutas: `/products` y `/carts`. Las rutas se definen de la siguiente manera:
 
-## Descripción del Proyecto
+## Rutas para Productos (/api/products)
 
-Se abordó la modificación de la persistencia de datos en memoria a una persistencia basada en archivos. Se trabajó sobre la clase `ProductManager`, permitiendo operaciones de buscado y filtrado de datos de productos en archivos.
+- **GET /:** Retorna todos los productos almacenados.
+- **GET /:pid:** Retorna el producto específico con el id proporcionado.
+- **POST /:** Agrega un nuevo producto con los siguientes campos obligatorios:
+  - id (autogenerado)
+  - title
+  - description
+  - code
+  - price
+  - status (true por defecto)
+  - stock
+  - category
+  - thumbnails (Array de rutas de imágenes)
+- **PUT /:pid:** Actualiza un producto basado en los campos proporcionados en el cuerpo de la solicitud.
+- **DELETE /:pid:** Elimina el producto con el id especificado.
 
-## Funcionalidades Implementadas
+## Rutas para Carritos (/api/carts)
 
-### Endpoints
+- **POST /:** Crea un nuevo carrito con un id único y un array vacío de productos.
+- **GET /:cid:** Lista los productos pertenecientes al carrito con el id especificado.
+- **POST /:cid/product/:pid:** Agrega un producto al carrito específico. El cuerpo de la solicitud debe incluir el id del producto y la cantidad a agregar.
 
-1. **Endpoint para Consultar Todos los Productos:**
+### Persistencia de la Información
 
-   - Ruta: `/products`
-   - Método: GET
-   - Descripción: Este endpoint devuelve todos los productos almacenados en el archivo de productos.
+La información se almacena utilizando el sistema de archivos, con los archivos "productos.json" y "carrito.json" para respaldar la información de productos y carritos, respectivamente.
 
-2. **Endpoint para Consultar Productos con Límite:**
-
-   - Ruta: `/products?limit={num}`
-   - Método: GET
-   - Descripción: Al recibir la consulta con un límite específico, este endpoint devuelve un número determinado de productos según el límite establecido.
-
-3. **Endpoint para Consultar Producto por ID:**
-   - Ruta: `/products/:pid`
-   - Método: GET
-   - Descripción: Recibe un ID de producto y devuelve únicamente el producto solicitado.
+---

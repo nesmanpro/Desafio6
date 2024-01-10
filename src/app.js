@@ -3,13 +3,17 @@
 // importar product manager, declaramos puerto, llamamos express y creamos app
 
 const express = require('express');
-const ProductManager = require('./product-manager');
-const app = express();
+const ProductManager = require('./controllers/product-manager');
+const prodManager = new ProductManager('./src/db/products.json');
 const puerto = 8080;
+
+const app = express();
 
 // crear instancia ProductManager.
 
-const manager = new ProductManager('./db/products.json');
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 
 
 // Creamos ruta
@@ -22,7 +26,7 @@ app.get('/', (req, res) => {
 app.get('/products', async (req, res) => {
     try {
         const limit = parseInt(req.query.limit);
-        const allProds = await manager.readFile();
+        const allProds = await prodManager.readFile();
 
 
         if (!isNaN(limit)) {
@@ -42,7 +46,7 @@ app.get('/products', async (req, res) => {
 app.get('/products/:pid', async (req, res) => {
     try {
         let pid = req.params.pid;
-        const prod = await manager.getProductsById(pid);
+        const prod = await prodManager.getProductsById(pid);
         const error = { Error: 'Lo sentimos! no se ha encontrado el producto que andas buscando.' };
         if (prod) {
             res.send(prod)

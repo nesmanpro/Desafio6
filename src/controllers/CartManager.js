@@ -1,5 +1,5 @@
 // Tercer desafio entregable -- Back-End--
-const fs = require('fs');
+const fs = require('fs/promises');
 
 class CartManager {
 
@@ -11,51 +11,11 @@ class CartManager {
         this.readFile();
     }
 
-    // async addCart(newObject) {
-
-    //     // desestructurando el nuevo objeto
-    //     let { title, description, price, thumbnail, code, stock } = newObject;
-
-    //     if (!title || !description || !price || !thumbnail || !code || !stock) {
-    //         console.log('Te faltó uno de los campos, recordá que todos son obligatorios');
-    //         return;
-    //     }
-
-    //     if (this.carts.some(item => item.code === code)) {
-    //         console.log('Vaya!, parece que el codigo esta repetido y debe ser unico.');
-    //         return;
-    //     }
-
-    //     const newCart = {
-    //         id: ++this.cartId,
-    //         title,
-    //         description,
-    //         price,
-    //         thumbnail,
-    //         code,
-    //         stock
-    //     }
-
-    //     this.carts.push(newCart);
-
-    //     // guardando array
-    //     await this.saveFile(this.carts);
-    // }
-
-    // async getCarts() {
-    //     if (!this.carts || this.carts.length === 0) {
-    //         return await this.readFile()
-    //     }
-    //     return this.carts;
-    // }
-
-    // Nuevo codigo Desafio 2
 
     async readFile() {
         try {
-            const response = await fs.readFileSync(this.path, 'utf-8');
+            const response = await fs.readFile(this.path, 'utf-8');
             const arrayCarts = JSON.parse(response);
-            this.productId = arrayCarts.reduce((max, cart) => Math.max(max, cart.id), 0) + 1;
             return arrayCarts;
         } catch (error) {
             console.log('Error! Parece que no se ha leido el archivo', error)
@@ -65,27 +25,35 @@ class CartManager {
 
     async saveFile(arrayCarts) {
         try {
-            await fs.writeFileSync(this.path, JSON.stringify(arrayCarts, null, 2))
+            await fs.writeFile(this.path, JSON.stringify(arrayCarts, null, 2))
         } catch (error) {
             console.log('Error! no se ha podido guardar el archivo', error)
         }
     }
 
-    async createCart() {
-        const cart = { id: this.cartId++, products: [] };
-        this.carts.push(cart);
-        await this.saveFile();
-        return cart;
+
+
+    async newCart() {
+        let existingCart = await this.readFile();
+        const nextCartId = nextCartIdexistingCart.length > 0 ? Math.max(...existingCart.map(p => p.id)) + 1 : 1;
+
+        const newCart = { id: nextCartId, products: [] }
+        this.carts.push(newCart);
+        await this.saveCarts();
+
+        return newCart;
     }
 
-    async getCartsById(id) {
+
+
+    async getCartProds(id) {
         try {
             const arrayCarts = await this.readFile();
             const cart = arrayCarts.find(item => item.id === id);
 
             if (cart) {
                 console.log(`Genial! Se entontró el Carrito! ${cart.title}`);
-                return cart;
+                return cart.products;
             } else {
                 console.log('Vaya! No hemos encontrado el carrito que buscas');
                 return null;
@@ -101,21 +69,45 @@ class CartManager {
 
     // actualizar Carrito
 
-    async updateCart(cartId, prodId, quantity = 1) {
+    async addProdToCart(cid, pid) {
 
-        const arrayCarts = await this.getCartsById(cartId);
-        const cart = await this.getCartById(cartId);
-        if (arrayCarts.error) return cart;
+        const arrayCarts = await this.readFile();
+        const index = arrayCarts.findIndex(cart => cart.id === cid)
 
-        const productIndex = arrayCarts.products.findIndex(p => p.id === prodId);
-        if (productIndex > -1) {
-            arrayCarts.products[productIndex].quantity += quantity;
+        if (index !== -1) {
+            const cartProds = await this.getCartProds(cid);
+            const existingProdIndex = cartProds.findIndex(prod => prod.id === pid)
+
+            if (existingProdIndex !== -1) {
+                cartProds[existingProdIndex].quantity = cartProds[existingProdIndex].quantity + 1;
+            } else {
+                cartProds.push({ pid, quantity: 1 })
+            }
+
+            arrayCarts[index].products = cartProds;
+
+            console.log('Producto agregado con exito!')
+            return saveFile(arrayCarts);
         } else {
-            arrayCarts.products.push({ id: prodId, quantity });
+            console.log('carrito no encontrado')
         }
 
-        await this.saveFile();
-        return arrayCarts;
+
+
+
+        // const arrayCarts = await this.getCartsById(cartId);
+        // const cart = await this.getCartById(cartId);
+        // if (arrayCarts.error) return cart;
+
+        // const productIndex = arrayCarts.products.findIndex(p => p.id === prodId);
+        // if (productIndex > -1) {
+        //     arrayCarts.products[productIndex].quantity += quantity;
+        // } else {
+        //     arrayCarts.products.push({ id: prodId, quantity });
+        // }
+
+        // await this.saveFile();
+        // return arrayCarts;
 
     }
 

@@ -25,21 +25,35 @@ router.get('/', async (req, res) => {
 });
 
 
-// Endpoint para obtener carrito por id
-router.get('/:pid', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
-        let cid = req.params.pid;
-        const cart = await cartsManager.getCartsById(cid);
-        const error = { Error: 'Lo sentimos! no se ha encontrado el carrito que andas buscando.' };
-        if (cart) {
-            res.json(cart)
-        } else {
-            res.json({ error })
-        }
-
+        const resp = await CartManager.newCart();
+        res.json(resp)
     } catch (error) {
-        res.status(500).json({ msg: 'Error interno del servidor' });
+        res.send('Lo sentimos, error al crear el carrito')
     }
-});
+})
+
+
+router.get('/:cid', async (req, res) => {
+    const cid = parseInt(req.params.id);
+    try {
+        const resp = await cartsManager.getCartProds(cid);
+        res.json(resp);
+    } catch (error) {
+        res.send('Error al intentar enviar productos al  carrito')
+    }
+})
+
+router.post('/:cid/products/:pid', async (req, res) => {
+    const { cid, pid } = parseInt(req.params);
+    try {
+        await cartsManager.addProdToCart(cid, pid);
+        res.send('Producto agregado exitosamente')
+    } catch (error) {
+        res.send('Error al intentar guardar producto en el carrito')
+
+    }
+})
 
 module.exports = router;

@@ -8,12 +8,25 @@
       },
       {
         "id": 545,
-        "quantity": 2
+        "quantity": 3
       }
     ]
   },
   {
     "id": 2,
+    "products": [
+      {
+        "id": 545,
+        "quantity": 3
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "products": []
+  },
+  {
+    "id": 4,
     "products": []
   }
 ]

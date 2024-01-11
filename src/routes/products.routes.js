@@ -43,6 +43,7 @@ router.get('/:pid', async (req, res) => {
     }
 });
 
+// Endpoint para agregar producto
 router.post('/', async (req, res) => {
     try {
         const { title, description, code, price, stock, category, thumbnails, status } = req.body;
@@ -55,6 +56,7 @@ router.post('/', async (req, res) => {
     }
 });
 
+// Endpoint para editar o sobreescribir producto
 router.put('/:pid', async (req, res) => {
 
     let pid = parseInt(req.params.pid);
@@ -69,6 +71,8 @@ router.put('/:pid', async (req, res) => {
     }
 });
 
+
+// Endpoint para eliminar producto
 router.delete('/:pid', async (req, res) => {
     let pid = parseInt(req.params.pid);
     console.log('Valor de pid:', pid);

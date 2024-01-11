@@ -1,59 +1,44 @@
 const express = require('express');
 const router = express.Router();
-
 const CartManager = require('../controllers/CartManager');
-const cartsManager = new CartManager('src/models/carts.json');
+const cartManager = new CartManager('src/models/carts.json');
 
-// Rutas
+// Endpoint para crear el carrito
+router.post('/', async (req, res) => {
+    const cart = await cartManager.createCart();
 
-router.get('/', async (req, res) => {
     try {
-        const limit = parseInt(req.query.limit);
-        const allCarts = await cartsManager.readFile();
-
-
-        if (!isNaN(limit)) {
-            const limitedCarts = allCarts.slice(0, limit);
-            res.json(limitedCarts);
-        } else {
-            res.json(allCarts);
-        }
-
+        res.json(cart);
     } catch (error) {
-        res.status(500).json({ error: 'Error interno del servidor' });
+        res.send('Error: No se pudo crear el carrito');
+
     }
 });
 
-
-router.post('/', async (req, res) => {
-    try {
-        const resp = await CartManager.newCart();
-        res.json(resp)
-    } catch (error) {
-        res.send('Lo sentimos, error al crear el carrito')
-    }
-})
-
-
+// Endpoint para listar los productos de un carrito
 router.get('/:cid', async (req, res) => {
-    const cid = parseInt(req.params.id);
-    try {
-        const resp = await cartsManager.getCartProds(cid);
-        res.json(resp);
-    } catch (error) {
-        res.send('Error al intentar enviar productos al  carrito')
-    }
-})
+    const cartId = parseInt(req.params.cid);
+    const cart = await cartManager.getCartById(cartId);
 
+    try {
+        res.json(cart);
+    } catch (error) {
+        res.send('Error al intentar enviar los productos del carrito');
+    }
+});
+
+// Endpoint para agregar producto al carrito
 router.post('/:cid/products/:pid', async (req, res) => {
-    const { cid, pid } = parseInt(req.params);
-    try {
-        await cartsManager.addProdToCart(cid, pid);
-        res.send('Producto agregado exitosamente')
-    } catch (error) {
-        res.send('Error al intentar guardar producto en el carrito')
+    const cartId = parseInt(req.params.cid);
+    const productId = parseInt(req.params.pid);
+    const { quantity } = req.body;
 
+    const result = await cartManager.addToCart(cartId, productId, quantity);
+    try {
+        res.json(result);
+    } catch (error) {
+        res.send('Error al intentar guardar producto en el carrito');
     }
-})
+});
 
 module.exports = router;

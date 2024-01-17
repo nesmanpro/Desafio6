@@ -1,17 +1,12 @@
-// Primera preentrega PF-- Back-End--
 const fs = require('fs');
 
 class ProductManager {
 
 
     constructor(path) {
+        this.products = [];
         this.path = path;
-        this.products = this.readFile() || [];
-        this.nextProductId = 1;
-    }
-
-    async init() {
-        await this.readFile();
+        this.productId = 0;
     }
 
     async addProduct(newObject) {
@@ -29,11 +24,7 @@ class ProductManager {
             return { status: 400, msg: "Error: Recuerda que precio y stock son valores numericos." };
         }
 
-        // Verifica que el precio y el stock sean números y no estén indefinidos
-        if (typeof price !== 'number' || typeof stock !== 'number') {
-            console.log("Vaya! Parece que no han introducido un valor numerico en Precio y/o Stock .");
-            return { status: 400, msg: "Error: Precio y stock deben ser numericos." };
-        } else if (this.products.some(item => item.code === code)) {
+        if (this.products.some(item => item.code === code)) {
             console.log('Vaya!, parece que el codigo esta repetido y debe ser unico.');
             return console.log('Vaya!, parece que el codigo esta repetido y debe ser unico.');;
         }
@@ -92,27 +83,19 @@ class ProductManager {
 
     async readFile() {
         try {
-            if (await fs.statSync(this.path)) {
-                const response = await fs.readFileSync(this.path, 'utf8');
-                console.log(response);
-                this.products = JSON.parse(response);
-                this.nextProductId = this.products.length > 0 ? Math.max(...this.products.map(p => p.id)) + 1 : 1;
-                return this.products;
-            }
+            const response = await fs.readFileSync(this.path, 'utf-8');
+            const arrayProds = JSON.parse(response);
+            return arrayProds;
         } catch (error) {
-            if (error.code === 'ENOENT') {
-                console.log("El archivo no existe. Se iniciará un nuevo arreglo de productos.");
-                this.products = [];
-            } else {
-                throw error;
-            }
+            console.log('Error! Parece que no se ha leido el archivo', error)
+            return [];
         }
     }
 
 
     async saveFile(arrayProds) {
         try {
-            await fs.writeFileSync(this.path, JSON.stringify(arrayProds, null, 2), 'utf8')
+            await fs.writeFileSync(this.path, JSON.stringify(arrayProds, null, 2))
         } catch (error) {
             console.log('Error! no se ha podido guardar el archivo', error)
         }
@@ -127,7 +110,7 @@ class ProductManager {
 
             if (indexProd !== -1) {
 
-                const replacedProds = { ...arrayProds[indexProd], ...updatedProd, id: id };
+                const replacedProds = { ...arrayProds[indexProd], ...updatedProd }
                 arrayProds.splice(indexProd, 1, replacedProds);
                 await this.saveFile(arrayProds);
                 console.log('Producto actualizado correctamente')
@@ -152,16 +135,14 @@ class ProductManager {
 
                 arrayProds.splice(indexDelProd, 1);
                 await this.saveFile(arrayProds);
-                console.log(`Producto con id ${id} eliminado correctamente`)
+                console.log('Producto eliminado correctamente')
             } else {
                 console.log('No se encontro el producto que desea eliminar')
             }
         } catch (error) {
             console.log('Parece que hubo un problema con el elemento que desea eliminar', error)
         }
-
     }
-
 
 }
 

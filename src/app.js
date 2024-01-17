@@ -1,9 +1,9 @@
 
-// Declaramos puerto, llamamos express y creamos app y fs
+// importar product manager, declaramos puerto, llamamos express y creamos app
 
 const express = require('express');
 const app = express();
-const PORT = 8080;
+const puerto = 8080;
 const productsRouter = require('./routes/products.routes')
 const cartsRouter = require('./routes/carts.routes')
 
@@ -21,6 +21,6 @@ app.use('/api/carts', cartsRouter);
 
 
 // Iniciar el servidor
-app.listen(PORT, () => {
-    console.log(`Servidor escuchando en http://localhost:${PORT}`);
+app.listen(puerto, () => {
+    console.log(`Servidor escuchando en http://localhost:${puerto}`);
 }); 

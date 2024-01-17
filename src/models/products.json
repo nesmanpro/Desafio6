@@ -1,92 +1,92 @@
 [
-    {
-        "id": 1,
-        "title": "Pan",
-        "description": "De molde Bimbo",
-        "price": 200,
-        "thumbnail": "Sin imagen",
-        "code": "abc124",
-        "stock": 25
-    },
-    {
-        "id": 2,
-        "title": "Leche",
-        "description": "Entera La Serenísima",
-        "price": 150,
-        "thumbnail": "Sin imagen",
-        "code": "def456",
-        "stock": 30
-    },
-    {
-        "id": 3,
-        "title": "Arroz",
-        "description": "Largo fino Molinos Ala",
-        "price": 80,
-        "thumbnail": "Sin imagen",
-        "code": "ghi789",
-        "stock": 40
-    },
-    {
-        "id": 4,
-        "title": "Huevos",
-        "description": "Docena Grandes",
-        "price": 250,
-        "thumbnail": "Sin imagen",
-        "code": "mno321",
-        "stock": 20
-    },
-    {
-        "id": 5,
-        "title": "Aceite",
-        "description": "Girasol Cada Día",
-        "price": 180,
-        "thumbnail": "Sin imagen",
-        "code": "pqr567",
-        "stock": 35
-    },
-    {
-        "id": 6,
-        "title": "Yogur",
-        "description": "Natural La Serenísima",
-        "price": 50,
-        "thumbnail": "Sin imagen",
-        "code": "stu890",
-        "stock": 50
-    },
-    {
-        "id": 7,
-        "title": "Papel Higiénico",
-        "description": "Rollo x4",
-        "price": 120,
-        "thumbnail": "Sin imagen",
-        "code": "vwx123",
-        "stock": 15
-    },
-    {
-        "id": 8,
-        "title": "Galletas",
-        "description": "Chocolate Cerealitas",
-        "price": 100,
-        "thumbnail": "Sin imagen",
-        "code": "yzab45",
-        "stock": 28
-    },
-    {
-        "id": 9,
-        "title": "Jabón de baño",
-        "description": "Aloe Vera",
-        "price": 70,
-        "thumbnail": "Sin imagen",
-        "code": "cdefg6",
-        "stock": 45
-    },
-    {
-        "id": 10,
-        "title": "Detergente",
-        "description": "Lavavajillas Magistral",
-        "price": 300,
-        "thumbnail": "Sin imagen",
-        "code": "hijkl7",
-        "stock": 20
-    }
+  {
+    "id": 1,
+    "title": "Nutella",
+    "description": "De molde Bimbo",
+    "price": 200,
+    "thumbnail": "Sin imagen",
+    "code": "abc124",
+    "stock": 25
+  },
+  {
+    "id": 2,
+    "title": "Leche",
+    "description": "Entera La Serenísima",
+    "price": 150,
+    "thumbnail": "Sin imagen",
+    "code": "def456",
+    "stock": 30
+  },
+  {
+    "id": 3,
+    "title": "Arroz",
+    "description": "Largo fino Molinos Ala",
+    "price": 80,
+    "thumbnail": "Sin imagen",
+    "code": "ghi789",
+    "stock": 40
+  },
+  {
+    "id": 4,
+    "title": "Huevos",
+    "description": "Docena Grandes",
+    "price": 250,
+    "thumbnail": "Sin imagen",
+    "code": "mno321",
+    "stock": 20
+  },
+  {
+    "id": 5,
+    "title": "Aceite",
+    "description": "Girasol Cada Día",
+    "price": 180,
+    "thumbnail": "Sin imagen",
+    "code": "pqr567",
+    "stock": 35
+  },
+  {
+    "id": 6,
+    "title": "Yogur",
+    "description": "Natural La Serenísima",
+    "price": 50,
+    "thumbnail": "Sin imagen",
+    "code": "stu890",
+    "stock": 50
+  },
+  {
+    "id": 7,
+    "title": "Papel Higiénico",
+    "description": "Rollo x4",
+    "price": 120,
+    "thumbnail": "Sin imagen",
+    "code": "vwx123",
+    "stock": 15
+  },
+  {
+    "id": 8,
+    "title": "Galletas",
+    "description": "Chocolate Cerealitas",
+    "price": 100,
+    "thumbnail": "Sin imagen",
+    "code": "yzab45",
+    "stock": 28
+  },
+  {
+    "id": 9,
+    "title": "Jabón de baño",
+    "description": "Aloe Vera",
+    "price": 70,
+    "thumbnail": "Sin imagen",
+    "code": "cdefg6",
+    "stock": 45
+  },
+  {
+    "id": 10,
+    "title": "Detergente",
+    "description": "Lavavajillas Magistral",
+    "price": 300,
+    "thumbnail": "Sin imagen",
+    "code": "hijkl7",
+    "stock": 20
+  }
 ]

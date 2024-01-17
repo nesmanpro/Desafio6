@@ -1,0 +1,69 @@
+body {
+    background-color: rgb(201, 218, 179);
+    margin-top: 4rem;
+}
+
+h1, h3 {
+    color: rgb(53, 63, 18);
+    display: flex;
+    justify-content: center;
+}
+
+.section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+}
+img {
+    width: 100%;
+    height: auto;
+    border-radius: 3rem;
+}
+
+.card {
+    color: rgb(53, 63, 18);
+    padding: 2rem;
+    width: 18rem;
+    height: 25rem;
+    border-radius: 1rem;
+    background-color: rgb(252, 249, 246);
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    scale: 1;
+    transition: all .8s ease-out;
+}
+.card:hover {
+    /* cursor: pointer; */
+    background-color: #587164;
+    color: white;
+    border: white;
+    scale: 1.1;
+    transition: all .2s ease-in-out;
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: transparent;
+    color: white;
+    border: white solid 2px;
+    transition: all .2s ease-in-out
+}
+
+
+
+#prodCont, .form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+}
+
+button {
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    outline: none;
+    background-color: rgb(151, 47, 47);
+    border: rgb(151, 47, 47) solid 2px;
+    border-radius: 5rem;
+    color: white;
+}

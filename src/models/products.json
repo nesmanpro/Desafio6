@@ -9,24 +9,6 @@
     "stock": 25
   },
   {
-    "id": 2,
-    "title": "Leche",
-    "description": "Entera La Serenísima",
-    "price": 150,
-    "thumbnail": "Sin imagen",
-    "code": "def456",
-    "stock": 30
-  },
-  {
-    "id": 3,
-    "title": "Arroz",
-    "description": "Largo fino Molinos Ala",
-    "price": 80,
-    "thumbnail": "Sin imagen",
-    "code": "ghi789",
-    "stock": 40
-  },
-  {
     "id": 4,
     "title": "Huevos",
     "description": "Docena Grandes",
@@ -34,15 +16,6 @@
     "thumbnail": "Sin imagen",
     "code": "mno321",
     "stock": 20
-  },
-  {
-    "id": 5,
-    "title": "Aceite",
-    "description": "Girasol Cada Día",
-    "price": 180,
-    "thumbnail": "Sin imagen",
-    "code": "pqr567",
-    "stock": 35
   },
   {
     "id": 6,
@@ -63,15 +36,6 @@
     "stock": 15
   },
   {
-    "id": 8,
-    "title": "Galletas",
-    "description": "Chocolate Cerealitas",
-    "price": 100,
-    "thumbnail": "Sin imagen",
-    "code": "yzab45",
-    "stock": 28
-  },
-  {
     "id": 9,
     "title": "Jabón de baño",
     "description": "Aloe Vera",
@@ -82,11 +46,22 @@
   },
   {
     "id": 10,
-    "title": "Detergente",
-    "description": "Lavavajillas Magistral",
-    "price": 300,
+    "title": "Nutella",
+    "description": "para crepes",
+    "price": 200,
     "thumbnail": "Sin imagen",
-    "code": "hijkl7",
-    "stock": 20
+    "code": "abc124",
+    "stock": 25
+  },
+  {
+    "id": 11,
+    "title": "Chocolate ",
+    "description": "venido desde holanda",
+    "price": 12,
+    "thumbnails": [],
+    "code": "1212klk",
+    "stock": 12,
+    "status": true,
+    "category": "alsdkls"
   }
 ]

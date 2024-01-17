@@ -60,11 +60,16 @@ router.post('/', async (req, res) => {
 router.put('/:pid', async (req, res) => {
 
     let pid = parseInt(req.params.pid);
+    const prod = await prodManager.getProductsById(pid);
 
     try {
         const { title, description, code, price, stock, category, thumbnails, status } = req.body;
         const response = await prodManager.updateProduct(pid, { title, description, code, price, stock, category, thumbnails, status });
-        res.json(response);
+        if (prod !== null) {
+            res.json(response);
+        } else {
+            res.send(`Parece que el producto con id ${pid} no existe.`)
+        }
     } catch (error) {
         console.log(error)
         res.send(`Error al intentar editar el producto con id ${pid}`)
@@ -78,7 +83,7 @@ router.delete('/:pid', async (req, res) => {
     console.log('Valor de pid:', pid);
     try {
         await prodManager.deleteProduct(pid)
-        res.send('Producto eliminado correctamente')
+        res.send(`Producto ${pid} eliminado correctamente`)
     } catch (error) {
         console.log(error)
         res.send(`Error al intentar eliminar el producto con id ${pid}`)

@@ -84,9 +84,11 @@
     "id": 10,
     "title": "Detergente",
     "description": "Lavavajillas Magistral",
-    "price": 300,
-    "thumbnail": "Sin imagen",
-    "code": "hijkl7",
-    "stock": 20
+    "price": 123,
+    "thumbnails": [],
+    "code": "s25tdmks",
+    "stock": 3,
+    "status": true,
+    "category": "Limpieza"
   }
 ]

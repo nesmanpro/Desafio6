@@ -2,12 +2,14 @@
 <h1>Home</h1>
 <div class="section">
     {{#each allProds}}
-    <div class="card">
+    <div class="card cardFront">
         <h2>{{this.title}}</h2>
         <img src="https://dspncdn.com/a1/media/originals/01/37/b6/0137b6c4bb21f01f395f0c975f03e651.jpg" alt="furniture">
+        <p>ID: {{this.id}}</p>
         <p>Description:</p>
         <strong>{{this.description}}</strong>
         <p>Price: <strong>{{this.price}}</strong> $</p>
+        <button> Buy Now </button>
     </div>
     {{/each}}
 </div>

@@ -57,25 +57,20 @@ io.on('connection', async (socket) => {
 
     // Ahora el servidor va a enviar productos 
     const allProds = await prodManager.getProducts();
-    socket.emit('products', allProds)
+    io.sockets.emit('products', allProds)
 
     //recibir productos eliminados del cliente
 
     socket.on('deleteProd', async (id) => {
         await prodManager.deleteProduct(id);
         //Enviamos array prods actualizado
-        io.socket.emit('products', allProds)
+        io.sockets.emit('products', allProds)
     })
 
     //Recibimos el prod agregado del cliente
     socket.on('addProd', async (prod) => {
         await prodManager.addProduct(prod)
         //Enviamos array prods actualizado 
-        io.socket.emit('products', allProds)
+        io.sockets.emit('products', allProds)
     })
 })
-
-
-
-
-

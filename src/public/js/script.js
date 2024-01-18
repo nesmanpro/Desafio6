@@ -21,7 +21,8 @@ const showProds = (products) => {
         card.classList.add('card');
         card.innerHTML = `
         <h2>${itm.title}</h2>
-        <img src="https://dspncdn.com/a1/media/originals/de/c8/d6/dec8d6ae8161e1dd55f6a2a261cbf767.jpg" alt="furniture">
+        <img src="https://dspncdn.com/a1/media/originals/01/37/b6/0137b6c4bb21f01f395f0c975f03e651.jpg" alt="furniture">
+        <p>ID: ${itm.id}</p>
         <p>Description:</p>
         <strong>${itm.description}</strong>
         <p>Price: <strong>${itm.price}</strong> $</p>

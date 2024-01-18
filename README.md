@@ -1,32 +1,31 @@
-# Gestión de Productos y Carritos con Node.js y Express (PreentregaPF 1)
+## Desafío Entregable 4 - Handlebars & Websockets
 
-Este proyecto tiene como objetivo crear un servidor utilizando Node.js y Express que gestione dos grupos de rutas: `/products` y `/carts`. Las rutas se definen de la siguiente manera:
+### Configuración del Proyecto
 
-## Rutas para Productos (/api/products)
+El proyecto ha sido configurado con éxito para integrar el motor de plantillas Handlebars y se ha instalado el servidor de Socket.io.
 
-- **GET /:** Retorna todos los productos almacenados.
-- **GET /:pid:** Retorna el producto específico con el id proporcionado.
-- **POST /:** Agrega un nuevo producto con los siguientes campos obligatorios:
-  - id (autogenerado)
-  - title
-  - description
-  - code
-  - price
-  - status (true por defecto)
-  - stock
-  - category
-  - thumbnails (Array de rutas de imágenes)
-- **PUT /:pid:** Actualiza un producto basado en los campos proporcionados en el cuerpo de la solicitud.
-- **DELETE /:pid:** Elimina el producto con el id especificado.
+Se ha creado una instancia de Express y configurado Handlebars, proporcionando una base sólida para la aplicación.
 
-## Rutas para Carritos (/api/carts)
+```javascript
+const express = require("express");
+const app = express();
+const PORT = 8080;
+const productsRouter = require("./routes/products.routes");
+const cartsRouter = require("./routes/carts.routes");
+const viewsRouter = require("./routes/views.routes");
+const exphbs = require("express-handlebars");
+```
 
-- **POST /:** Crea un nuevo carrito con un id único y un array vacío de productos.
-- **GET /:cid:** Lista los productos pertenecientes al carrito con el id especificado.
-- **POST /:cid/product/:pid:** Agrega un producto al carrito específico. El cuerpo de la solicitud debe incluir el id del producto y la cantidad a agregar.
+### Creación de Vistas Handlebars
 
-### Persistencia de la Información
+Las vistas Handlebars, **home.handlebars** y **realTimeProducts.handlebars**, han sido creadas con éxito. La vista "home.handlebars" muestra una lista de todos los productos agregados hasta el momento.
 
-La información se almacena utilizando el sistema de archivos, con los archivos "productos.json" y "carrito.json" para respaldar la información de productos y carritos, respectivamente.
+### Actualización Automática con Websockets
+
+Se ha implementado la funcionalidad de websockets para la vista **realTimeProducts.handlebars**. Cada vez que se agrega o elimina un producto, la vista se actualiza automáticamente, proporcionando una experiencia en tiempo real para los usuarios.
+
+### Sugerencias
+
+Para mejorar la interactividad, se ha incorporado un formulario en la vista **realTimeProducts.handlebars**. Este formulario utiliza websockets para enviar contenido, permitiendo la creación y eliminación de productos de manera eficiente.
 
 ---

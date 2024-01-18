@@ -7,7 +7,7 @@ const prodManager = new ProductManager('src/models/products.json');
 router.get('/', async (req, res) => {
     try {
         const allProds = await prodManager.getProducts();
-        res.render('index', { allProds, title: 'Home' })
+        res.render('home', { allProds, title: 'Home' })
 
     } catch (error) {
         console.error('Error, no se han podido encontrar los productos', error);

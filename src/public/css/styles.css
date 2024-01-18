@@ -1,10 +1,36 @@
-body {
-    background-color: rgb(201, 218, 179);
-    margin-top: 4rem;
+:root {
+    --dark1: #0f2d3c;
+    --dark2: #237092;
+    --vibrant: #e73c7e;
+    --light: #fcf8f8;
 }
 
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+body {
+    font-family: sans-serif;
+    background: rgb(238,119,82);
+    background: linear-gradient(126deg, rgba(238,119,82,1) 0%, rgba(231,60,126,1) 20%, rgba(35,166,213,1) 79%, rgba(35,213,171,1) 100%);
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+	height: 100vh;
+    margin-top: 10rem;
+    box-sizing: border-box;
+}
+
+
 h1, h3 {
-    color: rgb(53, 63, 18);
+    color: var(--light);
     display: flex;
     justify-content: center;
 }
@@ -15,55 +41,90 @@ h1, h3 {
     justify-content: center;
     gap: 2rem;
 }
+
 img {
     width: 100%;
     height: auto;
-    border-radius: 3rem;
+    border-radius: 2rem;
 }
 
 .card {
-    color: rgb(53, 63, 18);
-    padding: 2rem;
+    color: var(--dark2);
+    padding: 0rem 2rem 5rem 2rem;
     width: 18rem;
-    height: 25rem;
-    border-radius: 1rem;
-    background-color: rgb(252, 249, 246);
+    height: 30rem;
+    border-radius: 0.4rem;
+    background-color: var(--light);
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     scale: 1;
     transition: all .8s ease-out;
 }
+
 .card:hover {
-    /* cursor: pointer; */
-    background-color: #587164;
-    color: white;
-    border: white;
+    background: var(--dark1);
+	background-size: 900% 900%;
+	animation: gradient 15s ease infinite;
+    color: var(--light);
+    border: var(--light);
     scale: 1.1;
     transition: all .2s ease-in-out;
 }
 
 button:hover {
     cursor: pointer;
-    background-color: transparent;
-    color: white;
-    border: white solid 2px;
+    background: transparent;
+    color: var(--light);
+    border: var(--light) solid 2px;
     transition: all .2s ease-in-out
-}
-
-
-
-#prodCont, .form {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 2rem;
 }
 
 button {
     cursor: pointer;
     padding: 0.5rem 1rem;
     outline: none;
-    background-color: rgb(151, 47, 47);
-    border: rgb(151, 47, 47) solid 2px;
+    background: var(--vibrant);
+	background-size: 400% 400%;
+    border: var(--vibrant) solid 2px;
     border-radius: 5rem;
-    color: white;
+    color: var(--light);
+}
+
+#btnSend {
+    margin-left: 2rem;
+    background: var(--light);
+    color: var(--vibrant);
+    border: var(--light) solid 2px;
+    transition: all .2s ease-in-out
+}
+
+#btnSend:hover {
+    background: transparent;
+    color: var(--light);
+}
+
+#prodCont, .form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 10rem;
+}
+
+form {
+    margin-bottom: 4rem;
+    padding: 2rem;
+    background: var(--dark2);
+    border-radius: 4rem;
+}
+
+input, select {
+    box-sizing: border-box;
+    outline: none;
+    padding: 0.5rem;
+    border-radius: 2rem;
+    border: var(--dark2) solid 2px;
+}
+
+input:focus {
+    border: var(--vibrant) solid 2px;
 }

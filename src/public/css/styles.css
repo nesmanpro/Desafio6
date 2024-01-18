@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500&family=Raleway:wght@300;400;500;600;700&display=swap');
+
 :root {
     --dark1: #0f2d3c;
     --dark2: #237092;
@@ -18,7 +20,8 @@
 }
 
 body {
-    font-family: sans-serif;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
     background: rgb(238,119,82);
     background: linear-gradient(126deg, rgba(238,119,82,1) 0%, rgba(231,60,126,1) 20%, rgba(35,166,213,1) 79%, rgba(35,213,171,1) 100%);
 	background-size: 400% 400%;

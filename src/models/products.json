@@ -54,15 +54,6 @@
     "stock": 50
   },
   {
-    "id": 7,
-    "title": "Papel Higiénico",
-    "description": "Rollo x4",
-    "price": 120,
-    "thumbnail": "Sin imagen",
-    "code": "vwx123",
-    "stock": 15
-  },
-  {
     "id": 8,
     "title": "Galletas",
     "description": "Chocolate Cerealitas",
@@ -73,22 +64,13 @@
   },
   {
     "id": 9,
-    "title": "Jabón de baño",
-    "description": "Aloe Vera",
-    "price": 70,
-    "thumbnail": "Sin imagen",
-    "code": "cdefg6",
-    "stock": 45
-  },
-  {
-    "id": 10,
-    "title": "Detergente",
-    "description": "Lavavajillas Magistral",
+    "title": "Chorizo",
+    "description": "criollo",
     "price": 123,
     "thumbnails": [],
-    "code": "s25tdmks",
-    "stock": 3,
+    "code": "234fgsdf",
+    "stock": 12,
     "status": true,
-    "category": "Limpieza"
+    "category": "carnes"
   }
 ]

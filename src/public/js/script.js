@@ -18,15 +18,19 @@ const showProds = (products) => {
 
     products.forEach(itm => {
         const card = document.createElement('div');
-        card.classList.add('card');
+        card.classList.add('card', 'cardFront');
         card.innerHTML = `
-        <h2>${itm.title}</h2>
-        <img src="https://dspncdn.com/a1/media/originals/01/37/b6/0137b6c4bb21f01f395f0c975f03e651.jpg" alt="furniture">
-        <p>ID: ${itm.id}</p>
-        <p>Description:</p>
-        <strong>${itm.description}</strong>
-        <p>Price: <strong>${itm.price}</strong> $</p>
-        <button> Delete Product </button>
+        <div class="card cardFront">
+            <img src="https://dspncdn.com/a1/media/originals/01/37/b6/0137b6c4bb21f01f395f0c975f03e651.jpg" alt="furniture">
+            <div class="text">
+                <h2>${itm.title}</h2>
+                <p>ID: ${itm.id}</p>
+                <p>Description:</p>
+                <strong>${itm.description}</strong>
+                <p>Price: <strong>${itm.price}</strong> $</p>
+                <button> Buy Now </button>
+            </div>
+        </div>
         `;
         prodCont.appendChild(card);
 

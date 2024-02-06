@@ -7,8 +7,10 @@ const PORT = 8080;
 const productsRouter = require('./routes/products.routes')
 const cartsRouter = require('./routes/carts.routes')
 const viewsRouter = require('./routes/views.routes');
+const socket = require('socket.io');
 //importamos handlebars
 const exphbs = require('express-handlebars');
+require('./database.js');
 
 
 
@@ -36,41 +38,21 @@ const httpServer = app.listen(PORT, () => {
     console.log(`Server is running on port http://localhost:${PORT}`);
 })
 
+// *** Chat *** //
+// socket.io
 
-// ****** SOCKET ******
+// Creamos instancia de socket.io
 
-// Obtendo los productos
-const ProductManager = require('./controllers/ProductManager');
-const prodManager = new ProductManager('src/models/products.json');
+const io = new socket.Server(httpServer);
+const message = [];
 
 
-//Importamos y configuramos socket.io
-const socket = require('socket.io');
-const io = socket(httpServer);
+io.on('connection', (socket) => {
+    console.log('Nuevo usuario conectado!');
 
-io.on('connection', async (socket) => {
-    console.log('Un cliente se conectó!')
-    socket.on('msn', (data) => {
-        console.log(data)
-        io.sockets.emit('msn', data)
-    })
+    socket.on('message', data => {
+        message.push(data);
+        io.emit('messageLogs', message)
 
-    // Ahora el servidor va a enviar productos 
-    const allProds = await prodManager.getProducts();
-    io.sockets.emit('products', allProds)
-
-    //recibir productos eliminados del cliente
-
-    socket.on('deleteProd', async (id) => {
-        await prodManager.deleteProduct(id);
-        //Enviamos array prods actualizado
-        io.sockets.emit('products', allProds)
-    })
-
-    //Recibimos el prod agregado del cliente
-    socket.on('addProd', async (prod) => {
-        await prodManager.addProduct(prod)
-        //Enviamos array prods actualizado 
-        io.sockets.emit('products', allProds)
     })
 })

@@ -179,3 +179,13 @@ input, select {
 input:focus {
     border: var(--vibrant) solid 2px;
 }
+
+
+/* Chat */
+
+.mainChat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

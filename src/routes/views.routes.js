@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const ProductManager = require('../controllers/ProductManager');
-const prodManager = new ProductManager('src/models/products.json');
+const ProductManager = require('../dao/db/product-manager-db.js');
+const prodManager = new ProductManager();
 
 
 router.get('/', async (req, res) => {
@@ -14,9 +14,9 @@ router.get('/', async (req, res) => {
         res.status(500).json({ error: 'No se encontraron los productos' });
     }
 })
-router.get('/realtimeproducts', (req, res) => {
+router.get('/chat', (req, res) => {
     try {
-        res.render('realTimeProducts', { title: 'Real Time Products' })
+        res.render('chat', { title: 'Real Time Chat' })
     } catch (error) {
         console.error('Error interno del servidor', error);
         res.status(500).json({ error: 'Error interno del servidor' });

@@ -8,13 +8,17 @@ const productsRouter = require('./routes/products.routes')
 const cartsRouter = require('./routes/carts.routes')
 const viewsRouter = require('./routes/views.routes');
 const socket = require('socket.io');
-//importamos handlebars
-const exphbs = require('express-handlebars');
 const messageModel = require('./dao/models/message.model.js');
 const { default: mongoose } = require('mongoose');
 require('./database.js');
 
-
+//importamos handlebars
+const exphbs = require('express-handlebars');
+const hbs = exphbs.create({
+    runtimeOptions: {
+        allowProtoPropertiesByDefault: true,
+    }
+});
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
@@ -24,7 +28,7 @@ app.use(express.static('./src/public'));
 
 
 //Configuramos handlebars:
-app.engine('handlebars', exphbs.engine());
+app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.set('views', './src/views')
 

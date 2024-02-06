@@ -14,6 +14,8 @@ router.get('/', async (req, res) => {
         res.status(500).json({ error: 'No se encontraron los productos' });
     }
 })
+
+
 router.get('/chat', (req, res) => {
     try {
         res.render('chat', { title: 'Real Time Chat' })

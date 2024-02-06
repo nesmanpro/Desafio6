@@ -26,7 +26,7 @@ chatBox.addEventListener('keyup', (e) => {
         if (chatBox.value.trim().length > 0) {
             // Trim nos permite sacar espacios en blanco del principio y final
             // Si el mensaje tiene mas de 0 caracteres lo enviamos al servidor
-            socket.emit('message', { user: user, message: chatBox.value });
+            socket.emit('messages', { user: user, message: chatBox.value });
             chatBox.value = '';
 
         }

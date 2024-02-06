@@ -74,8 +74,6 @@ li, li a {
 }
 
 
-
-
 .section {
     display: flex;
     flex-wrap: wrap;
@@ -91,7 +89,7 @@ li, li a {
 
 .card {
     color: var(--dark2);
-    height: 750px;
+    height: 670px;
     width: auto;
     background-color: var(--light);
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -140,27 +138,14 @@ button {
     color: var(--light);
 }
 
-#btnSend {
-    /* margin-left: 2rem; */
-    background: var(--light);
-    color: var(--vibrant);
-    border: var(--light) solid 2px;
-    transition: all .2s ease-in-out
-}
 
-#btnSend:hover {
-    background: transparent;
-    color: var(--light);
-}
-
-#prodCont, .form {
+.form {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 2rem;
     margin-bottom: 1rem;
-}
-
+} 
 form {
     margin-bottom: 1rem;
     padding: 2rem 3rem;
@@ -178,8 +163,7 @@ input, select {
 
 input:focus {
     border: var(--vibrant) solid 2px;
-}
-
+} 
 
 /* Chat */
 

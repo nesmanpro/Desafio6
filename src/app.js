@@ -9,7 +9,6 @@ const cartsRouter = require('./routes/carts.routes')
 const viewsRouter = require('./routes/views.routes');
 const socket = require('socket.io');
 const messageModel = require('./dao/models/message.model.js');
-const { default: mongoose } = require('mongoose');
 require('./database.js');
 
 //importamos handlebars

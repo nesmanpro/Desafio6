@@ -34,10 +34,11 @@ app.set('views', './src/views')
 
 
 // Routing
-
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 app.use('/', viewsRouter);
+
+
 
 // Iniciar el servidor
 const httpServer = app.listen(PORT, () => {

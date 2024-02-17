@@ -31,8 +31,8 @@ router.get('/chat', (req, res) => {
 
 // Ruta para la vista product.handlebars
 router.get('/products', async (req, res) => {
-    const page = req.query.page || 1
-    const limit = 5
+    const page = req.query.page || 1;
+    const limit = 5;
 
     try {
         const prodList = await productModel.paginate({}, { limit, page })
@@ -40,7 +40,7 @@ router.get('/products', async (req, res) => {
         const prodsResult = prodList.docs.map(product => {
             const { id, ...rest } = product.toObject()
             return rest
-        })
+        });
 
         res.render('products', {
             title: 'Products List',
@@ -51,7 +51,7 @@ router.get('/products', async (req, res) => {
             nextPage: prodList.nextPage,
             currentPage: prodList.page,
             totalPages: prodList.totalPages
-        })
+        });
     } catch (error) {
         console.log("Hubo algun error en la paginación ", error)
         res.status(500).send("Error fatal en el server")

@@ -1,24 +1,60 @@
 const express = require('express');
 const router = express.Router();
-
+const ProductModel = require("../dao/models/products.model.js")
 const ProductManager = require('../dao/db/product-manager-db.js');
 const prodManager = new ProductManager();
 
 
 
-// Endpoint para obtener productos y filtrarlo con query param limit
+// Endpoint para obtener productos y filtrarlo con paginación, filtros y orden
 router.get('/', async (req, res) => {
     try {
-        const limit = req.query.limit;
-        const allProds = await prodManager.getProducts();
+        let { limit, page, sort, query: filterQuery } = req.query
+        limit = parseInt(limit) || 10;
+        page = parseInt(page) || 1;
 
+        // Ordenado alfabetico (ascendento o descendente)
+        let sortProd = {};
 
-        if (!isNaN(limit)) {
-            const limitedProducts = allProds.slice(0, limit);
-            res.json(limitedProducts);
-        } else {
-            res.json(allProds);
+        if (sort) {
+            sortProd.price = (sort === 'asc') ? 1 : -1;
         }
+
+        // Filtrado por categoría
+        const filter = {}
+        if (filterQuery) {
+            filter.category = filterQuery;
+        }
+
+
+        const allProds = await ProductModel.paginate(filterOptions, { limit, page, sort: sortOptions });
+
+
+        const prodsResult = allProds.docs.map(prod => {
+            const { id, ...rest } = prod.toObject()
+            return rest
+        })
+
+        // Enlaces de previo y siguiente
+        const prev = allProds.hasPrevPage ? `/api/products?limit=${limit}&page=${allProds.prevPage}&sort=${sort}&query=${filterQuery}` : null
+        const next = allProds.hasNextPage ? `/api/products?limit=${limit}&page=${allProds.nextPage}&sort=${sort}&query=${filterQuery}` : null
+
+        // Objeto para paginacio
+        const response = {
+            status: 'success',
+            payload: prodsResult,
+            totalDocs: allProds.totalDocs,
+            totalPages: allProds.totalPages,
+            prevPage: allProds.prevPage,
+            nextPage: allProds.nextPage,
+            page: allProds.page,
+            hasPrevPage: allProds.hasPrevPage,
+            hasNextPage: allProds.hasNextPage,
+            prev,
+            next
+        }
+        // Se envia la respuesta
+        res.json(response)
 
     } catch (error) {
         res.status(500).json({ error: 'Error interno del servidor' });

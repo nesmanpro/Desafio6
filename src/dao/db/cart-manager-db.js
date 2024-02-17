@@ -103,7 +103,7 @@ class CartManager {
             }
 
             //Verifica si existe el producto en el carrito
-            const prodToUpdate = cart.products.find(p => p.product.equals(prodId))
+            const prodToUpdate = cart.product.find(p => p.product.equals(prodId))
             if (!prodToUpdate) {
                 console.error(`El producto con ID ${prodId} no se encontró en el carrito.`)
                 return null
@@ -114,11 +114,21 @@ class CartManager {
             await cart.save()
             return cart
         } catch (error) {
-            console.error("Error actualizando el carrito", error)
+            console.error("Error actualizando cantidad en el carrito", error)
             throw error
         }
     }
 
+
+    async updateCart(cartId, newProds) {
+        try {
+            const updatedCart = await CartModel.findByIdAndUpdate(cartId, { products: newProds }, { new: true })
+            return updatedCart
+        } catch (error) {
+            console.error("Error actualizando el carrito:", error)
+            throw error;
+        }
+    }
 
 }
 

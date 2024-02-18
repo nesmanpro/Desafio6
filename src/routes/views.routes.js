@@ -43,7 +43,7 @@ router.get('/products', async (req, res) => {
         });
 
         res.render('products', {
-            title: 'Products List',
+            title: 'Products',
             products: prodsResult,
             hasPrevPage: prodList.hasPrevPage,
             hasNextPage: prodList.hasNextPage,
@@ -59,9 +59,9 @@ router.get('/products', async (req, res) => {
 })
 
 // Ruta para la vista productDetail.handlebars
-router.get('/products/:productId', async (req, res) => {
+router.get('/products/:prodId', async (req, res) => {
     try {
-        const prodId = req.params.productId
+        const prodId = req.params.prodId
         // Obtener producto por id
         const product = await prodManager.getProductById(prodId)
         // Renderiza vista detalles del producto

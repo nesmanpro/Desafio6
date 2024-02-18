@@ -36,8 +36,8 @@ router.get('/', async (req, res) => {
         })
 
         // Enlaces de previo y siguiente
-        const prev = allProds.hasPrevPage ? `/api/products?limit=${limit}&page=${allProds.prevPage}&sort=${sort}&query=${filterQuery}` : null
-        const next = allProds.hasNextPage ? `/api/products?limit=${limit}&page=${allProds.nextPage}&sort=${sort}&query=${filterQuery}` : null
+        const prev = allProds.hasPrevPage ? `/api/products?limit=${limit}&page=${allProds.prevPage}&sort=${sort}&query=${filterQuery}` : null;
+        const next = allProds.hasNextPage ? `/api/products?limit=${limit}&page=${allProds.nextPage}&sort=${sort}&query=${filterQuery}` : null;
 
         // Objeto para paginacio
         const response = {

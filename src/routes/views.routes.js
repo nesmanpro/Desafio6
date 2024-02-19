@@ -83,7 +83,7 @@ router.get('/carts/:cid', async (req, res) => {
         }
 
         //Renderiza carrito con sus productos asociados
-        res.render('cart', { cartId, products: cart.products, title: 'Cart' })
+        res.render('cart', { cartId, products: cart.product, title: 'Cart' })
     } catch (error) {
         console.error("No se ha encontrado el carrito", error)
         res.status(500).json({ error: 'Internal Server Error' })

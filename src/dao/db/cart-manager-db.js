@@ -34,7 +34,7 @@ class CartManager {
             const carrito = await this.getCartById(cartId);
             const ProdExist = carrito.products.find(item => item.product.toString() === prodId);
 
-            if (cartExist) {
+            if (ProdExist) {
                 ProdExist.quantity += quantity;
             } else {
                 carrito.products.push({ product: prodId, quantity });

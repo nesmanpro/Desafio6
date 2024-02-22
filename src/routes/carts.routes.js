@@ -23,9 +23,9 @@ router.post('/', async (req, res) => {
 
 // Endpoint para listar los productos de un carrito
 router.get('/:cid', async (req, res) => {
-    const cartId = req.params.cid;
 
     try {
+        const cartId = req.params.cid;
         const cart = await CartModel.findById(cartId);
         if (!cart) {
             console.log("No existe ese carrito con el id");

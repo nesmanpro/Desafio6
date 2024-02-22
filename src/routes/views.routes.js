@@ -16,14 +16,14 @@ router.get('/', async (req, res) => {
             limit: parseInt(limit)
         });
 
-        const newArray = prods.docs.map(prod => {
+        const prodsResult = prods.docs.map(prod => {
             const { _id, ...rest } = prod.toObject();
             return rest;
         });
 
         res.render("products", {
-            products: newArray,
             title: 'Home',
+            products: prodsResult,
             hasPrevPage: prods.hasPrevPage,
             hasNextPage: prods.hasNextPage,
             prevPage: prods.prevPage,
@@ -54,7 +54,7 @@ router.get('/products', async (req, res) => {
         });
 
         const newArray = prods.docs.map(prod => {
-            const { _id, ...rest } = prod.toObject();
+            const { id, ...rest } = prod.toObject();
             return rest;
         });
 
@@ -76,6 +76,20 @@ router.get('/products', async (req, res) => {
             status: 'error',
             error: "Error interno del servidor"
         });
+    }
+})
+
+// Ruta para la vista productDetail.handlebars
+router.get('/products/:prodId', async (req, res) => {
+    try {
+        const prodId = req.params.prodId
+        // Obtener producto por id
+        const product = await prodManager.getProductById(prodId)
+        // Renderiza vista detalles del producto
+        res.render('productDetail', { title: 'Product Detail', product })
+    } catch (error) {
+        console.error('Error al intentar encontrar los detalles', error)
+        res.status(500).json({ error: 'Internal Server Error' })
     }
 })
 

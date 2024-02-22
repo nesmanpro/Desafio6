@@ -5,7 +5,7 @@ class ProductManager {
     async addProduct(newObject) {
         try {
 
-            let { title, description, code, price, stock, category, thumbnails = [], status = true } = newObject;
+            let { title, description, code, img, price, stock, category, thumbnails = [], status = true } = newObject;
 
             if (!title || !description || !code || !category) {
                 console.log('Te faltó uno de los campos de texto, recordá que todos son obligatorios');
@@ -17,9 +17,9 @@ class ProductManager {
                 return { status: 400, msg: "Error: Recuerda que precio y stock son valores numericos." };
             }
 
-            const existeProd = await ProdModel.findOne({ code: code });
+            const prodExist = await ProdModel.findOne({ code: code });
 
-            if (existeProd) {
+            if (prodExist) {
                 console.log('El código ya se encuentra registrado en la base de datos, introduce uno que sea unico.');
                 return;
             }
@@ -31,9 +31,12 @@ class ProductManager {
                 price,
                 thumbnails,
                 code,
+                img,
                 stock,
                 status,
-                category
+                category,
+                status: true,
+                thumbnails: thumbnails || []
             });
 
             await newProduct.save();
@@ -47,29 +50,65 @@ class ProductManager {
 
     }
 
-    async getProducts() {
+    async getProducts({ limit = 10, page = 1, sort, query } = {}) {
         try {
 
-            const productos = await ProdModel.find();
-            return productos;
+            const skip = (page - 1) * limit;
+
+            let queryOptions = {};
+
+            if (query) {
+                queryOptions = { category: query };
+            }
+
+            const sortOptions = {};
+            if (sort) {
+                if (sort === 'asc' || sort === 'desc') {
+                    sortOptions.price = sort === 'asc' ? 1 : -1;
+                }
+            }
+
+            const prods = await ProdModel
+                .find(queryOptions)
+                .sort(sortOptions)
+                .skip(skip)
+                .limit(limit);
+
+            const totalProds = await ProdModel.countDocuments(queryOptions);
+
+            const totalPages = Math.ceil(totalProds / limit);
+            const hasPrevPage = page > 1;
+            const hasNextPage = page < totalPages;
+
+            return {
+                docs: prods,
+                totalPages,
+                prevPage: hasPrevPage ? page - 1 : null,
+                nextPage: hasNextPage ? page + 1 : null,
+                page,
+                hasPrevPage,
+                hasNextPage,
+                prevLink: hasPrevPage ? `/api/products?limit=${limit}&page=${page - 1}&sort=${sort}&query=${query}` : null,
+                nextLink: hasNextPage ? `/api/products?limit=${limit}&page=${page + 1}&sort=${sort}&query=${query}` : null,
+            };
 
         } catch (error) {
 
-            console.log('Ocurrio un error al obtener los productos', error);
+            console.log('Ups! Parece que ha habido un error al obtener los productos', error);
         }
     }
 
     async getProductById(id) {
         try {
 
-            const prodEncontrado = await ProdModel.findById(id);
+            const prodFound = await ProdModel.findById(id);
 
-            if (!prodEncontrado) {
+            if (!prodFound) {
                 console.log('Ups! Producto no encontrado.');
                 return null;
             } else {
                 console.log('Producto encontrado!!');
-                return prodEncontrado;
+                return prodFound;
 
             }
 

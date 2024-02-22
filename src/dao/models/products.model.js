@@ -21,7 +21,8 @@ const prodsSchema = new mongoose.Schema({
     },
     code: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     stock: {
         type: Number,
@@ -40,6 +41,6 @@ const prodsSchema = new mongoose.Schema({
 });
 
 
-const prodModel = mongoose.model('products', prodsSchema);
+const prodModel = mongoose.model('Product', prodsSchema);
 
 module.exports = prodModel;

@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
 
     try {
 
-        const { page = 1, limit = 2 } = req.query;
+        const { page = 1, limit = 3 } = req.query;
 
         const prods = await prodManager.getProducts({
             page: parseInt(page),
@@ -22,7 +22,8 @@ router.get('/', async (req, res) => {
         });
 
         res.render("products", {
-            productos: newArray,
+            products: newArray,
+            title: 'Home',
             hasPrevPage: prods.hasPrevPage,
             hasNextPage: prods.hasNextPage,
             prevPage: prods.prevPage,
@@ -45,7 +46,7 @@ router.get('/products', async (req, res) => {
 
     try {
 
-        const { page = 1, limit = 2 } = req.query;
+        const { page = 1, limit = 3 } = req.query;
 
         const prods = await prodManager.getProducts({
             page: parseInt(page),
@@ -58,7 +59,8 @@ router.get('/products', async (req, res) => {
         });
 
         res.render("products", {
-            productos: newArray,
+            products: newArray,
+            title: 'Products',
             hasPrevPage: prods.hasPrevPage,
             hasNextPage: prods.hasNextPage,
             prevPage: prods.prevPage,

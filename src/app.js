@@ -7,11 +7,12 @@ const PORT = 8080;
 const productsRouter = require('./routes/products.routes')
 const cartsRouter = require('./routes/carts.routes')
 const viewsRouter = require('./routes/views.routes');
+const cookieParser = require('cookie-parser');
 const socket = require('socket.io');
 const messageModel = require('./dao/models/message.model.js');
 require('./database.js');
 
-//importamos handlebars
+//Handlebars
 const exphbs = require('express-handlebars');
 const hbs = exphbs.create({
     runtimeOptions: {
@@ -23,6 +24,8 @@ const hbs = exphbs.create({
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('./src/public'));
+app.use(cookieParser());
+
 
 
 

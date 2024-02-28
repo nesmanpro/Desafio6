@@ -23,6 +23,12 @@ h1, h3 {
     justify-content: center;
 }
 
+label {
+    color: var(--light);
+    font-family: 'Raleway', sans-serif;
+    font-weight: 800;
+}
+
 .mainCont {
     margin: 7rem 0rem 10rem 0;
 }
@@ -147,19 +153,40 @@ button {
     color: var(--light);
 }
 
-.pageBtn {
-    margin-left: 5rem;
+
+.pageBtn a {
+    color: var(--dark1);
+    text-decoration: none;
+    list-style: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.logout {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 1rem;
-    color: var(--dark1);
     font-weight: 600;
     text-decoration: none;
 }
 
-.pageBtn a {
-    color: var(--dark1);
+.logout:hover {
+    cursor: pointer;
+    background: transparent;
+    color: var(--vibrant);
+    border: var(--vibrant) solid 2px;
+    transition: all .2s ease-in-out
+}
+
+.logout a:hover {
+    cursor: pointer;
+    color: var(--vibrant);
+    transition: all .2s ease-in-out
+}
+
+.inputBtn {
+    color: var(--light);
     text-decoration: none;
     list-style: none;
     cursor: pointer;
@@ -176,9 +203,12 @@ button {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
     gap: 2rem;
     margin-bottom: 1rem;
+    font-family: ;
 } 
+
 form {
     margin-bottom: 1rem;
     padding: 2rem 3rem;

@@ -21,7 +21,6 @@ router.get('/register', (req, res) => {
 
 // Endpoint para el formulario de login
 router.get("/login", (req, res) => {
-    // Verifica si el usuario ya está logueado y redirige a la página de perfil si es así
     // if (req.session.login) {
     //     return res.redirect("/profile");
     // }

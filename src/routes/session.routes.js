@@ -8,8 +8,24 @@ const { isValidPassword } = require("../utils/hashBcrypt.js");
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
+    const admin = {
+        first_name: 'Coder',
+        last_name: 'House',
+        email: 'adminCoder@coder.com',
+        password: 'adminCod3r123',
+        role: 'admin'
+    }
+
+
     try {
         const user = await UserModel.findOne({ email: email });
+
+        if (admin.email === email && admin.password === password) {
+            req.session.login = true;
+            req.session.user = { ...admin };
+            res.redirect('/products');
+            return
+        }
 
         user
             ? isValidPassword(password, user)
@@ -17,6 +33,7 @@ router.post('/login', async (req, res) => {
                     req.session.login = true,
                     req.session.user = {
                         email: user.email,
+                        role: user.role,
                         age: user.age,
                         first_name: user.first_name,
                         last_name: user.last_name,
@@ -25,6 +42,8 @@ router.post('/login', async (req, res) => {
                 )
                 : res.status(401).send({ error: 'Contraseña no válida' })
             : res.status(400).send({ error: 'Usuario no encontrado!' });
+
+
     } catch (error) {
         res.status(400).send({ error: 'Error al iniciar sesión!' })
     }
@@ -36,7 +55,9 @@ router.post('/login', async (req, res) => {
 
 router.get('/logout', async (req, res) => {
 
-    req.session.login & req.session.destroy
+    if (req.session.login) {
+        req.session.destroy
+    }
 
     res.redirect("/login");
 

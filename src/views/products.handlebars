@@ -1,4 +1,14 @@
 <section class="mainCont">
+    <main class="section">
+        <h1>Mi Perfil</h1>
+        <p>Bienvenido!, {{user.first_name}} {{user.last_name}}!</p>
+        <p>Email: {{user.email}}</p>
+        <p>Role: {{user.role}}</p>
+        <p>
+            <a href="/api/sessions/logout">Logout</a>
+        </p>
+
+    </main>
     <h1>Products</h1>
     <main class="section">
         {{#each products}}

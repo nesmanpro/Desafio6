@@ -5,9 +5,40 @@ const CartManager = require('../dao/db/cart-manager-db.js');
 const prodManager = new ProductManager();
 const cartManager = new CartManager();
 
-router.get('/', async (req, res) => {
+
+// Endpoint para el formulario de registro
+router.get("/", (req, res) => {
+
+    if (req.session.login) {
+        return res.redirect("/products");
+    }
+    res.render("login");
+});
+
+router.get('/register', (req, res) => {
+    res.render("register");
+})
+
+// Endpoint para el formulario de login
+router.get("/login", (req, res) => {
+    // Verifica si el usuario ya está logueado y redirige a la página de perfil si es así
+    if (req.session.login) {
+        return res.redirect("/profile");
+    }
+
+    res.render("login");
+});
+
+
+// Endpoint para la vista de perfil
+router.get("/profile", async (req, res) => {
+
 
     try {
+
+        if (!req.session.login) {
+            return res.redirect("/login");
+        }
 
         const { page = 1, limit = 3 } = req.query;
 
@@ -16,14 +47,15 @@ router.get('/', async (req, res) => {
             limit: parseInt(limit)
         });
 
-        const prodsResult = prods.docs.map(prod => {
-            const { _id, ...rest } = prod.toObject();
+        const newArray = prods.docs.map(prod => {
+            const { id, ...rest } = prod.toObject();
             return rest;
         });
 
         res.render("products", {
-            title: 'Home',
-            products: prodsResult,
+            user: req.session.user,
+            products: newArray,
+            title: 'Products',
             hasPrevPage: prods.hasPrevPage,
             hasNextPage: prods.hasNextPage,
             prevPage: prods.prevPage,
@@ -40,11 +72,16 @@ router.get('/', async (req, res) => {
             error: "Error interno del servidor"
         });
     }
-})
+});
+
 
 router.get('/products', async (req, res) => {
 
     try {
+
+        if (!req.session.login) {
+            return res.redirect("/login");
+        }
 
         const { page = 1, limit = 3 } = req.query;
 
@@ -59,6 +96,7 @@ router.get('/products', async (req, res) => {
         });
 
         res.render("products", {
+            user: req.session.user,
             products: newArray,
             title: 'Products',
             hasPrevPage: prods.hasPrevPage,
@@ -79,7 +117,7 @@ router.get('/products', async (req, res) => {
     }
 })
 
-// Ruta para la vista productDetail.handlebars
+// Endpoint para la vista productDetail.handlebars
 router.get('/products/:prodId', async (req, res) => {
     try {
         const prodId = req.params.prodId

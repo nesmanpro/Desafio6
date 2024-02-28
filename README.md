@@ -12,10 +12,22 @@ Se ha creado una instancia de Express y configurado Handlebars, proporcionando u
 
 ```javascript
 // Middleware
+// Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("./src/public"));
 app.use(cookieParser());
+app.use(
+  session({
+    secret: "secretCoder",
+    resave: true,
+    saveUninitialized: true,
+    store: MongoStore.create({
+      mongoUrl: "....",
+      ttl: 90,
+    }),
+  })
+);
 
 //Configuramos handlebars:
 app.engine("handlebars", hbs.engine);
@@ -25,6 +37,8 @@ app.set("views", "./src/views");
 // Routing
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
+app.use("/api/users", userRoutes);
+app.use("/api/sessions", sessionRoutes);
 app.use("/", viewsRouter);
 ```
 

@@ -38,7 +38,7 @@ router.get('/logout', async (req, res) => {
 
     req.session.login & req.session.destroy
 
-    res.status(200).send({ Message: 'Login eliminado' })
+    res.redirect("/login");
 
 })
 

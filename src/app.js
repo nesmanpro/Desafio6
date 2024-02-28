@@ -20,6 +20,11 @@ const exphbs = require('express-handlebars');
 const hbs = exphbs.create({
     runtimeOptions: {
         allowProtoPropertiesByDefault: true,
+    },
+    helpers: {
+        renderPartial: function (header, context) {
+            return hbs.handlebars.partials[header](context);
+        }
     }
 });
 

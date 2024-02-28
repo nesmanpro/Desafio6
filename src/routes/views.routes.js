@@ -12,7 +12,7 @@ router.get("/", (req, res) => {
     if (req.session.login) {
         return res.redirect("/products");
     }
-    res.render("login");
+    res.render("login", { req: req });
 });
 
 router.get('/register', (req, res) => {
@@ -22,9 +22,9 @@ router.get('/register', (req, res) => {
 // Endpoint para el formulario de login
 router.get("/login", (req, res) => {
     // Verifica si el usuario ya está logueado y redirige a la página de perfil si es así
-    if (req.session.login) {
-        return res.redirect("/profile");
-    }
+    // if (req.session.login) {
+    //     return res.redirect("/profile");
+    // }
 
     res.render("login");
 });

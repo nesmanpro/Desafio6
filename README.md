@@ -12,7 +12,6 @@ Se ha creado una instancia de Express y configurado Handlebars, proporcionando u
 
 ```javascript
 // Middleware
-// Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("./src/public"));

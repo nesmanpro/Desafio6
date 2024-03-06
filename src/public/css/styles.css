@@ -83,6 +83,10 @@ li, li a {
 	}
 }
 
+
+/* rest */
+
+
 .section {
     display: flex;
     flex-wrap: wrap;
@@ -206,11 +210,11 @@ button {
 }
 
 .form {
-    display: flex;
+    /* display: flex; */
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
+    /* gap: 2rem; */
     margin-bottom: 1rem;
 } 
 
@@ -269,3 +273,21 @@ input:focus {
     transition: all .2s ease-in-out
 }
 
+/* Login */
+
+.log {
+    display: flex;
+    padding-top: 10px;
+    justify-content: space-evenly;
+    gap: 2rem;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+}
+
+.btnSec {
+    background-color: var(--dark1);
+    border: 2px solid var(--dark1);
+}

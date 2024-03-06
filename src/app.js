@@ -11,6 +11,10 @@ const MongoStore = require('connect-mongo');
 const userRoutes = require('./routes/user.routes.js');
 const sessionRoutes = require('./routes/session.routes.js');
 
+//Passport importacion
+const passport = require('passport');
+const initializePassport = require('./config/passport.config.js');
+
 const app = express();
 const PORT = 8080;
 require('./database.js');
@@ -45,6 +49,10 @@ app.use(session({
     }),
 }))
 
+// Passport configuracion
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 //Configuramos handlebars:

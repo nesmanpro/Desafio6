@@ -3,7 +3,9 @@
 
     <p>{{user.first_name}} {{user.last_name}}</p>
     <p>Email: {{user.email}}</p>
-    <p>Role: {{user.role}}</p>
+    {{#if user.role}}
+        <p>Role: {{user.role}}</p>
+    {{/if}}
     <button class="logout">
         <a href="/api/sessions/logout">Logout</a>
     </button>

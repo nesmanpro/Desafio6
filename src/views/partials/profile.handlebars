@@ -1,10 +1,10 @@
 <section class="section">
     <h1>Bienvenido!</h1>
 
-    <p>{{user.first_name}} {{user.last_name}}</p>
-    <p>Email: {{user.email}}</p>
+    <span class="profileData">{{user.first_name}} {{user.last_name}}</span>
+    <p>Email: <span class="profileData">{{user.email}}</span></p>
     {{#if user.role}}
-        <p>Role: {{user.role}}</p>
+        <p>Role: <span class="profileData">{{user.role}}</span></p>
     {{/if}}
     <button class="logout">
         <a href="/api/sessions/logout">Logout</a>

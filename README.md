@@ -2,7 +2,7 @@
 
 ### Descripción
 
-Este proyecto es una aplicación de backend desarrollada utilizando Node.js, Express y MongoDB. Proporciona una plataforma para gestionar productos, carritos y usuarios, incluyendo funcionalidades avanzadas como actualizaciones en tiempo real, filtrado, paginación, ordenamiento y autenticación de usuarios.
+Este proyecto es una aplicación de backend desarrollada utilizando Node.js, Express y MongoDB. Proporciona una plataforma para gestionar productos, carritos y usuarios, incluyendo funcionalidades avanzadas como actualizaciones en tiempo real, filtrado, paginación, ordenamiento de los productos, hasheo de contraseña usando bcrypt, gestión de login y register usando Passport y autenticación de usuarios por estrategia local y también a través del perfil de GitHub.
 
 ### Configuración del Proyecto
 

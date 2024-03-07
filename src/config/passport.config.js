@@ -13,7 +13,7 @@ const initializePassport = () => {
         passReqToCallback: true,
         usernameField: 'email'
     }, async (req, username, password, done) => {
-        const { first_name, last_name, email, age } = req.body;
+        const { first_name, last_name, email, age, role = 'User' } = req.body;
         try {
 
             let user = await UserModel.findOne({ email });
@@ -24,6 +24,7 @@ const initializePassport = () => {
                 last_name,
                 email,
                 age,
+                role,
                 password: createHash(password)
             }
 

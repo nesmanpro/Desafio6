@@ -28,6 +28,11 @@ app.use(
   })
 );
 
+// Passport configuracion
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
+
 //Configuramos handlebars:
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");

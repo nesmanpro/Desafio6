@@ -75,11 +75,13 @@ const initializePassport = () => {
         console.log('profile', profile);
         try {
             let user = await UserModel.findOne({ email: profile._json.email });
+            let splitName = profile._json.name.split(' ');
+
 
             if (!user) {
                 let newUser = {
-                    first_name: profile._json.name,
-                    last_name: '',
+                    first_name: splitName[0],
+                    last_name: splitName[1],
                     email: profile._json.email,
                     age: 18,
                     password: ''

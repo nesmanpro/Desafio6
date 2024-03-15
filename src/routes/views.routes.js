@@ -75,11 +75,11 @@ router.get('/products', async (req, res) => {
 // Endpoint para vista de perfil
 
 router.get('/profile', (req, res) => {
-    if (req.session.login) {
-        return res.redirect("/login");
+    if (req.session.user) {
+        res.render('profile', { user: req.session.user })
+    } else {
+        res.redirect('/login')
     }
-    res.render("profile", { req: req });
-
 })
 
 

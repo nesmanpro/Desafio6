@@ -24,11 +24,6 @@ h1, h3 {
     justify-content: center;
 }
 
-label {
-    color: var(--light);
-    font-family: 'Raleway', sans-serif;
-    font-weight: 800;
-}
 
 .mainCont {
     margin: 7rem 0rem 10rem 0;
@@ -63,7 +58,21 @@ li, li a {
     list-style: none;
     color: #fff;
     cursor: pointer;
-    font-weight: 600;
+    font-weight: 700;
+}
+
+li a::after {
+    content: '';
+    width: 0%;
+    height: 3px;
+    display: block;
+    background-color: #fff;
+    margin-top: 4px;
+    transition: all .5s ease-out;
+}
+
+li a:hover::after {
+    width: 100%;
 }
 
 .logo {
@@ -309,13 +318,18 @@ input:focus {
     font-weight: 700;
 } 
 
-.btnSec:hover, .btnSec2:hover {
+.btnSec3:hover {
+    background-color: var(--dark1);
+    border: 2px solid var(--dark1);
+} 
+
+.btnSec:hover {
     border: 2px solid var(--dark1);
     transition: all .4s ease-in-out;
     color: var(--dark1);
 } 
 
-.btnSec a:hover {
+.btnSec a:hover, .btnSec2 a:hover {
     color: var(--dark1);
 }
 
@@ -333,5 +347,16 @@ input:focus {
     background-color: #f6f6f6;
     border-radius: 10px;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+/* Profile */
+
+.profile {
+    display: flex;
+    justify-content: center;
+}
+
+span {
+    font-weight: 700;
 }
 

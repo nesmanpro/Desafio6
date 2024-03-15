@@ -21,59 +21,15 @@ router.get('/register', (req, res) => {
 
 // Endpoint para el formulario de login
 router.get("/login", (req, res) => {
-    // if (req.session.login) {
-    //     return res.redirect("/profile");
-    // }
+    if (req.session.login) {
+        return res.redirect("/products");
+    }
 
     res.render("login");
 });
 
 
-// Endpoint para la vista de perfil
-router.get("/profile", async (req, res) => {
-
-
-    try {
-
-        if (!req.session.login) {
-            return res.redirect("/login");
-        }
-
-        const { page = 1, limit = 3 } = req.query;
-
-        const prods = await prodManager.getProducts({
-            page: parseInt(page),
-            limit: parseInt(limit)
-        });
-
-        const newArray = prods.docs.map(prod => {
-            const { id, ...rest } = prod.toObject();
-            return rest;
-        });
-
-        res.render("products", {
-            user: req.session.user,
-            products: newArray,
-            title: 'Products',
-            hasPrevPage: prods.hasPrevPage,
-            hasNextPage: prods.hasNextPage,
-            prevPage: prods.prevPage,
-            nextPage: prods.nextPage,
-            currentPage: prods.page,
-            totalPages: prods.totalPages
-        });
-
-
-    } catch (error) {
-        console.error('Error, no se han podido encontrar los productos', error);
-        res.status(500).json({
-            status: 'error',
-            error: "Error interno del servidor"
-        });
-    }
-});
-
-
+// Endpoint para la vista de productos
 router.get('/products', async (req, res) => {
 
     try {
@@ -114,7 +70,20 @@ router.get('/products', async (req, res) => {
             error: "Error interno del servidor"
         });
     }
+});
+
+// Endpoint para vista de perfil
+
+router.get('/profile', (req, res) => {
+    if (req.session.login) {
+        return res.redirect("/login");
+    }
+    res.render("profile", { req: req });
+
 })
+
+
+
 
 // Endpoint para la vista productDetail.handlebars
 router.get('/products/:prodId', async (req, res) => {

@@ -1,21 +1,18 @@
-<section class="contCenter">  
-    <h1>Login</h1>
-    <form action="/api/sessions/login" method="POST" class="form">
-        <content class="log">
+    <h1>Inicio de sesión</h1>
+<section class="upload">  
+    <form action="/api/sessions/login" method="POST" class="uploadcontainer">
             <div class="campo">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" placeholder="Email" required>
             </div>
             <div class="campo">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
+                <input type="text" id="password" name="password" placeholder="Password" required>
             </div>
-        </content>
-        <content class="log">
-            <button type="submit">Login</button>
+
+        <content class="inputcontainer">
+            <button type="submit" class="btnSec2">Login</button>
             <button class="btnSec"><a href="/api/sessions/github">GitHub</a></button>
-            <button class="btnSec"><a href="/register">Register</a></button>
         </content>
+            <button class="btnSec"><a href="/register">Register</a></button>
     </form>
     
 </section>

@@ -293,9 +293,45 @@ input:focus {
 .campo {
     display: flex;
     flex-direction: column;
+    margin-bottom: 10px;
 }
 
 .btnSec {
     background-color: var(--dark1);
     border: 2px solid var(--dark1);
+    margin-bottom: 10px;
+} 
+
+.btnSec2 {
+    background-color: var(--vibrant);
+    border: 2px solid var(--vibrant);
+    margin-bottom: 10px;
+    font-weight: 700;
+} 
+
+.btnSec:hover, .btnSec2:hover {
+    border: 2px solid var(--dark1);
+    transition: all .4s ease-in-out;
+    color: var(--dark1);
+} 
+
+.btnSec a:hover {
+    color: var(--dark1);
 }
+
+
+.upload {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 100px;
+}
+
+.uploadcontainer {
+    width: 200px;
+    padding: 50px;
+    background-color: #f6f6f6;
+    border-radius: 10px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+

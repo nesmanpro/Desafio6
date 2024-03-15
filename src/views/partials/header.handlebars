@@ -2,9 +2,16 @@
     <a href="/" class="logo">BamBam</a>
     <nav>
         <ul>
-                <li><a href="/chat">Chat</a></li>
+                
+                {{#if user}}
+                <li><a href="/profile">Hola {{user.first_name}}</a></li>
                 <li><a href="/products">Products</a></li>
-                {{!-- <li><a href="/register">Register</a></li> --}}
+                <li><a href="/chat">Chat</a></li>
+                <li><a href="/logout">Logout</a></li>
+            {{else}}
+                <li><a href="/login">Iniciar Sesión</a></li>
+                <li><a href="/register">Registrarse</a></li>
+            {{/if}}
         </ul>
     </nav>
 </header>

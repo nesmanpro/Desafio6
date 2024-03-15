@@ -102,7 +102,7 @@ router.get('/products/:prodId', async (req, res) => {
 
 router.get('/chat', (req, res) => {
     try {
-        res.render('chat', { title: 'Real Time Chat' })
+        res.render('chat', { title: 'Real Time Chat', user: req.session.user })
     } catch (error) {
         console.error('Error interno del servidor', error);
         res.status(500).json({ error: 'Error interno del servidor' });

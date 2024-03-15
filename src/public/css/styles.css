@@ -51,6 +51,8 @@ header {
     margin-bottom: 40px;
 }
 
+/* Navbar */
+
 ul {
     display: flex;
     gap: 30px;
@@ -84,7 +86,7 @@ li, li a {
 }
 
 
-/* rest */
+/* Containers */
 
 
 .section {
@@ -126,6 +128,9 @@ button a {
     cursor: pointer;
     font-weight: 600;
 }
+
+
+/* Cards */
 
 .card img {
     height: 400px;

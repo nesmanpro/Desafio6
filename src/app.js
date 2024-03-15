@@ -1,5 +1,5 @@
-
 const express = require('express');
+const multer = require('multer');
 const productsRouter = require('./routes/products.routes')
 const cartsRouter = require('./routes/carts.routes')
 const viewsRouter = require('./routes/views.routes');
@@ -38,7 +38,22 @@ const hbs = exphbs.create({
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('./src/public'));
+
+// Middleware de multer
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './src/public/img')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname)
+    }
+})
+app.use(multer({ storage }).single('image'));
+
+// Cookie Parser
 app.use(cookieParser());
+
+// Sessions
 app.use(session({
     secret: 'secretCoder',
     resave: true,
@@ -50,9 +65,9 @@ app.use(session({
 }))
 
 // Passport configuracion
-initializePassport();
 app.use(passport.initialize());
 app.use(passport.session());
+initializePassport();
 
 
 //Configuramos handlebars:

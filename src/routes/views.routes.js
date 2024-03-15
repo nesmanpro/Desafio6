@@ -92,7 +92,7 @@ router.get('/products/:prodId', async (req, res) => {
         // Obtener producto por id
         const product = await prodManager.getProductById(prodId)
         // Renderiza vista detalles del producto
-        res.render('productDetail', { title: 'Product Detail', product })
+        res.render('productDetail', { title: 'Product Detail', product, user: req.session.user })
     } catch (error) {
         console.error('Error al intentar encontrar los detalles', error)
         res.status(500).json({ error: 'Internal Server Error' })

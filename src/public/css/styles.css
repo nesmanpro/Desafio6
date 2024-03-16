@@ -56,7 +56,7 @@ ul {
 li, li a {
     text-decoration: none;
     list-style: none;
-    color: #fff;
+    color: var(--light);
     cursor: pointer;
     font-weight: 700;
 }
@@ -66,7 +66,7 @@ li a::after {
     width: 0%;
     height: 3px;
     display: block;
-    background-color: #fff;
+    background-color: var(--light);
     margin-top: 4px;
     transition: all .5s ease-out;
 }
@@ -79,7 +79,7 @@ li a:hover::after {
     font-size: large;
     font-weight: 800;
     text-decoration: none;
-    color: #fff;
+    color: var(--light);
 }
 
 @keyframes gradient {
@@ -320,6 +320,15 @@ input:focus {
 
 .btnSec3:hover {
     background-color: var(--dark1);
+    border: 2px solid var(--dark1);
+} 
+
+.btnSec4 {
+    font-weight: 700;
+}
+
+.btnSec4:hover {
+    color: var(--dark1);
     border: 2px solid var(--dark1);
 } 
 

@@ -3,6 +3,8 @@ const local = require('passport-local');
 const UserModel = require('../dao/models/user.model.js');
 const { createHash, isValidPassword } = require('../utils/hashBcrypt.js');
 const GitHubStrategy = require('passport-github2');
+const CartManager = require('../dao/db/cart-manager-db.js');
+const cartManager = new CartManager();
 
 const LocalStrategy = local.Strategy;
 
@@ -13,11 +15,14 @@ const initializePassport = () => {
         passReqToCallback: true,
         usernameField: 'email'
     }, async (req, username, password, done) => {
-        const { first_name, last_name, email, age, cart, role = 'User' } = req.body;
+        const { first_name, last_name, email, age, role = 'User' } = req.body;
         try {
 
             let user = await UserModel.findOne({ email });
+
             if (user) return done(null, false);
+
+            const newCart = await cartManager.createCart();
 
             let newUser = {
                 first_name,
@@ -25,7 +30,7 @@ const initializePassport = () => {
                 email,
                 age,
                 role,
-                cart,
+                cart: newCart._id,
                 password: createHash(password)
             }
 

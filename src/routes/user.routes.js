@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 
+
 //Version con Passport
 
 router.post('/register', passport.authenticate('register', {

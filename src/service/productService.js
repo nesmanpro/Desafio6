@@ -1,7 +1,8 @@
-const ProdModel = require('../models/products.model.js');
+const ProdModel = require('../dao/models/products.model.js');
 
 
-class ProductManager {
+class ProductService {
+
 
     async addProduct(newObject) {
         try {
@@ -166,4 +167,4 @@ class ProductManager {
     }
 }
 
-module.exports = ProductManager;
+module.exports = ProductService;

@@ -30,47 +30,49 @@ router.get("/login", (req, res) => {
 
 
 // Endpoint para la vista de productos
-router.get('/products', async (req, res) => {
+router.get('/products',
+    async (req, res) => {
 
-    try {
+        try {
 
-        if (!req.session.login) {
-            return res.redirect("/login");
+            if (!req.session.login) {
+                return res.redirect("/login");
+            }
+
+            const { page = 1, limit = 3 } = req.query;
+
+            const prods = await prodManager.getProducts({
+                page: parseInt(page),
+                limit: parseInt(limit)
+            });
+
+            const newArray = prods.docs.map(prod => {
+                const { id, ...rest } = prod.toObject();
+                return rest;
+            });
+
+            res.render("products", {
+                user: req.session.user,
+                products: newArray,
+                title: 'Products',
+                hasPrevPage: prods.hasPrevPage,
+                hasNextPage: prods.hasNextPage,
+                prevPage: prods.prevPage,
+                nextPage: prods.nextPage,
+                currentPage: prods.page,
+                totalPages: prods.totalPages
+            });
+
+
+        } catch (error) {
+            console.error('Error, no se han podido encontrar los productos', error);
+            res.status(500).json({
+                status: 'error',
+                error: "Error interno del servidor"
+            });
         }
-
-        const { page = 1, limit = 3 } = req.query;
-
-        const prods = await prodManager.getProducts({
-            page: parseInt(page),
-            limit: parseInt(limit)
-        });
-
-        const newArray = prods.docs.map(prod => {
-            const { id, ...rest } = prod.toObject();
-            return rest;
-        });
-
-        res.render("products", {
-            user: req.session.user,
-            products: newArray,
-            title: 'Products',
-            hasPrevPage: prods.hasPrevPage,
-            hasNextPage: prods.hasNextPage,
-            prevPage: prods.prevPage,
-            nextPage: prods.nextPage,
-            currentPage: prods.page,
-            totalPages: prods.totalPages
-        });
-
-
-    } catch (error) {
-        console.error('Error, no se han podido encontrar los productos', error);
-        res.status(500).json({
-            status: 'error',
-            error: "Error interno del servidor"
-        });
     }
-});
+);
 
 // Endpoint para vista de perfil
 

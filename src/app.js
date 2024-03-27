@@ -11,12 +11,17 @@ const MongoStore = require('connect-mongo');
 const userRoutes = require('./routes/user.routes.js');
 const sessionRoutes = require('./routes/session.routes.js');
 
+
 //Passport importacion
 const passport = require('passport');
 const initializePassport = require('./config/passport.config.js');
 
+// importacion dotenv.config
+const configObj = require('./config/dotenv.config.js');
+const { port, mongo_url } = configObj;
+
+
 const app = express();
-const PORT = 8080;
 require('./database.js');
 
 //Handlebars
@@ -59,7 +64,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true,
     store: MongoStore.create({
-        mongoUrl: 'mongodb+srv://nesmanpro:g4ECFS0wHimlGF18@cluster0.we6hggz.mongodb.net/ecommerce?retryWrites=true&w=majority&appName=Cluster0',
+        mongoUrl: mongo_url,
         ttl: 90
     }),
 }))
@@ -86,8 +91,8 @@ app.use('/', viewsRouter);
 
 
 // Iniciar el servidor
-const httpServer = app.listen(PORT, () => {
-    console.log(`Server is running on port http://localhost:${PORT}`);
+const httpServer = app.listen(port, () => {
+    console.log(`Server is running on port http://localhost:${port}`);
 })
 
 // *** Chat *** //

@@ -3,8 +3,14 @@ const local = require('passport-local');
 const UserModel = require('../dao/models/user.model.js');
 const { createHash, isValidPassword } = require('../utils/hashBcrypt.js');
 const GitHubStrategy = require('passport-github2');
-const CartManager = require('../dao/db/cart-manager-db.js');
-const cartManager = new CartManager();
+const configObj = require('../config/dotenv.config.js');
+
+// Servide and Controller 
+const CartService = require('../service/cartService.js');
+const cartService = new CartService();
+
+// importacion dotenv.config
+const { GITclientID, GITclientSecret, GITcallbackURL } = configObj;
 
 const LocalStrategy = local.Strategy;
 
@@ -22,7 +28,7 @@ const initializePassport = () => {
 
             if (user) return done(null, false);
 
-            const newCart = await cartManager.createCart();
+            const newCart = await cartService.createCart();
 
             let newUser = {
                 first_name,
@@ -75,14 +81,16 @@ const initializePassport = () => {
 
     // Estrategia GitHub
     passport.use('github', new GitHubStrategy({
-        clientID: 'Iv1.327a724aa4f2dcba',
-        clientSecret: '5fec1c5705a3be6be4548b38e46514b06b4e4ab5',
-        callbackURL: 'http://localhost:8080/api/sessions/githubcallback'
+        clientID: GITclientID,
+        clientSecret: GITclientSecret,
+        callbackURL: GITcallbackURL
     }, async (accessToken, refreshToken, profile, done) => {
         console.log('profile', profile);
         try {
             let user = await UserModel.findOne({ email: profile._json.email });
             let splitName = profile._json.name.split(' ');
+
+            const newCart = await cartService.createCart();
 
 
             if (!user) {
@@ -91,7 +99,8 @@ const initializePassport = () => {
                     last_name: splitName[1],
                     email: profile._json.email,
                     age: 18,
-                    password: ''
+                    password: '',
+                    cart: newCart._id,
                 }
                 let result = await UserModel.create(newUser);
                 done(null, result)
@@ -107,7 +116,5 @@ const initializePassport = () => {
     }))
 
 }
-
-
 
 module.exports = initializePassport;

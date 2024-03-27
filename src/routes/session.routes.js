@@ -29,8 +29,9 @@ router.get('/faillogin', async (req, res) => {
 
 // endpoint de current
 router.get('/current', async (req, res) => {
+
     if (!req.user) return res.status(400).send({ status: 'error', message: 'No hay usuario logeado en este momento' });
-    // res.send(`El usuario actual es ${req.user.first_name} ${req.user.last_name}`)
+
     res.json(req.user)
 })
 

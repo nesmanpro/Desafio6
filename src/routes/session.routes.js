@@ -2,60 +2,32 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 
+// Service / controller
+const SessionController = require('../controller/sessionController.js');
+const sessionController = new SessionController();
+
 
 //Con passport
-router.post('/login', passport.authenticate('login', { failureRedirect: '/api/session/faillogin' }), async (req, res) => {
-    if (!req.user) return res.status(400).send({ status: 'error', message: 'Credenciales no validas!' });
-
-    req.session.user = {
-        first_name: req.user.first_name,
-        last_name: req.user.last_name,
-        email: req.user.email,
-        age: req.user.age,
-        role: req.user.role,
-        cart: req.user.cart
-    };
-
-    req.session.login = true;
-
-    res.redirect('/')
-})
+router.post('/login', passport.authenticate('login', { failureRedirect: '/api/session/faillogin' }), sessionController.login)
 
 
-router.get('/faillogin', async (req, res) => {
-    console.log('Fallo la estrategia, revisar codigo')
-    res.send({ error: 'No funciono la estrategia, hay q revistar session.router.js' })
-})
+router.get('/faillogin', sessionController.failLogin)
 
 // endpoint de current
-router.get('/current', async (req, res) => {
-
-    if (!req.user) return res.status(400).send({ status: 'error', message: 'No hay usuario logeado en este momento' });
-
-    res.json(req.user)
-})
+router.get('/current', sessionController.current)
 
 
 
 //Para github
-router.get('/github', passport.authenticate('github', { scope: ['user:email'] }), async (req, res) => { });
+router.get('/github', passport.authenticate('github', { scope: ['user:email'] }), sessionController.github);
 
-router.get('/githubcallback', passport.authenticate('github', { failureRedirect: '/login' }), async (req, res) => {
-    req.session.user = req.user;
-    req.session.login = true;
-    res.redirect('/products');
-})
+router.get('/githubcallback', passport.authenticate('github', { failureRedirect: '/login' }), sessionController.githubCallBack)
 
 
 
 // Endpoint para Logout
 
-router.get('/logout', (req, res) => {
-    if (req.session.login) {
-        req.session.destroy();
-    }
-    res.redirect('/login')
-})
+router.get('/logout', sessionController.destroy)
 
 
 module.exports = router;

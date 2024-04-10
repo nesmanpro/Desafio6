@@ -369,3 +369,11 @@ span {
     font-weight: 700;
 }
 
+/* Icon fontawesome */
+
+.icon {
+    font-size: 100px;
+    color: #0f2d3c;
+    text-align: center;
+}
+

@@ -23,9 +23,11 @@ class UserController {
     }
 
     profile(req, res) {
+        //Con DTO: 
+        const userDto = new userDTO(req.user.first_name, req.user.last_name, req.user.role);
 
         if (req.session.user) {
-            res.render('profile', { user: req.session.user })
+            res.render("profile", { user: userDto });
         } else {
             res.redirect('/login')
         }

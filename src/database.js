@@ -2,10 +2,7 @@ const mongoose = require('mongoose');
 const configObj = require('./config/dotenv.config.js');
 const { mongo_url } = configObj;
 
-// mongoose.connect(mongo_url)
-//     .then(() => console.log('Enhorabuena!! Conexion establecida!'))
-//     .catch(() => console.log('Lo sentimos! Ha habido algun error con el servidor mongoDB'))
-
+// Patron de diseño singleton
 
 class DataBase {
     static #request;

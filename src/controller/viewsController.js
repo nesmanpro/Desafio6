@@ -1,17 +1,20 @@
-const ProductService = require('../service/productService.js');
-const CartService = require('../service/cartService.js');
+const ProductService = require('../repositories/productRepository.js');
+const CartService = require('../repositories/cartRepository.js');
 const prodService = new ProductService();
 const cartService = new CartService();
+const { getRole } = require('../utils/userAdmin.js');
 
 class ViewsController {
 
 
     landing(req, res) {
+        const isAdmin = getRole(req) === 'admin';
+        const isUser = getRole(req) === 'user';
 
         if (req.session.login) {
             return res.redirect("/products");
         }
-        res.render("login", { req: req });
+        res.render("login", { req: req, isAdmin, isUser });
     }
 
 
@@ -47,6 +50,9 @@ class ViewsController {
                 limit: parseInt(limit)
             });
 
+            const isAdmin = getRole(req) === 'admin';
+            const isUser = getRole(req) === 'user';
+
             const newArray = prods.docs.map(prod => {
                 const { id, ...rest } = prod.toObject();
                 return rest;
@@ -61,7 +67,9 @@ class ViewsController {
                 prevPage: prods.prevPage,
                 nextPage: prods.nextPage,
                 currentPage: prods.page,
-                totalPages: prods.totalPages
+                totalPages: prods.totalPages,
+                isAdmin,
+                isUser
             });
 
 
@@ -77,8 +85,15 @@ class ViewsController {
 
 
     profile(req, res) {
+        const isAdmin = getRole(req) === 'admin';
+        const isUser = getRole(req) === 'user';
+
         if (req.session.user) {
-            res.render('profile', { user: req.session.user })
+            res.render('profile', {
+                user: req.session.user,
+                isAdmin,
+                isUser
+            })
         } else {
             res.redirect('/login')
         }
@@ -88,11 +103,20 @@ class ViewsController {
 
     async getProductById(req, res) {
         try {
+            const isAdmin = getRole(req) === 'admin';
+            const isUser = getRole(req) === 'user';
+
             const prodId = req.params.prodId
             // Obtener producto por id
             const product = await prodService.getProductById(prodId)
             // Renderiza vista detalles del producto
-            res.render('productDetail', { title: 'Product Detail', product, user: req.session.user })
+            res.render('productDetail', {
+                title: 'Product Detail',
+                product,
+                user: req.session.user,
+                isAdmin,
+                isUser
+            });
         } catch (error) {
             console.error('Error al intentar encontrar los detalles', error)
             res.status(500).json({ error: 'Internal Server Error' })
@@ -101,8 +125,12 @@ class ViewsController {
 
 
     chat(req, res) {
+        const { user } = req.session;
+        const isAdmin = getRole(req) === 'admin';
+        const isUser = getRole(req) === 'user';
         try {
-            res.render('chat', { title: 'Real Time Chat', user: req.session.user })
+            res.render('chat', { title: 'Real Time Chat', user, isUser, isAdmin })
+            console.log(isUser);
         } catch (error) {
             console.error('Error interno del servidor', error);
             res.status(500).json({ error: 'Error interno del servidor' });
@@ -111,6 +139,8 @@ class ViewsController {
 
     async getCartById(req, res) {
         const cartId = req.params.cid;
+        const isAdmin = getRole(req) === 'admin';
+        const isUser = getRole(req) === 'user';
 
         try {
             const cart = await cartService.getCartById(cartId);
@@ -126,7 +156,7 @@ class ViewsController {
             }));
 
 
-            res.render("carts", { productos: prodsInCart });
+            res.render("carts", { productos: prodsInCart, isUser, isAdmin });
         } catch (error) {
             console.error("Error al obtener el carrito", error);
             res.status(500).json({ error: "Error interno del servidor" });
@@ -134,15 +164,36 @@ class ViewsController {
     }
 
     async error404(req, res) {
-        res.render('error404', { title: 'Error' })
+        const { user } = req.session;
+        const isAdmin = getRole(req) === 'admin';
+        const isUser = getRole(req) === 'user';
+        res.render('error404', { title: 'Error', user, isUser, isAdmin })
     }
 
 
     async realTimeProducts(req, res) {
         try {
-            res.render("realtimeproducts");
+            const { user } = req.session;
+            const isAdmin = getRole(req) === 'admin';
+            const isUser = getRole(req) === 'user';
+
+            res.render("realtimeproducts", { title: 'Real Time Products', user, isAdmin, isUser });
+
         } catch (error) {
             console.log("error en la vista real time", error);
+            res.status(500).json({ error: "Error interno del servidor" });
+        }
+    }
+
+    async noAdmin(req, res) {
+        try {
+            const { user } = req.session;
+            const isAdmin = getRole(req) === 'admin';
+            const isUser = getRole(req) === 'user';
+            res.render('noAdmin', { title: 'Restricted Area', user, isUser, isAdmin })
+
+        } catch (error) {
+            console.log("error en la vista no Admin", error);
             res.status(500).json({ error: "Error interno del servidor" });
         }
     }

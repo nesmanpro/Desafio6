@@ -1,5 +1,5 @@
-const CartService = require('../service/cartService.js');
-const cartService = new CartService();
+const CartRepository = require('../repositories/cartRepository.js');
+const cartService = new CartRepository();
 
 
 class CartController {

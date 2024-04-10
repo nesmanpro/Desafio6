@@ -6,8 +6,8 @@ const GitHubStrategy = require('passport-github2');
 const configObj = require('../config/dotenv.config.js');
 
 // Servide and Controller 
-const CartService = require('../service/cartService.js');
-const cartService = new CartService();
+const CartRepository = require('../repositories/cartRepository.js');
+const cartService = new CartRepository();
 
 // importacion dotenv.config
 const { GITclientID, GITclientSecret, GITcallbackURL } = configObj;
@@ -21,7 +21,7 @@ const initializePassport = () => {
         passReqToCallback: true,
         usernameField: 'email'
     }, async (req, username, password, done) => {
-        const { first_name, last_name, email, age, role = 'User' } = req.body;
+        const { first_name, last_name, email, age, role = 'user' } = req.body;
         try {
 
             let user = await UserModel.findOne({ email });

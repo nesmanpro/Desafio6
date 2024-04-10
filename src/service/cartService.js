@@ -9,47 +9,41 @@ class CartService {
             await newCart.save();
             return newCart;
         } catch (error) {
-            console.log('Error al crear el nuevo carrito', error)
+            throw new Error("Error al crear el carrito");
         }
     }
 
     async getCartById(CartId) {
         try {
-
             const cart = CartModel.findById(CartId);
             if (!cart) {
                 console.log('No existe ese carrito con id:' + CartId)
                 return null;
             }
             return cart;
-
         } catch (error) {
-
-            console.log('No se pudo traer el carrito', error)
+            throw new Error('Error! No se pudo traer el carrito');
         }
     }
 
     async addProductToCart(cartId, prodId, quantity = 1) {
         try {
-
-            const carrito = await this.getCartById(cartId);
-            const ProdExist = carrito.products.find(item => item.product.toString() === prodId);
+            const cart = await this.getCartById(cartId);
+            const ProdExist = cart.products.find(item => item.product.toString() === prodId);
 
             if (ProdExist) {
                 ProdExist.quantity += quantity;
             } else {
-                carrito.products.push({ product: prodId, quantity });
+                cart.products.push({ product: prodId, quantity });
             }
 
-            carrito.markModified('products');
+            cart.markModified('products');
 
-            await carrito.save();
-            return carrito;
+            await cart.save();
+            return cart;
 
         } catch (error) {
-
-            console.log('No se pudo agregar el producto al carrito', error)
-
+            throw new Error('Error! No se pudo agregar el producto al carrito')
         }
     }
 
@@ -57,7 +51,6 @@ class CartService {
     async deleteProdFromCart(cartId, prodId) {
         try {
             const cart = await CartModel.findById(cartId);
-
             if (!cart) {
                 throw new Error('Carrito no encontrado');
             }
@@ -67,8 +60,7 @@ class CartService {
             await cart.save();
             return cart;
         } catch (error) {
-            console.error('Error al eliminar el producto del carrito', error);
-            throw error;
+            throw new Error('Error al eliminar el producto del carrito');
         }
     }
 

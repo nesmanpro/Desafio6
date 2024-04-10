@@ -137,6 +137,16 @@ class ViewsController {
         res.render('error404', { title: 'Error' })
     }
 
+
+    async realTimeProducts(req, res) {
+        try {
+            res.render("realtimeproducts");
+        } catch (error) {
+            console.log("error en la vista real time", error);
+            res.status(500).json({ error: "Error interno del servidor" });
+        }
+    }
+
 }
 
 module.exports = ViewsController;

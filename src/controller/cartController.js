@@ -16,9 +16,9 @@ class CartController {
     }
 
     async getCart(req, res) {
+        const cartId = req.params.cid;
         try {
-            const cartId = req.params.cid;
-            const cart = await CartService.findById(cartId);
+            const cart = await cartService.getCartById(cartId);
             if (!cart) {
                 console.log("No existe ese carrito con el id");
                 return res.status(404).json({ error: "Carrito no encontrado" });

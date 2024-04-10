@@ -1,4 +1,6 @@
 const userDTO = require('../DTO/userDTO.js');
+const UserModel = require('../models/user.model.js');
+const CartModel = require("../models/cart.model.js");
 
 class UserController {
 
@@ -21,12 +23,14 @@ class UserController {
     }
 
     profile(req, res) {
+
         if (req.session.user) {
             res.render('profile', { user: req.session.user })
         } else {
             res.redirect('/login')
         }
     }
+
 
     filedRegister(req, res) {
         res.send({ error: 'Registro fallido, revisar user.routes.js' })

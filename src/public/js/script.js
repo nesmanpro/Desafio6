@@ -34,7 +34,7 @@ chatBox.addEventListener('keyup', (e) => {
 })
 
 // Listener de mensajes
-socket.on('messageLogs', (data) => {
+socket.on('messages', (data) => {
     let log = document.getElementById('messageLogs');
     let messages = '';
 

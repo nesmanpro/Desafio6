@@ -100,7 +100,6 @@ class ViewsController {
     }
 
 
-
     chat(req, res) {
         try {
             res.render('chat', { title: 'Real Time Chat', user: req.session.user })
@@ -132,6 +131,10 @@ class ViewsController {
             console.error("Error al obtener el carrito", error);
             res.status(500).json({ error: "Error interno del servidor" });
         }
+    }
+
+    async error404(req, res) {
+        res.render('error404', { title: 'Error' })
     }
 
 }

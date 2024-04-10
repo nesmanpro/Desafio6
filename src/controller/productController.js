@@ -32,7 +32,7 @@ class ProductController {
 
             res.status(500).json({
                 status: 'error',
-                error: "Error interno del servidor"
+                error: "Error en el servidor al acceder a los productos"
             });
         }
     }
@@ -48,7 +48,7 @@ class ProductController {
         } catch (error) {
 
             console.error("Error al agregar producto", error);
-            res.status(500).json({ error: "Error interno del servidor" });
+            res.status(500).json({ error: "Error al intentar añadir productos" });
         }
     }
 
@@ -67,7 +67,7 @@ class ProductController {
             }
 
         } catch (error) {
-            res.status(500).json({ msg: 'Error interno del servidor' });
+            res.status(500).json({ msg: 'Error al traer un producto por ID' });
         }
 
 

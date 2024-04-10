@@ -32,6 +32,8 @@ El proyecto está dividido en varias partes:
 
 El archivo `config/dotenv.config.js` maneja la carga de las variables de entorno utilizando la biblioteca `dotenv`. Dependiendo del modo de ejecución (`production` o `development`), carga las variables de entorno correspondientes del archivo `.env` adecuado.
 
+![](./src/public/img/code.jpg)
+
 ### Notas adicionales
 
 - El proyecto incluye la autenticación de usuario con Passport.js, utilizando las estrategias local y de GitHub.

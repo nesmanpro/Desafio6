@@ -1,4 +1,4 @@
-
+const userDTO = require('../DTO/userDTO.js');
 
 class UserController {
 

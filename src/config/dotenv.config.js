@@ -7,7 +7,7 @@ const { mode } = program.opts();
 
 
 dotenv.config({
-    path: mode === 'production' ? './.env.prod' : './.env.dev'
+    path: mode === 'prod' ? './.env.prod' : './.env.dev'
 });
 
 const configObj = {

@@ -1,12 +1,10 @@
-const ProdModel = require('../dao/models/products.model.js');
+const ProdModel = require('../models/products.model.js');
 
 
 class ProductService {
 
-
     async addProduct(newObject) {
         try {
-
             let { title, description, code, img, price, stock, category, thumbnails = [], status = true } = newObject;
 
             if (!title || !description || !code || !category) {

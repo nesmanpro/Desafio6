@@ -20,7 +20,7 @@ class SessionController {
 
     async failLogin(req, res) {
         console.log('Fallo la estrategia, revisar codigo')
-        res.send({ error: 'No funciono la estrategia, hay q revistar session.router.js' })
+        res.redirect('/error')
     }
 
     async current(req, res) {
@@ -44,6 +44,8 @@ class SessionController {
         }
         res.redirect('/login')
     }
+
+
 
 }
 

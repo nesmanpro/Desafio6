@@ -95,30 +95,8 @@ const httpServer = app.listen(port, () => {
 })
 
 
-// W ebsocket
+// Websocket
 
 const SocketManager = require('./socket/SocketManager.js');
 new SocketManager(httpServer);
 
-// *** Chat *** //
-// socket.io
-
-// Creamos instancia de socket.io
-
-// const io = new socket.Server(httpServer);
-
-// io.on('connection', (socket) => {
-//     console.log('Nuevo usuario conectado!');
-
-//     socket.on('messages', async data => {
-
-//         // Guardar en mongo
-//         await messageModel.create(data);
-
-//         // Obtengo messages y madno a cliente
-//         const message = await messageModel.find();
-//         io.sockets.emit('messageLogs', message);
-
-
-//     })
-// })

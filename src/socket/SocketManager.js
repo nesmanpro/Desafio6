@@ -1,7 +1,7 @@
 const socket = require('socket.io');
 const messageModel = require("../models/message.model.js");
-// const ProductRepository = require("../repositories/product.repository.js");
-// const productRepository = new ProductRepository();
+const ProductService = require("../service/productService.js");
+const productRepository = new ProductService();
 
 class SocketManager {
 
@@ -14,17 +14,17 @@ class SocketManager {
         this.io.on("connection", async (socket) => {
             console.log("A client has connected");
 
-            // socket.emit("productos", await productRepository.obtenerProductos() );
+            socket.emit("products", await productRepository.getProducts());
 
-            // socket.on("eliminarProducto", async (id) => {
-            //     await productRepository.eliminarProducto(id);
-            //     this.emitUpdatedProducts(socket);
-            // });
+            socket.on("deleteProd", async (id) => {
+                await productRepository.deleteProduct(id);
+                this.emitUpdatedProducts(socket);
+            });
 
-            // socket.on("agregarProducto", async (producto) => {
-            //     await productRepository.agregarProducto(producto);
-            //     this.emitUpdatedProducts(socket);
-            // });
+            socket.on("addProd", async (producto) => {
+                await productRepository.addProduct(producto);
+                this.emitUpdatedProducts(socket);
+            });
 
             socket.on('messages', async (data) => {
                 await messageModel.create(data);
@@ -34,9 +34,9 @@ class SocketManager {
         });
     }
 
-    // async emitUpdatedProducts(socket) {
-    //     socket.emit("products", await productRepository.getProduct());
-    // }
+    async emitUpdatedProducts(socket) {
+        socket.emit("products", await productRepository.getProducts());
+    }
 }
 
 module.exports = SocketManager;

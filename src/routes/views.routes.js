@@ -24,6 +24,8 @@ router.get('/products/:prodId', viewsController.getProductById)
 router.get('/chat', viewsController.chat)
 // Endpoint carrito ID
 router.get("/carts/:cid", viewsController.getCartById);
+// Endpoint realtimeprod
+router.get("/realtime", viewsController.realTimeProducts);
 
 
 module.exports = router;

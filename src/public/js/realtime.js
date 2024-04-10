@@ -18,18 +18,19 @@ const showProds = (products) => {
         const card = document.createElement('div');
         card.classList.add('card');
         card.innerHTML = `
-        <h2>${itm.title}</h2>
-        <img src="https://dspncdn.com/a1/media/originals/01/37/b6/0137b6c4bb21f01f395f0c975f03e651.jpg" alt="furniture">
-        <p>ID: ${itm.id}</p>
-        <p>Description:</p>
-        <strong>${itm.description}</strong>
-        <p>Price: <strong>${itm.price}</strong> $</p>
-        <button> Delete Product </button>
-        `;
+        <div class="card cardFront">
+            <img src="https://dspncdn.com/a1/media/originals/01/37/b6/0137b6c4bb21f01f395f0c975f03e651.jpg" alt="furniture">
+            <div class="text">
+                <h2>${itm.title}</h2>
+                <strong>${itm.description}</strong>
+                <p>Price: <strong>${itm.price}</strong> $</p>
+                <button type="button">Delete</button>
+            </div>
+        </div>`;
         prodCont.appendChild(card);
 
         card.querySelector('button').addEventListener('click', () => {
-            deleteProd(itm.id);
+            deleteProd(itm._id);
         });
 
 
@@ -55,7 +56,7 @@ const addProd = () => {
         code: document.getElementById('code').value,
         stock: parseInt(document.getElementById('stock').value, 10),
         category: document.getElementById('category').value,
-        status: document.getElementById('status').value === 'true'
+        status: document.getElementById('status').value === 'active'
     };
 
     socket.emit('addProd', prod);

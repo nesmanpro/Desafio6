@@ -1,24 +1,24 @@
 <h1>Real Time Products</h1>
-<h2>Productos actualizados en tiempo real</h2>
 
-<div id="contenedorProductos"></div>
+<div id="prodCont"></div>
 
-<h2>Formulario para agregar productos</h2>
+<h3>Acá podés agregar más productos:</h3>
+<div class="form">
+    <form>
+        <input type="text" id="title" placeholder="Title">
+        <input type="text" id="description" placeholder="Description">
+        <input type="number" id="price" placeholder="Price">
+        <input type="text" id="img" value="No Picture">
+        <input type="text" id="code" placeholder="Code">
+        <input type="number" id="stock" placeholder="Stock">
+        <input type="text" id="category" placeholder="Category">
+        <select id="status">
+            <option value= "true">Active</option>
+            <option value="false">Inactive</option>
+        </select>
+        <button type="button" id="btnSend">Send</button>
+    </form>
+</div>
 
-<form>
-    <input type="text" id="title" placeholder="Titulo">
-    <input type="text" id="description" placeholder="Descripcion">
-    <input type="number" id="price" placeholder="Precio">
-    <input type="text" id="img" value="Sin Imagen">
-    <input type="text" id="code" placeholder="Código">
-    <input type="number" id="stock" placeholder="Stock">
-    <input type="text" id="category" placeholder="Categoria">
-    <select id="status">
-        <option value="true"> Activo </option>
-        <option value="false"> Inactivo </option>
-    </select>
-    <button type="button" id="btnEnviar"> Enviar </button>
-</form>
-
-<script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
-<script src="js/realtime.js"></script>
+<script src="https://cdn.socket.io/4.7.3/socket.io.min.js" integrity="sha384-+miq58Ltmjm+SSP5g8Ok6dpMO/6R4n8xe/x1Yj0Bdb9kiEz25LTnWv/GZQTRQamg" crossorigin="anonymous"></script>
+<script src="js/script.js"></script>

@@ -8,7 +8,9 @@
                 <p>Description:</p>
                 <strong>{{product.description}}</strong>
                 <p>Price: <strong>{{product.price}}</strong> $</p>
-                <button type="button" id={{product._id}}> Add to Cart </button>
+                <form action="/api/carts/{{cartId}}/products/{{product._id}}" method="POST">
+                    <button type="submit" id={{product._id}}>  Add to Cart </button>
+                </form>
             </div>
         </div>
     </main>

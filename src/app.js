@@ -3,12 +3,12 @@ const multer = require('multer');
 const productsRouter = require('./routes/products.routes')
 const cartsRouter = require('./routes/carts.routes')
 const viewsRouter = require('./routes/views.routes');
-const messageModel = require('./models/message.model.js');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const userRoutes = require('./routes/user.routes.js');
 const sessionRoutes = require('./routes/session.routes.js');
+const cors = require("cors");
 
 
 //Passport importacion
@@ -17,7 +17,7 @@ const initializePassport = require('./config/passport.config.js');
 
 // importacion dotenv.config
 const configObj = require('./config/dotenv.config.js');
-const { port, mongo_url } = configObj;
+const { port, mongo_url, codeSession } = configObj;
 
 
 const app = express();
@@ -42,6 +42,7 @@ const hbs = exphbs.create({
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('./src/public'));
+app.use(cors());
 
 // Middleware de multer
 const storage = multer.diskStorage({
@@ -59,7 +60,7 @@ app.use(cookieParser());
 
 // Sessions
 app.use(session({
-    secret: 'secretCoder',
+    secret: codeSession,
     resave: true,
     saveUninitialized: true,
     store: MongoStore.create({

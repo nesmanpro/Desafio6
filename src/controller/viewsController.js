@@ -1,6 +1,6 @@
-const ProductService = require('../repositories/productRepository.js');
+const ProductRepository = require('../repositories/productRepository.js');
 const CartService = require('../repositories/cartRepository.js');
-const prodService = new ProductService();
+const prodService = new ProductRepository();
 const cartService = new CartService();
 const { getRole } = require('../utils/userAdmin.js');
 
@@ -52,6 +52,7 @@ class ViewsController {
 
             const isAdmin = getRole(req) === 'admin';
             const isUser = getRole(req) === 'user';
+            const cartId = req.user.cart.toString();
 
             const newArray = prods.docs.map(prod => {
                 const { id, ...rest } = prod.toObject();
@@ -69,7 +70,9 @@ class ViewsController {
                 currentPage: prods.page,
                 totalPages: prods.totalPages,
                 isAdmin,
-                isUser
+                isUser,
+                cartId
+
             });
 
 
@@ -105,6 +108,7 @@ class ViewsController {
         try {
             const isAdmin = getRole(req) === 'admin';
             const isUser = getRole(req) === 'user';
+            const cartId = req.user.cart.toString();
 
             const prodId = req.params.prodId
             // Obtener producto por id
@@ -115,7 +119,8 @@ class ViewsController {
                 product,
                 user: req.session.user,
                 isAdmin,
-                isUser
+                isUser,
+                cartId
             });
         } catch (error) {
             console.error('Error al intentar encontrar los detalles', error)
@@ -150,13 +155,26 @@ class ViewsController {
                 return res.status(404).json({ error: "Carrito no encontrado" });
             }
 
-            const prodsInCart = cart.products.map(item => ({
-                product: item.product.toObject(),
-                quantity: item.quantity
-            }));
+            let accumulatePrice = 0;
+
+            const prodsInCart = cart.products.map(item => {
+
+                const product = item.product.toObject();
+                const quantity = item.quantity;
+                const totalPrice = product.price * quantity;
 
 
-            res.render("carts", { productos: prodsInCart, isUser, isAdmin });
+                accumulatePrice += totalPrice;
+
+                return {
+                    product: { ...product, totalPrice },
+                    quantity,
+                    cartId
+                };
+            })
+
+
+            res.render("cart", { products: prodsInCart, cartId, accumulatePrice, isUser, isAdmin });
         } catch (error) {
             console.error("Error al obtener el carrito", error);
             res.status(500).json({ error: "Error interno del servidor" });
@@ -194,6 +212,41 @@ class ViewsController {
 
         } catch (error) {
             console.log("error en la vista no Admin", error);
+            res.status(500).json({ error: "Error interno del servidor" });
+        }
+    }
+
+    async renderCart(req, res) {
+        const cartId = req.params.cid;
+        try {
+            const cart = await cartService.getCartById(cartId);
+
+            if (!cart) {
+                console.log("No existe ese carrito con ese id");
+                return res.status(404).json({ error: "Carrito no encontrado" });
+            }
+
+
+            let totalPurchase = 0;
+
+            const prodsInCart = cart.products.map(item => {
+                const product = item.product.toObject();
+                const quantity = item.quantity;
+                const totalPrice = product.price * quantity;
+
+
+                totalPurchase += totalPrice;
+
+                return {
+                    product: { ...product, totalPrice },
+                    quantity,
+                    cartId
+                };
+            });
+
+            res.render("cart", { productos: prodsInCart, totalPurchase, cartId });
+        } catch (error) {
+            console.error("Error al obtener el carrito", error);
             res.status(500).json({ error: "Error interno del servidor" });
         }
     }

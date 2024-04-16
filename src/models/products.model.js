@@ -34,7 +34,7 @@ const prodsSchema = new mongoose.Schema({
     },
     status: {
         type: Boolean,
-        required: true
+        required: false
     },
 
 });

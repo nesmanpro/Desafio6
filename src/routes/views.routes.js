@@ -11,11 +11,11 @@ const { isAdmin, isUser } = require('../utils/userAdmin.js');
 
 
 // Endpoint landing
-router.get("/", viewsController.landing);
+router.get('/', viewsController.landing);
 // Endpoint para el formulario de registro
 router.get('/register', viewsController.register)
 // Endpoint para el formulario de login
-router.get("/login", viewsController.login);
+router.get('/login', viewsController.login);
 // Endpoint para la vista de productos
 router.get('/products', viewsController.getProducts);
 // Endpoint para vista de perfil
@@ -27,11 +27,11 @@ router.get('/products/:prodId', viewsController.getProductById)
 // Endpoint chat
 router.get('/chat', isUser, viewsController.chat)
 // Endpoint carrito ID
-router.get("/carts/:cid", viewsController.getCartById);
+router.get('/carts/:cid', viewsController.renderCart);
 // Endpoint realtimeprod
-router.get("/realtime", isAdmin, viewsController.realTimeProducts);
+router.get('/realtime', isAdmin, viewsController.realTimeProducts);
 // Endpoint Restricted area
-router.get("/restricted", viewsController.noAdmin);
+router.get('/restricted', viewsController.noAdmin);
 
 
 module.exports = router;

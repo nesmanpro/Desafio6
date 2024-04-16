@@ -1,15 +1,27 @@
 
-<section class="section_cart">
+
+<section class="mainCart">
     <h1>Cart Details</h1>
     <span>cart ID: {{cartId}}</span>
-    <ul class="cart_productList">
-        {{#each products }}
-        <li>
-            <p>Product title: {{ this.product.title }}</p>
-            <p>Category: {{ this.product.category }}</p>
-            <p>Price: ${{ this.product.price }}</p>
-            <p>Quantity: {{ this.quantity }}</p>
-        </li>
-        {{/each}}
-    </ul>
+    <main class="cartSection">
+    {{#each productos}}
+    <div class="cartCard ">
+        <div class="cartBody">
+            <h5 class="cardTitle">Producto: {{this.product.title}}</h5>
+            <p class="cardText">Cantidad: {{this.quantity}}</p>
+            <p class="cardText">Precio: ${{this.product.totalPrice}}</p>
+            <button onclick="deleteProds('{{this.cartId}}', '{{this.product._id}}')"
+                class="btn btn-danger">Eliminar</button>
+        </div>
+    </div>
+    {{/each}}
+    </main>
 </section>
+
+
+<button onclick="emptyCart('{{cartId}}')" class="btn btn-danger">Vaciar Carrito</button>
+<h3 class="mt-2">Total de la compra: ${{totalPurchase}}</h3>
+
+
+
+<script src="../public/js/fetchCart.js"></script>

@@ -13,6 +13,7 @@ dotenv.config({
 const configObj = {
     port: process.env.PORT,
     mongo_url: process.env.MONGO_URL,
+    codeSession: process.env.codeSession,
     GITclientID: process.env.GITclientID,
     GITclientSecret: process.env.GITclientSecret,
     GITcallbackURL: process.env.GITcallbackURL

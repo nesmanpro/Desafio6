@@ -244,7 +244,7 @@ class ViewsController {
                 };
             });
 
-            res.render("cart", { productos: prodsInCart, totalPurchase, cartId });
+            res.render("cart", { productos: prodsInCart, totalPurchase, cartId, user: req.user });
         } catch (error) {
             console.error("Error al obtener el carrito", error);
             res.status(500).json({ error: "Error interno del servidor" });

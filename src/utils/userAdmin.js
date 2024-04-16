@@ -20,8 +20,18 @@ function isUser(req, res, next) {
     }
 };
 
+function gotAuth(req, res, next) {
+    if (req.user) {
+        // Si es usuario 
+        next();
+    } else {
+        // Si no es usuario regular
+        res.render('noAdmin');
+    }
+};
+
 function getRole(req) {
     return req.user ? req.user.role : null;
 };
 
-module.exports = { isAdmin, isUser, getRole };
+module.exports = { isAdmin, isUser, getRole, gotAuth };

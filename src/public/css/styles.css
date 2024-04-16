@@ -311,6 +311,12 @@ input:focus {
     margin-bottom: 10px;
 } 
 
+.btnSec3 {
+    background-color: var(--dark1);
+    border: 2px solid var(--light);
+    margin-bottom: 10px;
+} 
+
 .btnSec2 {
     background-color: var(--vibrant);
     border: 2px solid var(--vibrant);
@@ -318,7 +324,7 @@ input:focus {
     font-weight: 700;
 } 
 
-.btnSec3:hover {
+.btnSec2:hover {
     background-color: var(--dark1);
     border: 2px solid var(--dark1);
 } 

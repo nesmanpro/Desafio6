@@ -10,8 +10,7 @@
             <h5 class="cardTitle">Producto: {{this.product.title}}</h5>
             <p class="cardText">Cantidad: {{this.quantity}}</p>
             <p class="cardText">Precio: ${{this.product.totalPrice}}</p>
-            <button onclick="deleteProds('{{this.cartId}}', '{{this.product._id}}')"
-                class="btn btn-danger">Eliminar</button>
+            <button id="deleteProds" data-cart-id="{{this.cartId}}" data-product-id="{{this.product._id}}" class="btn btn-danger">Eliminar</button>
         </div>
     </div>
     {{/each}}
@@ -19,9 +18,10 @@
 </section>
 
 
-<button onclick="emptyCart('{{cartId}}')" class="btn btn-danger">Vaciar Carrito</button>
+<button class="btnSec" id="emptyCart" delete-cart-id="{{this.cartId}}">Vaciar Carrito</button>
+<button class="btnSec"> <a href="/products">Atras</a></button>
 <h3 class="mt-2">Total de la compra: ${{totalPurchase}}</h3>
 
 
 
-<script src="../public/js/fetchCart.js"></script>
+<script src="../js/fetchCart.js"></script>

@@ -6,7 +6,7 @@ const ViewsController = require('../controller/viewsController.js');
 const viewsController = new ViewsController();
 
 //importamos middleware de privilegios admin / user
-const { isAdmin, isUser } = require('../utils/userAdmin.js');
+const { isAdmin, isUser, gotAuth } = require('../utils/userAdmin.js');
 
 
 
@@ -27,7 +27,7 @@ router.get('/products/:prodId', viewsController.getProductById)
 // Endpoint chat
 router.get('/chat', isUser, viewsController.chat)
 // Endpoint carrito ID
-router.get('/carts/:cid', viewsController.renderCart);
+router.get('/carts/:cid', gotAuth, viewsController.renderCart);
 // Endpoint realtimeprod
 router.get('/realtime', isAdmin, viewsController.realTimeProducts);
 // Endpoint Restricted area

@@ -2,7 +2,7 @@ const ProductRepository = require('../repositories/productRepository.js');
 const CartService = require('../repositories/cartRepository.js');
 const prodService = new ProductRepository();
 const cartService = new CartService();
-const { getRole } = require('../utils/userAdmin.js');
+const { getRole, isAdmin, isUser } = require('../utils/userAdmin.js');
 
 class ViewsController {
 
@@ -233,7 +233,6 @@ class ViewsController {
                 const product = item.product.toObject();
                 const quantity = item.quantity;
                 const totalPrice = product.price * quantity;
-
 
                 totalPurchase += totalPrice;
 

@@ -37,12 +37,12 @@ class CartController {
 
     async addProductToCart(req, res) {
         const cartId = req.params.cid;
-        const productId = req.params.pid;
+        const prodId = req.params.pid;
         const quantity = req.body.quantity || 1;
         try {
-            const result = await cartService.addProductToCart(cartId, productId, quantity);
+            await cartService.addProductToCart(cartId, prodId, quantity);
+            res.redirect(`/carts/${cartId}`);
             // res.json(result.products);
-            res.redirect(`/carts/${cartId}`)
         } catch (error) {
             res.send('Error al intentar guardar producto en el carrito');
             res.status(400).json({ error: "Error al agregar producto al carrito" });

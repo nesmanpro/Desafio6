@@ -8,10 +8,16 @@
                 <p>Description:</p>
                 <strong>{{product.description}}</strong>
                 <p>Price: <strong>{{product.price}}</strong> $</p>
-                <form action="/api/carts/{{cartId}}/products/{{product._id}}" method="POST">
-                    <button type="submit" id={{product._id}}>  Add to Cart </button>
-                    <button class="btnSec3"><a href="/products">Atras</a></button>
-                </form>
+                <div class="btns">
+                    <form action="/api/carts/{{cartId}}/products/{{product._id}}" method="POST">
+                        <button type="submit" id={{product._id}}>  Add to Cart </button>
+                    </form>
+                    <a href="/products">
+                        <button class="btnSec3">
+                            Atras
+                        </button>
+                    </a>
+                </div>
             </div>
         </div>
     </main>

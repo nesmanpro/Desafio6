@@ -190,6 +190,14 @@ button {
     gap: 2rem;
 }
 
+/* Detail Prods Cards */
+
+.btns{
+    display:flex;
+    justify-content: space-between;
+}
+
+
 
 /* Chat */
 
@@ -384,8 +392,25 @@ span {
 }
 
 
-
 /* Cart Details View */
+
+.btns2{
+    display:flex;
+    justify-content: space-around;
+}
+
+.btnVaciar {
+    background-color: var(--vibrant);
+    border: 2px solid var(--vibrant);
+    margin-bottom: 10px;
+} 
+
+
+.btnVaciar:hover {
+    border: 2px solid var(--dark1);
+    transition: all .4s ease-in-out;
+    color: var(--dark1);
+} 
 
 .mainCart {
     max-width: 800px;
@@ -449,3 +474,4 @@ span {
 .mt-2 {
     margin-top: 20px;
 }
+

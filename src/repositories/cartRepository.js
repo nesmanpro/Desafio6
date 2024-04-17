@@ -29,7 +29,7 @@ class CartService {
     async addProductToCart(cartId, prodId, quantity = 1) {
         try {
             const cart = await this.getCartById(cartId);
-            const existingProduct = cart.products.find(item => item.product.toString() === prodId);
+            const existingProduct = cart.products.find(item => item.product._id.toString() === prodId);
 
             if (existingProduct) {
 

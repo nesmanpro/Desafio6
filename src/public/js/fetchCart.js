@@ -26,7 +26,7 @@ function deleteProds(cartId, productId) {
                 throw new Error('Error al eliminar el producto del carrito');
             }
             location.reload();
-            console.error('Error con esto');
+            console.info('No hay Error con esto');
         })
         .catch(error => {
             console.error('Error:', error);

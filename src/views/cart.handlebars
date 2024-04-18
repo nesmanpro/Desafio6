@@ -18,13 +18,20 @@
 </section>
 
 <div class="btns2">
-
-<button class="btnVaciar" id="emptyCart" data-cart-id="{{this.cartId}}" onclick="emptyCart(this.dataset.cartId)">Vaciar Carrito</button>
+<div class="btns2">
 <a href="/products">
     <button class="btnSec"> 
         Atras
     </button>
 </a>
+<a href="/api/carts/{{this.cartId}}/purchase">
+    <button class="btnSec"> 
+        Checkout
+    </button>
+</a>
+
+</div>
+<button class="btnVaciar" id="emptyCart" data-cart-id="{{this.cartId}}" onclick="emptyCart(this.dataset.cartId)">Vaciar Carrito</button>
 </div>
 <h3 class="mt-2">Total de la compra: ${{totalPurchase}}</h3>
 

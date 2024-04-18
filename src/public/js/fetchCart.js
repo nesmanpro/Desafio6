@@ -47,3 +47,18 @@ function emptyCart(cartId) {
             console.error('Error:', error);
         });
 }
+
+function checkout(cartId) {
+    fetch(`http://localhost:8080/api/carts/${cartId}`, {
+        method: 'POST'
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al vaciar el carrito');
+            }
+            location.reload();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}

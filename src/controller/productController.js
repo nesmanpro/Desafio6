@@ -1,5 +1,5 @@
 const ProductRepository = require('../repositories/productRepository.js');
-const productService = new ProductRepository();
+const productRepository = new ProductRepository();
 
 class ProductController {
 
@@ -8,7 +8,7 @@ class ProductController {
         try {
 
             const { limit = 10, page = 1, sort, query } = req.query;
-            const prods = await productService.getProducts({
+            const prods = await productRepository.getProducts({
                 limit: parseInt(limit),
                 page: parseInt(page),
                 sort,
@@ -42,7 +42,7 @@ class ProductController {
 
         try {
 
-            await productService.addProduct(newProd);
+            await productRepository.addProduct(newProd);
             res.status(201).json({ message: "Producto agregado exitosamente" });
 
         } catch (error) {
@@ -58,7 +58,7 @@ class ProductController {
         const pid = req.params.pid;
 
         try {
-            const prod = await productService.getProductById(pid);
+            const prod = await productRepository.getProductById(pid);
             const error = { Error: 'Lo sentimos! no se ha encontrado el producto que andas buscando.' };
             if (prod) {
                 res.json(prod)
@@ -80,7 +80,7 @@ class ProductController {
 
         try {
 
-            await productService.updateProduct(pid, updatedProd);
+            await productRepository.updateProduct(pid, updatedProd);
             res.json({ message: "Producto actualizado exitosamente" });
 
         } catch (error) {
@@ -95,7 +95,7 @@ class ProductController {
         let pid = req.params.pid;
 
         try {
-            await productService.deleteProduct(pid)
+            await productRepository.deleteProduct(pid)
             res.send(`Producto ${pid} eliminado correctamente`)
         } catch (error) {
             console.log(error)

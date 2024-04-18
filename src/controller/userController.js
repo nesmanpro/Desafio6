@@ -1,6 +1,4 @@
 const userDTO = require('../DTO/userDTO.js');
-const UserModel = require('../models/user.model.js');
-const CartModel = require("../models/cart.model.js");
 
 class UserController {
 

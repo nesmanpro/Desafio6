@@ -1,8 +1,8 @@
 const ProductRepository = require('../repositories/productRepository.js');
-const CartService = require('../repositories/cartRepository.js');
-const prodService = new ProductRepository();
-const cartService = new CartService();
-const { getRole, isAdmin, isUser } = require('../utils/userAdmin.js');
+const CartRepository = require('../repositories/cartRepository.js');
+const prodRepository = new ProductRepository();
+const cartRepository = new CartRepository();
+const { getRole } = require('../utils/userAdmin.js');
 
 class ViewsController {
 
@@ -45,7 +45,7 @@ class ViewsController {
 
             const { page = 1, limit = 3 } = req.query;
 
-            const prods = await prodService.getProducts({
+            const prods = await prodRepository.getProducts({
                 page: parseInt(page),
                 limit: parseInt(limit)
             });
@@ -112,7 +112,7 @@ class ViewsController {
 
             const prodId = req.params.prodId
             // Obtener producto por id
-            const product = await prodService.getProductById(prodId)
+            const product = await prodRepository.getProductById(prodId)
             // Renderiza vista detalles del producto
             res.render('productDetail', {
                 title: 'Product Detail',
@@ -148,7 +148,7 @@ class ViewsController {
         const isUser = getRole(req) === 'user';
 
         try {
-            const cart = await cartService.getCartById(cartId);
+            const cart = await cartRepository.getCartById(cartId);
 
             if (!cart) {
                 console.log(`No existe ese carrito con el id ${cartId} `);
@@ -219,7 +219,7 @@ class ViewsController {
     async renderCart(req, res) {
         const cartId = req.params.cid;
         try {
-            const cart = await cartService.getCartById(cartId);
+            const cart = await cartRepository.getCartById(cartId);
 
             if (!cart) {
                 console.log("No existe ese carrito con ese id");

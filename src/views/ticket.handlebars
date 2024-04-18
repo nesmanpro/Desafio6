@@ -1,0 +1,39 @@
+
+
+<section class="mainCart">
+    <h1>Ticket Details</h1>
+    <main class="cartSection">
+    <div class="cartCard ">
+        <div class="cartBody">
+            <span>Ticket ID: {{ticketId}}</span>
+            <h5 class="cardTitle">Code: {{this.code}}</h5>
+            <p class="cardText">Date: {{this.date}}</p>
+            <p class="cardText">Precio Total: ${{this.totalPrice}}</p>
+            <p class="cardText">Datos usuario: {{this.userMail}}</p>
+            <button id="deleteProds" data-cart-id="{{this.cartId}}" data-product-id="{{this.product._id}}" class="btn btn-danger" onclick="deleteProds(this.dataset.cartId,this.dataset.productId)">Eliminar</button>
+        </div>
+    </div>
+    </main>
+</section>
+
+<div class="btns2">
+<div class="btns2">
+<a href="/products">
+    <button class="btnSec"> 
+        Atras
+    </button>
+</a>
+<a href="/api/carts/{{this.cartId}}/purchase">
+    <button class="btnSec"> 
+        Checkout
+    </button>
+</a>
+
+</div>
+<button class="btnVaciar" id="emptyCart" data-cart-id="{{this.cartId}}" onclick="emptyCart(this.dataset.cartId)">Vaciar Carrito</button>
+</div>
+<h3 class="mt-2">Total de la compra: ${{totalPurchase}}</h3>
+
+
+
+<script src="../js/fetchCart.js"></script>

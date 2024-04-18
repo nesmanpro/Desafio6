@@ -1,7 +1,7 @@
 const CartModel = require('../models/cart.model.js');
 
 
-class CartService {
+class CartRepository {
 
     async createCart() {
         try {
@@ -135,4 +135,4 @@ class CartService {
 
 }
 
-module.exports = CartService;
+module.exports = CartRepository;

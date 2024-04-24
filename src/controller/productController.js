@@ -46,8 +46,7 @@ class ProductController {
             res.status(201).json({ message: "Producto agregado exitosamente" });
 
         } catch (error) {
-
-            console.error("Error al agregar producto", error);
+            req.logger.error("Error al agregar producto", error);
             res.status(500).json({ error: "Error al intentar añadir productos" });
         }
     }
@@ -84,8 +83,7 @@ class ProductController {
             res.json({ message: "Producto actualizado exitosamente" });
 
         } catch (error) {
-
-            console.log(error)
+            req.logger.error('Error al editar el producto', error)
             res.status(500).json(error, `Error al intentar editar el producto con id ${pid}`)
         }
     }
@@ -98,7 +96,7 @@ class ProductController {
             await productRepository.deleteProduct(pid)
             res.send(`Producto ${pid} eliminado correctamente`)
         } catch (error) {
-            console.log(error)
+            req.logger.error('Error al borrar el producto', error)
             res.send(`Error al intentar eliminar el producto con id ${pid}`)
         }
     }

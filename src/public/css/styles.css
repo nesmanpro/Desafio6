@@ -476,3 +476,9 @@ span {
     margin-top: 20px;
 }
 
+
+jsonBtn{
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+}

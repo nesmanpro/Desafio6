@@ -14,7 +14,7 @@ class CartController {
             const cart = await cartRepository.createCart();
             res.json(cart);
         } catch (error) {
-            console.error("Error al crear un nuevo carrito", error);
+            req.logger.error("Error al crear un nuevo carrito", error);
             res.status(500).json({ error: "Error al crear un nuevo carrito" });
         }
 
@@ -25,7 +25,7 @@ class CartController {
         try {
             const cart = await cartRepository.getCartById(cartId);
             if (!cart) {
-                console.log("No existe ese carrito con el id");
+                req.logger.warning('No existe ese carrito con el id');
                 return res.status(404).json({ error: "Carrito no encontrado" });
             }
             return res.json(cart.products);
@@ -60,7 +60,7 @@ class CartController {
                 updatedCart,
             });
         } catch (error) {
-            console.error('Error al eliminar el producto del carrito', error);
+            req.logger.error('Error al eliminar el producto del carrito', error);
             res.status(500).json({
                 status: 'error',
                 error: 'Error al eliminar un producto del servidor',
@@ -75,7 +75,7 @@ class CartController {
             const updatedCart = await cartRepository.updateCart(cartId, updatedProducts);
             res.json(updatedCart);
         } catch (error) {
-            console.error('Error al actualizar el carrito', error);
+            req.logger.error('Error al actualizar el carrito', error);
             res.status(500).json({
                 status: 'error',
                 error: 'Error al actualizar el carrito',
@@ -96,7 +96,7 @@ class CartController {
                 updatedCart,
             });
         } catch (error) {
-            console.error('Error al actualizar la cantidad del producto en el carrito', error);
+            req.logger.error('Error al actualizar la cantidad del producto en el carrito', error);
             res.status(500).json({
                 status: 'error',
                 error: 'Error actualizar la cantidad de productos',
@@ -114,7 +114,7 @@ class CartController {
                 updatedCart,
             });
         } catch (error) {
-            console.error('Error al vaciar el carrito', error);
+            req.logger.error('Error al vaciar el carrito', error);
             res.status(500).json({
                 status: 'error',
                 error: 'Error al vaciar el carrito',
@@ -167,7 +167,7 @@ class CartController {
 
             res.status(200).json({ productNotAvailable });
         } catch (error) {
-            console.error('Error al procesar la compra:', error);
+            req.logger.error('Error al procesar la compra:', error);
             res.status(500).json({ error: 'Error interno del servidor' });
         }
     }

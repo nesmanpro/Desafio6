@@ -20,7 +20,7 @@ class SessionController {
     }
 
     async failLogin(req, res) {
-        console.log('Fallo la estrategia, revisar codigo')
+        req.logger.warning('Fallo la estrategia, revisar codigo')
         res.redirect('/error')
     }
 

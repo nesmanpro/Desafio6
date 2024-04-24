@@ -3,6 +3,7 @@ const CartRepository = require('../repositories/cartRepository.js');
 const prodRepository = new ProductRepository();
 const cartRepository = new CartRepository();
 const { getRole } = require('../utils/userAdmin.js');
+const generateProds = require('../utils/mocking.js')
 
 class ViewsController {
 
@@ -77,7 +78,9 @@ class ViewsController {
 
 
         } catch (error) {
-            console.error('Error, no se han podido encontrar los productos', error);
+
+            req.logger.error('Error, no se han podido encontrar los productos', error);
+
             res.status(500).json({
                 status: 'error',
                 error: "Error interno del servidor"
@@ -123,7 +126,8 @@ class ViewsController {
                 cartId
             });
         } catch (error) {
-            console.error('Error al intentar encontrar los detalles', error)
+            req.logger.error('Error al intentar encontrar los detalles', error);
+
             res.status(500).json({ error: 'Internal Server Error' })
         }
     }
@@ -135,9 +139,8 @@ class ViewsController {
         const isUser = getRole(req) === 'user';
         try {
             res.render('chat', { title: 'Real Time Chat', user, isUser, isAdmin })
-            console.log(isUser);
         } catch (error) {
-            console.error('Error interno del servidor', error);
+            req.logger.error('Error interno del servidor', error);
             res.status(500).json({ error: 'Error interno del servidor' });
         }
     }
@@ -151,7 +154,7 @@ class ViewsController {
             const cart = await cartRepository.getCartById(cartId);
 
             if (!cart) {
-                console.log(`No existe ese carrito con el id ${cartId} `);
+                req.logger.error(`No existe ese carrito con el id ${cartId} `);
                 return res.status(404).json({ error: "Carrito no encontrado" });
             }
 
@@ -176,7 +179,7 @@ class ViewsController {
 
             res.render("cart", { products: prodsInCart, cartId, accumulatePrice, isUser, isAdmin });
         } catch (error) {
-            console.error("Error al obtener el carrito", error);
+            req.logger.error("Error al obtener el carrito", error);
             res.status(500).json({ error: "Error interno del servidor" });
         }
     }
@@ -198,7 +201,7 @@ class ViewsController {
             res.render("realtimeproducts", { title: 'Real Time Products', user, isAdmin, isUser });
 
         } catch (error) {
-            console.log("error en la vista real time", error);
+            req.logger.error("Error en la vista real time", error);
             res.status(500).json({ error: "Error interno del servidor" });
         }
     }
@@ -211,7 +214,7 @@ class ViewsController {
             res.render('noAdmin', { title: 'Restricted Area', user, isUser, isAdmin })
 
         } catch (error) {
-            console.log("error en la vista no Admin", error);
+            req.logger.error("Error en la vista no Admin", error);
             res.status(500).json({ error: "Error interno del servidor" });
         }
     }
@@ -222,7 +225,7 @@ class ViewsController {
             const cart = await cartRepository.getCartById(cartId);
 
             if (!cart) {
-                console.log("No existe ese carrito con ese id");
+                req.logger.info("No existe ese carrito con ese id");
                 return res.status(404).json({ error: "Carrito no encontrado" });
             }
 
@@ -245,7 +248,7 @@ class ViewsController {
 
             res.render("cart", { productos: prodsInCart, totalPurchase, cartId, user: req.user });
         } catch (error) {
-            console.error("Error al obtener el carrito", error);
+            req.logger.error("Error al obtener el carrito", error);
             res.status(500).json({ error: "Error interno del servidor" });
         }
     }
@@ -258,9 +261,26 @@ class ViewsController {
         req.logger.http('Mensaje Http');
         req.logger.debug('Mensaje Debug');
 
-        res.send('Hi, this a logging test!');
+        res.send('Hi, this is a logging test!');
     }
 
+    async mocking(req, res) {
+        const products = [];
+        for (let i = 0; i < 100; i++) {
+            products.push(generateProds())
+        }
+
+        res.render('mocking', { products, user: req.user });
+    }
+
+    async showMocking(req, res) {
+        const products = [];
+        for (let i = 0; i < 100; i++) {
+            products.push(generateProds())
+        }
+
+        res.json(products)
+    }
 }
 
 module.exports = ViewsController;

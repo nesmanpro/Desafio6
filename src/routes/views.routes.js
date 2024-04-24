@@ -32,8 +32,11 @@ router.get('/carts/:cid', gotAuth, viewsController.renderCart);
 router.get('/realtime', isAdmin, viewsController.realTimeProducts);
 // Endpoint Restricted area
 router.get('/restricted', viewsController.noAdmin);
-
+// Endpoint test loggin
 router.get('/loggerTest', viewsController.testing);
+// Endpoint test mocking
+router.get('/mockingproducts', viewsController.mocking);
+router.get('/mokingjson', viewsController.showMocking);
 
 
 module.exports = router;

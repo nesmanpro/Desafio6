@@ -33,5 +33,7 @@ router.get('/realtime', isAdmin, viewsController.realTimeProducts);
 // Endpoint Restricted area
 router.get('/restricted', viewsController.noAdmin);
 
+router.get('/loggerTest', viewsController.testing);
+
 
 module.exports = router;

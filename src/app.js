@@ -9,6 +9,8 @@ const MongoStore = require('connect-mongo');
 const userRoutes = require('./routes/user.routes.js');
 const sessionRoutes = require('./routes/session.routes.js');
 const cors = require("cors");
+const addLogger = require('./utils/logger.js')
+
 
 
 //Passport importacion
@@ -43,6 +45,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('./src/public'));
 app.use(cors());
+app.use(addLogger);
 
 // Middleware de multer
 const storage = multer.diskStorage({

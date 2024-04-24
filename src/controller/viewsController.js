@@ -250,6 +250,17 @@ class ViewsController {
         }
     }
 
+    async testing(req, res) {
+        req.logger.fatal('Error Fatal');
+        req.logger.error('Mensaje Error!');
+        req.logger.warning('Mensaje Warning');
+        req.logger.info('Mensaje Info');
+        req.logger.http('Mensaje Http');
+        req.logger.debug('Mensaje Debug');
+
+        res.send('Hi, this a logging test!');
+    }
+
 }
 
 module.exports = ViewsController;

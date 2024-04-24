@@ -16,7 +16,8 @@ const configObj = {
     codeSession: process.env.codeSession,
     GITclientID: process.env.GITclientID,
     GITclientSecret: process.env.GITclientSecret,
-    GITcallbackURL: process.env.GITcallbackURL
+    GITcallbackURL: process.env.GITcallbackURL,
+    node_env: process.env.NODE_ENV
 }
 
 module.exports = configObj;

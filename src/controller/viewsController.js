@@ -113,7 +113,7 @@ class ViewsController {
             const isUser = getRole(req) === 'user';
             const cartId = req.user.cart.toString();
 
-            const { prodId } = req.params;
+            const prodId = req.params.prodId
             // Obtener producto por id
             const product = await prodRepository.getProductById(prodId)
             // Renderiza vista detalles del producto
@@ -127,8 +127,6 @@ class ViewsController {
             });
         } catch (error) {
             req.logger.error('Error al intentar encontrar los detalles', error);
-            // console.log(prodId)
-
             res.status(500).json({ error: 'Internal Server Error' })
         }
     }
@@ -285,3 +283,5 @@ class ViewsController {
 }
 
 module.exports = ViewsController;
+
+

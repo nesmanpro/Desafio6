@@ -8,23 +8,19 @@ class ProductRepository {
             let { title, description, code, img, price, stock, category, thumbnails = [], status = true } = newObject;
 
             if (!title || !description || !code || !category) {
-
-
-                req.logger.warning('Te faltó uno de los campos de texto, recordá que todos son obligatorios');
+                console.log('Te faltó uno de los campos de texto, recordá que todos son obligatorios');
                 return { status: 400, msg: "Error: Te faltó uno de los campos de texto, recordá que todos son obligatorios (title, description, code, category)" };
             }
 
             if (typeof price !== 'number' || typeof stock !== 'number') {
-
-                req.logger.warning("Vaya! Recuerda que precio y stock son valores numericos.");
+                console.log("Vaya! Recuerda que precio y stock son valores numericos.");
                 return { status: 400, msg: "Error: Recuerda que precio y stock son valores numericos." };
             }
 
             const prodExist = await ProdModel.findOne({ code: code });
 
             if (prodExist) {
-
-                req.logger.warning('El código ya se encuentra registrado en la base de datos, introduce uno que sea unico.');
+                console.log('El código ya se encuentra registrado en la base de datos, introduce uno que sea unico.');
                 return;
             }
 
@@ -47,8 +43,7 @@ class ProductRepository {
             return newProduct;
 
         } catch (error) {
-
-            req.logger.error('Ocurrió un error al intentar crear el producto', error);
+            console.log('Ocurrió un error al intentar crear el producto', error);
             throw error;
 
         }
@@ -98,7 +93,8 @@ class ProductRepository {
             };
 
         } catch (error) {
-            req.logger.error('Ups! Parece que ha habido un error al obtener los productos', error);
+
+            console.log('Ups! Parece que ha habido un error al obtener los productos', error);
         }
     }
 
@@ -108,16 +104,16 @@ class ProductRepository {
             const prodFound = await ProdModel.findById(id);
 
             if (!prodFound) {
-                req.logger.warning('Ups! Producto no encontrado.');
+                console.log('Ups! Producto no encontrado.');
                 return null;
             } else {
-                req.logger.info('Producto encontrado!!');
+                console.log('Producto encontrado!!');
                 return prodFound;
 
             }
 
         } catch (error) {
-            req.logger.error('Error al traer un producto por id.');
+            console.log('Error al traer un producto por id.');
 
         }
     }
@@ -129,15 +125,16 @@ class ProductRepository {
             const updated = await ProdModel.findByIdAndUpdate(id, updatedProd);
 
             if (!updated) {
-                req.logger.warning('No se encuentra el producto!');
+                console.log('No se encuentra el producto!');
                 return null;
             }
 
-            req.logger.info('Producto actualizado con exito!');
+            console.log('Producto actualizado con exito!');
             return updated;
 
         } catch (error) {
-            req.logger.error('Parece que hubo un problema con la actualizacion', error)
+
+            console.log('Parece que hubo un problema con la actualizacion', error)
 
         }
     }
@@ -147,15 +144,15 @@ class ProductRepository {
             const deleted = await ProdModel.findByIdAndDelete(id);
 
             if (!deleted) {
-                req.logger.warning("El producto no encontrado");
+                console.log("El producto no encontrado");
                 return null;
             }
-            req.logger.info("Se elimino correctamente")
+            console.log("Se elimino correctamente")
 
 
 
         } catch (error) {
-            req.logger.error('Parece que hubo un problema con el elemento que desea eliminar', error)
+            console.log('Parece que hubo un problema con el elemento que desea eliminar', error)
         }
     }
 

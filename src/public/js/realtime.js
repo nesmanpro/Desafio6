@@ -23,8 +23,9 @@ const showProds = (products) => {
             <img src="https://dspncdn.com/a1/media/originals/01/37/b6/0137b6c4bb21f01f395f0c975f03e651.jpg" alt="furniture">
             <div class="text">
                 <h2>${itm.title}</h2>
+                
                 <strong>${itm.description}</strong>
-                <p>Price: <strong>${itm.price}</strong> $</p>
+                <p>Price: <strong>${itm.price}</strong> $ <br>By:<strong> ${itm.owner}</strong></p>
                 <button type="button">Delete</button>
             </div>
         </div>`;
@@ -42,6 +43,7 @@ const showProds = (products) => {
                 })
             }
 
+
         });
 
     });
@@ -58,9 +60,6 @@ document.getElementById('btnSend').addEventListener('click', () => {
 })
 
 const addProd = () => {
-
-    // const role = document.getElementById("role").textContent;
-    // const email = document.getElementById("email").textContent;
 
     const owner = role === "premium" ? email : "admin";
 

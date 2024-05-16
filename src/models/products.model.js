@@ -36,6 +36,11 @@ const prodsSchema = new mongoose.Schema({
         type: Boolean,
         required: false
     },
+    owner: {
+        type: String,
+        required: true,
+        default: 'admin'
+    }
 
 });
 

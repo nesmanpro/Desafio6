@@ -8,14 +8,17 @@ const generateProds = require('../utils/mocking.js')
 class ViewsController {
 
 
+
+
     landing(req, res) {
         const isAdmin = getRole(req) === 'admin';
         const isUser = getRole(req) === 'user';
+        const isPremium = getRole(req) === 'premium';
 
         if (req.session.login) {
             return res.redirect("/products");
         }
-        res.render("login", { req: req, isAdmin, isUser });
+        res.render("login", { req: req, isAdmin, isUser, isPremium });
     }
 
 
@@ -53,6 +56,7 @@ class ViewsController {
 
             const isAdmin = getRole(req) === 'admin';
             const isUser = getRole(req) === 'user';
+            const isPremium = getRole(req) === 'premium';
             const cartId = req.user.cart.toString();
 
             const newArray = prods.docs.map(prod => {
@@ -72,6 +76,7 @@ class ViewsController {
                 totalPages: prods.totalPages,
                 isAdmin,
                 isUser,
+                isPremium,
                 cartId
 
             });
@@ -93,11 +98,13 @@ class ViewsController {
     profile(req, res) {
         const isAdmin = getRole(req) === 'admin';
         const isUser = getRole(req) === 'user';
+        const isPremium = getRole(req) === 'premium';
 
         if (req.session.user) {
             res.render('profile', {
                 user: req.session.user,
                 isAdmin,
+                isPremium,
                 isUser
             })
         } else {
@@ -111,6 +118,7 @@ class ViewsController {
         try {
             const isAdmin = getRole(req) === 'admin';
             const isUser = getRole(req) === 'user';
+            const isPremium = getRole(req) === 'premium';
             const cartId = req.user.cart.toString();
 
             const prodId = req.params.prodId
@@ -123,6 +131,7 @@ class ViewsController {
                 user: req.session.user,
                 isAdmin,
                 isUser,
+                isPremium,
                 cartId
             });
         } catch (error) {
@@ -136,8 +145,9 @@ class ViewsController {
         const { user } = req.session;
         const isAdmin = getRole(req) === 'admin';
         const isUser = getRole(req) === 'user';
+        const isPremium = getRole(req) === 'premium';
         try {
-            res.render('chat', { title: 'Real Time Chat', user, isUser, isAdmin })
+            res.render('chat', { title: 'Real Time Chat', user, isUser, isAdmin, isPremium })
         } catch (error) {
             req.logger.error('Error interno del servidor', error);
             res.status(500).json({ error: 'Error interno del servidor' });
@@ -148,6 +158,7 @@ class ViewsController {
         const cartId = req.params.cid;
         const isAdmin = getRole(req) === 'admin';
         const isUser = getRole(req) === 'user';
+        const isPremium = getRole(req) === 'premium';
 
         try {
             const cart = await cartRepository.getCartById(cartId);
@@ -176,7 +187,7 @@ class ViewsController {
             })
 
 
-            res.render("cart", { products: prodsInCart, cartId, accumulatePrice, isUser, isAdmin });
+            res.render("cart", { products: prodsInCart, cartId, accumulatePrice, isUser, isAdmin, isPremium });
         } catch (error) {
             req.logger.error("Error al obtener el carrito", error);
             res.status(500).json({ error: "Error interno del servidor" });
@@ -187,17 +198,22 @@ class ViewsController {
         const { user } = req.session;
         const isAdmin = getRole(req) === 'admin';
         const isUser = getRole(req) === 'user';
-        res.render('error404', { title: 'Error', user, isUser, isAdmin })
+        const isPremium = getRole(req) === 'premium';
+        res.render('error404', { title: 'Error', user, isUser, isAdmin, isPremium })
     }
 
 
     async realTimeProducts(req, res) {
+
+        const usuario = req.user;
+
         try {
             const { user } = req.session;
             const isAdmin = getRole(req) === 'admin';
             const isUser = getRole(req) === 'user';
+            const isPremium = getRole(req) === 'premium';
 
-            res.render("realtimeproducts", { title: 'Real Time Products', user, isAdmin, isUser });
+            res.render("realtimeproducts", { title: 'Real Time Products', user, isAdmin, isUser, isPremium, role: usuario.role, email: usuario.email });
 
         } catch (error) {
             req.logger.error("Error en la vista real time", error);
@@ -210,7 +226,8 @@ class ViewsController {
             const { user } = req.session;
             const isAdmin = getRole(req) === 'admin';
             const isUser = getRole(req) === 'user';
-            res.render('noAdmin', { title: 'Restricted Area', user, isUser, isAdmin })
+            const isPremium = getRole(req) === 'premium';
+            res.render('noAdmin', { title: 'Restricted Area', user, isUser, isAdmin, isPremium })
 
         } catch (error) {
             req.logger.error("Error en la vista no Admin", error);
@@ -220,6 +237,7 @@ class ViewsController {
 
     async renderCart(req, res) {
         const cartId = req.params.cid;
+        const isPremium = getRole(req) === 'premium';
         try {
             const cart = await cartRepository.getCartById(cartId);
 
@@ -245,7 +263,7 @@ class ViewsController {
                 };
             });
 
-            res.render("cart", { productos: prodsInCart, totalPurchase, cartId, user: req.user });
+            res.render("cart", { productos: prodsInCart, totalPurchase, isPremium, cartId, user: req.user });
         } catch (error) {
             req.logger.error("Error al obtener el carrito", error);
             res.status(500).json({ error: "Error interno del servidor" });

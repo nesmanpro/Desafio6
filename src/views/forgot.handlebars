@@ -7,10 +7,10 @@
                     <input type="email" id="email" name="email" placeholder="Email" required>
                 </div>
                 <button type="submit" class="btnSec4">Restablecer contraseña</button>
+                {{#if error}}
+                    <p class="error" style="text-align: center;">{{error}}</p>
+                {{/if}}
         </form>
-            {{#if error}}
-        <p class="error"></p>{{error}}</p>
-    {{/if}}
     
         </content>
     </div>

@@ -5,7 +5,7 @@ class ProductRepository {
 
     async addProduct(newObject) {
         try {
-            let { title, description, code, img, price, stock, category, thumbnails = [], status = true } = newObject;
+            let { title, description, code, img, price, stock, category, thumbnails = [], status = true, owner } = newObject;
 
             if (!title || !description || !code || !category) {
                 console.log('Te faltó uno de los campos de texto, recordá que todos son obligatorios');
@@ -36,7 +36,8 @@ class ProductRepository {
                 status,
                 category,
                 status: true,
-                thumbnails: thumbnails || []
+                thumbnails: thumbnails || [],
+                owner
             });
 
             await newProduct.save();

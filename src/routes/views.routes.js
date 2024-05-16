@@ -8,7 +8,7 @@ const CartController = require('../controller/cartController.js');
 const cartController = new CartController();
 
 //importamos middleware de privilegios admin / user
-const { isAdmin, isUser, gotAuth } = require('../utils/userAdmin.js');
+const { isAdmin, isUser, gotAuth, isPremium } = require('../utils/userAdmin.js');
 
 
 
@@ -31,7 +31,7 @@ router.get('/chat', isUser, viewsController.chat)
 // Endpoint carrito ID
 router.get('/carts/:cid', gotAuth, viewsController.renderCart);
 // Endpoint realtimeprod
-router.get('/realtime', isAdmin, viewsController.realTimeProducts);
+router.get('/realtime', isAdmin || isPremium, viewsController.realTimeProducts);
 // Endpoint Restricted area
 router.get('/restricted', viewsController.noAdmin);
 // Endpoint test loggin
@@ -47,7 +47,8 @@ router.get('/forgot', viewsController.forgot);
 router.get('/confirmationSent', viewsController.emailConfirmation);
 //vista nueva contraseña
 router.get('/reset-password', viewsController.resetPass);
-
+// Vista premium
+router.get('/premium', isPremium, viewsController.realTimeProducts);
 
 
 

@@ -15,7 +15,8 @@ router.post('/register', passport.authenticate('register', {
 router.get('/profile', userController.profile);
 // Endpoint si falla registro
 router.get('/failedregister', userController.filedRegister);
-
+//endpoint cambiar roll
+router.put("/premium/:uid", userController.becomePremium);
 
 
 

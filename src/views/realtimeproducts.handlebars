@@ -1,4 +1,6 @@
 <h1>Edit, create or delete any product</h1>
+    <h3 id="role">{{role}}</h3>
+<h3 id="email">{{email}}</h3>
 <section class="mainCont">
 
 
@@ -8,6 +10,7 @@
 
 <h3>Acá podés agregar más productos:</h3>
 <div class="form">
+    
     <form class="realTimeProd">
         <input type="text" id="title" placeholder="Title">
         <input type="text" id="description" placeholder="Description">
@@ -27,4 +30,5 @@
 
 
 <script src="https://cdn.socket.io/4.7.3/socket.io.min.js" integrity="sha384-+miq58Ltmjm+SSP5g8Ok6dpMO/6R4n8xe/x1Yj0Bdb9kiEz25LTnWv/GZQTRQamg" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="js/realtime.js"></script>

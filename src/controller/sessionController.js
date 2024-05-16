@@ -95,25 +95,21 @@ class SessionController {
 
             // Obtener el token 
             const resetToken = user.resetToken;
-            // Verificar si el token esta vigente
-            const now = new Date();
-            const expirationDate = new Date(resetToken.expiresAt);
-
             if (!resetToken || resetToken.token !== token) {
 
                 return res.render("resetPass", { error: "El codigo de restablecimiento no es el correcto" })
             }
 
-            if (now > expirationDate) {
-
-                return res.render("resetPass", { error: "El tiempo para cambiar la contraseña ha expirado" });
+            // Verificar si el token esta vigente
+            const now = new Date();
+            const then = new Date(resetToken.expiresAt)
+            if (now > then) {
+                return res.render("forgot", { error: "El tiempo para cambiar la contraseña ha expirado" })
             }
-
-
 
             // Verificar si la nueva contraseña es la anterior
             if (isValidPassword(password, user)) {
-                return res.render("resetPass", { error: "La nueva contraseña no puede ser igual a la anterior" });
+                return res.render("resetPass", { error: "La nueva contraseña no puede ser igual a la anterior" })
             }
 
             // Actualizar la contraseña y anula token del usuario
@@ -129,26 +125,6 @@ class SessionController {
         }
     }
 
-
-    async becomePremium(req, res) {
-        try {
-            const { uid } = req.params;
-
-            const user = await UserModel.findById(uid);
-
-            if (!user) {
-                return res.status(404).json({ message: 'Usuario no encontrado' });
-            }
-
-            const newRol = user.role === 'usuario' ? 'premium' : 'usuario';
-
-            const updated = await UserModel.findByIdAndUpdate(uid, { role: newRol }, { new: true });
-            res.json(updated);
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: 'Error interno del servidor' });
-        }
-    }
 
 
 }

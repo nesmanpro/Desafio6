@@ -34,4 +34,14 @@ function getRole(req) {
     return req.user ? req.user.role : null;
 };
 
-module.exports = { isAdmin, isUser, getRole, gotAuth };
+function isPremium(req, res, next) {
+    if (req.user && req.user.role === 'premium') {
+        // Si es usuario regular, puede seguir adelante
+        next();
+    } else {
+        // Si no es usuario regular
+        res.render('noAdmin');
+    }
+};
+
+module.exports = { isAdmin, isUser, getRole, gotAuth, isPremium };

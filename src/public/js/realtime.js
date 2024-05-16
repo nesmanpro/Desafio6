@@ -1,6 +1,7 @@
 // Instancia de socket.io del lado del cliente
 const socket = io();
-
+const role = document.getElementById("role").textContent;
+const email = document.getElementById("email").textContent;
 
 // Recibimos los productos del servidor:
 
@@ -30,9 +31,18 @@ const showProds = (products) => {
         prodCont.appendChild(card);
 
         card.querySelector('button').addEventListener('click', () => {
-            deleteProd(itm._id);
-        });
+            if (role === "premium" && itm.owner === email) {
+                deleteProd(itm._id);
+            } else if (role === "admin") {
+                deleteProd(itm._id);
+            } else {
+                Swal.fire({
+                    title: "Error",
+                    text: "No tenes permiso para borrar ese producto",
+                })
+            }
 
+        });
 
     });
 }
@@ -48,6 +58,12 @@ document.getElementById('btnSend').addEventListener('click', () => {
 })
 
 const addProd = () => {
+
+    // const role = document.getElementById("role").textContent;
+    // const email = document.getElementById("email").textContent;
+
+    const owner = role === "premium" ? email : "admin";
+
     const prod = {
         title: document.getElementById('title').value,
         description: document.getElementById('description').value,
@@ -56,7 +72,8 @@ const addProd = () => {
         code: document.getElementById('code').value,
         stock: parseInt(document.getElementById('stock').value, 10),
         category: document.getElementById('category').value,
-        status: document.getElementById('status').value === 'active'
+        status: document.getElementById('status').value === 'active',
+        owner
     };
 
     socket.emit('addProd', prod);

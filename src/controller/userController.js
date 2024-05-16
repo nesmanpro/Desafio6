@@ -1,4 +1,5 @@
 const userDTO = require('../DTO/userDTO.js');
+const UserModel = require("../models/user.model.js");
 
 class UserController {
 
@@ -35,6 +36,28 @@ class UserController {
     filedRegister(req, res) {
         res.send({ error: 'Registro fallido, revisar user.routes.js' })
     }
+
+
+    async becomePremium(req, res) {
+        try {
+            const { uid } = req.params;
+
+            const user = await UserModel.findById(uid);
+
+            if (!user) {
+                return res.status(404).json({ message: 'Usuario no encontrado' });
+            }
+
+            const newRol = user.role === 'user' ? 'premium' : 'user';
+
+            const updated = await UserModel.findByIdAndUpdate(uid, { role: newRol }, { new: true });
+            res.json(updated);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Error interno del servidor' });
+        }
+    }
+
 
 }
 

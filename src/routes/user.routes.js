@@ -10,11 +10,12 @@ const userController = new UserController();
 //Version con Passport
 router.post('/register', passport.authenticate('register', {
     failureRedirect: '/failedregister'
-}), userController.register)
+}), userController.register);
 // Endpoint ver el perfil
-router.get('/profile', userController.profile)
+router.get('/profile', userController.profile);
 // Endpoint si falla registro
-router.get('/failedregister', userController.filedRegister)
+router.get('/failedregister', userController.filedRegister);
+
 
 
 

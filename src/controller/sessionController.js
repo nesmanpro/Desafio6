@@ -1,4 +1,8 @@
-
+const { generateResetToken } = require("../utils/resetToken.js");
+const { createHash, isValidPassword } = require("../utils/hashBcrypt.js");
+const UserModel = require("../models/user.model.js");
+const MailingManager = require("../utils/mailing.js");
+const mailingManager = new MailingManager();
 
 class SessionController {
 
@@ -46,6 +50,105 @@ class SessionController {
         res.redirect('/login')
     }
 
+
+    async requestPasswordReset(req, res) {
+        const { email } = req.body;
+
+        try {
+            // Buscar al usuario por su correo electrónico
+            const user = await UserModel.findOne({ email });
+            if (!user) {
+                return res.status(404).send("Usuario no encontrado");
+            }
+
+            // Generar un token 
+            const token = generateResetToken();
+
+            // Guardar el token en el usuario
+            user.resetToken = {
+                token: token,
+                expiresAt: new Date(Date.now() + 3600000) // 1 hora de duración
+            };
+            await user.save();
+
+            // Enviar correo electrónico con el enlace de restablecimiento utilizando EmailService
+            await mailingManager.sendMailNewPass(email, user.first_name, token);
+
+            res.redirect("/confirmationSent");
+        } catch (error) {
+            console.error(error);
+            res.status(500).send("Error interno del servidor");
+        }
+    }
+
+
+    async resetPassword(req, res) {
+        const { email, password, token } = req.body;
+
+        try {
+            // Buscar si usuario existe
+            const user = await UserModel.findOne({ email });
+            if (!user) {
+                return res.render("resetPass", { error: "Usuario no encontrado" });
+
+            }
+
+            // Obtener el token 
+            const resetToken = user.resetToken;
+            // Verificar si el token esta vigente
+            const now = new Date();
+            const expirationDate = new Date(resetToken.expiresAt);
+
+            if (!resetToken || resetToken.token !== token) {
+
+                return res.render("resetPass", { error: "El codigo de restablecimiento no es el correcto" })
+            }
+
+            if (now > expirationDate) {
+
+                return res.render("resetPass", { error: "El tiempo para cambiar la contraseña ha expirado" });
+            }
+
+
+
+            // Verificar si la nueva contraseña es la anterior
+            if (isValidPassword(password, user)) {
+                return res.render("resetPass", { error: "La nueva contraseña no puede ser igual a la anterior" });
+            }
+
+            // Actualizar la contraseña y anula token del usuario
+            user.password = createHash(password);
+            user.resetToken = undefined;
+            await user.save();
+
+            // Confirmar de cambio de contraseña
+            return res.redirect("/login");
+        } catch (error) {
+            console.error(error);
+            return res.status(500).render("forgot", { error: "Error interno del servidor" });
+        }
+    }
+
+
+    async becomePremium(req, res) {
+        try {
+            const { uid } = req.params;
+
+            const user = await UserModel.findById(uid);
+
+            if (!user) {
+                return res.status(404).json({ message: 'Usuario no encontrado' });
+            }
+
+            const newRol = user.role === 'usuario' ? 'premium' : 'usuario';
+
+            const updated = await UserModel.findByIdAndUpdate(uid, { role: newRol }, { new: true });
+            res.json(updated);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Error interno del servidor' });
+        }
+    }
 
 
 }

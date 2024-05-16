@@ -9,7 +9,8 @@ const MongoStore = require('connect-mongo');
 const userRoutes = require('./routes/user.routes.js');
 const sessionRoutes = require('./routes/session.routes.js');
 const cors = require("cors");
-const addLogger = require('./utils/logger.js')
+const addLogger = require('./utils/logger.js');
+const path = require('path');
 
 
 
@@ -43,7 +44,7 @@ const hbs = exphbs.create({
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static('./src/public'));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 app.use(addLogger);
 

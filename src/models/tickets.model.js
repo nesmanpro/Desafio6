@@ -19,6 +19,15 @@ const ticketSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.String,
         ref: 'user',
         required: true
+    },
+    name: {
+        type: String,
+    },
+    products: {
+        type: Object,
+    },
+    not_available: {
+        type: Object,
     }
 });
 

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 
+
 // Service / controller
 const SessionController = require('../controller/sessionController.js');
 const sessionController = new SessionController();
@@ -19,6 +20,12 @@ router.get('/github', passport.authenticate('github', { scope: ['user:email'] })
 router.get('/githubcallback', passport.authenticate('github', { failureRedirect: '/login' }), sessionController.githubCallBack)
 // Endpoint para Logout
 router.get('/logout', sessionController.destroy)
+
+
+//endpoint enviar mail de reestablecimiento
+router.post('/resetPassword', sessionController.requestPasswordReset);
+//endpoint enviar mail de reestablecimiento
+router.post('/changePassword', sessionController.resetPassword);
 
 
 

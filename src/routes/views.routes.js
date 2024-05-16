@@ -4,6 +4,8 @@ const router = express.Router();
 // Service / controller
 const ViewsController = require('../controller/viewsController.js');
 const viewsController = new ViewsController();
+const CartController = require('../controller/cartController.js');
+const cartController = new CartController();
 
 //importamos middleware de privilegios admin / user
 const { isAdmin, isUser, gotAuth } = require('../utils/userAdmin.js');
@@ -37,6 +39,17 @@ router.get('/loggerTest', viewsController.testing);
 // Endpoint test mocking
 router.get('/mockingproducts', viewsController.mocking);
 router.get('/mokingjson', viewsController.showMocking);
+// ticket
+router.get('/:cid/purchase', cartController.endPurchase);
+//Recuperar contraseña
+router.get('/forgot', viewsController.forgot);
+//Confirmacion envio 
+router.get('/confirmationSent', viewsController.emailConfirmation);
+//vista nueva contraseña
+router.get('/reset-password', viewsController.resetPass);
+
+
+
 
 
 module.exports = router;

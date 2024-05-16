@@ -280,6 +280,18 @@ class ViewsController {
 
         res.json(products)
     }
+
+    async forgot(req, res) {
+        res.render('forgot', { user: req.user });
+    }
+
+    async emailConfirmation(req, res) {
+        res.render('emailConfirmation');
+    }
+
+    async resetPass(req, res) {
+        res.render('resetPass');
+    }
 }
 
 module.exports = ViewsController;

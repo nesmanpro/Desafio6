@@ -419,6 +419,16 @@ span {
     padding: 20px;
 }
 
+.mainCartCheck {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
 .mainCart h1 {
     font-size: 24px;
     margin-bottom: 10px;
@@ -432,6 +442,13 @@ span {
 
 .cartSection {
     display: flex;
+    flex-wrap: wrap;
+}
+
+.cartSectionCheck {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
     flex-wrap: wrap;
 }
 

@@ -1,0 +1,28 @@
+
+
+<section class="mainCartCheck">
+    <h1>{{title}}</h1>
+    <main class="cartSectionCheck">
+    <div class="cartCard ">
+        <div class="cartBody">
+            <h4 class="cardTitle">Muchas gracias por tu compra, {{ticket.name}} </h4>
+            <p class="cardText">El codigo de tu compra es: <br><strong>{{ticket._id}}</strong></p>
+            <p class="cardText">The enviaremos un correo a <strong>{{ticket.purchaser}}</strong>  con toda la información del pedido. </p>
+            <p class="cardText">El total de tu compra ha sido: ${{ticket.amount}}</p>
+    </div>
+    </main>
+</section>
+
+<div class="btns2">
+<div class="btns2">
+<a href="/products">
+    <button class="btnSec"> 
+        Productos
+    </button>
+</a>
+<a href="/">
+    <button class="btnSec"> 
+        Inicio
+    </button>
+</a>
+

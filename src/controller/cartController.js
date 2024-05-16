@@ -4,7 +4,10 @@ const ProductRepository = require('../repositories/productRepository.js');
 const productRepository = new ProductRepository();
 const TicketModel = require('../models/tickets.model.js');
 const UserModel = require("../models/user.model.js");
+const { getRole } = require('../utils/userAdmin.js');
 const { codeGen, totalPrice } = require("../utils/cartLogic.js");
+const MailingManager = require("../utils/mailing.js");
+const mailingManager = new MailingManager();
 
 
 class CartController {
@@ -125,6 +128,8 @@ class CartController {
 
     async endPurchase(req, res) {
         const cartId = req.params.cid;
+        const { user } = req.session;
+        const isUser = getRole(req) === 'user';
         try {
             // Obtener carrito y productos
             const cart = await cartRepository.getCartById(cartId);
@@ -149,12 +154,20 @@ class CartController {
 
             const userCart = await UserModel.findOne({ cart: cartId });
 
+            // Obtener nombres de los productos usando map
+            const productNames = products.map(item => item.product.title);
+            // Concatenar los nombres de los productos separados por comas
+            const productNamesString = productNames.join(', ');
+
             // Crear ticket con datos de compra
             const ticket = new TicketModel({
                 code: codeGen(),
                 purchase_datetime: new Date(),
                 amount: totalPrice(cart.products),
-                purchaser: userCart.email
+                name: userCart.first_name,
+                purchaser: userCart.email,
+                not_available: productNotAvailable,
+                products: cart.products
             });
             await ticket.save();
 
@@ -165,7 +178,13 @@ class CartController {
             await cart.save();
 
 
-            res.status(200).json({ productNotAvailable });
+            // Enviar email con datos de compra
+            await mailingManager.sendMailPurchase(ticket.purchaser, ticket.name, ticket._id, productNamesString)
+
+
+            res.render('checkout', { ticket: ticket, title: 'Haciendo el Checkout', user: user, isUser })
+            console.log(products)
+            // res.status(200).json({ productNotAvailable });
         } catch (error) {
             req.logger.error('Error al procesar la compra:', error);
             res.status(500).json({ error: 'Error interno del servidor' });

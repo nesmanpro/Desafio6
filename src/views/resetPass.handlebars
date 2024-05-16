@@ -1,0 +1,20 @@
+        <h1>Introduce el nuevo password</h1>
+<main class="upload">
+    {{!-- <section class="register"> --}}
+        <form action="/api/sessions/changePassword" method="post" class="uploadcontainer">
+        <section class="form2">
+            <input type="email" id="email" name="email" placeholder="Email" required>
+            <input type="text" id="token" name="token" placeholder="Code" required>
+            <input type="password" id="password" name="password" placeholder="New password" required>
+            {{!-- <input type="text" id="confirmPass" name="confirmPassword" placeholder="Confirm new password" required> --}}
+            
+            <button type="submit" class="btnSec4">Restablecer contraseña</button>
+        </section>
+        {{#if error}}
+    <p class="error" style="text-align: center;">{{error}}</p>
+{{/if}}
+        </form>
+    {{!-- </section> --}}
+    
+</main>
+

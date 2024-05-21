@@ -7,7 +7,6 @@ function isAdmin(req, res, next) {
         // Si es admin, puede seguir adelante
         next();
     } else {
-        console.log(req.headers['referer'])
         // Si no es admin
         res.render('noAdmin');
     }

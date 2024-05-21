@@ -94,6 +94,7 @@ app.use('/', viewsRouter);
 
 
 
+
 // Iniciar el servidor
 const httpServer = app.listen(port, () => {
     console.log(`Server is running on port http://localhost:${port}`);
@@ -105,3 +106,22 @@ const httpServer = app.listen(port, () => {
 const SocketManager = require('./socket/SocketManager.js');
 new SocketManager(httpServer);
 
+// Swagger.io
+
+const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerUiExpress = require('swagger-ui-express');
+
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.1',
+        info: {
+            title: 'Documentación de la app Tienda Supermercado',
+            description: 'API para administrar tienda de productos, pudiendo crear usuarios para gestionar ventas y compras, con sus correspondientes carritos y ticket de compra'
+        }
+    },
+    apis: [`${__dirname}/docs/**/*.yaml`]
+
+};
+
+const specs = swaggerJSDoc(swaggerOptions);
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));

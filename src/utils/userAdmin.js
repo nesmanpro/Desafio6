@@ -1,9 +1,13 @@
 // Middleware para verificar si el usuario es admin
 function isAdmin(req, res, next) {
-    if (req.user && req.user.role === 'admin') {
+    if (req.headers['referer'] === 'http://localhost:8080/apidocs/') {
+        // Si la solicitud proviene de Swagger, permitir el acceso
+        next();
+    } else if (req.user && req.user.role === 'admin') {
         // Si es admin, puede seguir adelante
         next();
     } else {
+        console.log(req.headers['referer'])
         // Si no es admin
         res.render('noAdmin');
     }

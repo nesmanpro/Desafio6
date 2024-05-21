@@ -1,0 +1,197 @@
+openapi: 3.0.0
+info:
+  title: API de Carritos
+  description: Esta es una API para la gestión de carritos de compras.
+  version: 1.0.0
+paths:
+  /api/carts:
+    post:
+      summary: Crear un nuevo carrito
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Carrito creado correctamente.
+        "500":
+          description: Error interno del servidor.
+  /api/carts/{cid}:
+    get:
+      summary: Obtener un carrito por ID
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito a obtener
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Carrito obtenido correctamente.
+        "404":
+          description: Carrito no encontrado.
+        "500":
+          description: Error interno del servidor.
+    put:
+      summary: Actualizar los productos del carrito por ID
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito a actualizar
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/updateCart"
+      responses:
+        "200":
+          description: Carrito actualizado correctamente.
+        "404":
+          description: Carrito no encontrado.
+        "500":
+          description: Error interno del servidor.
+    delete:
+      summary: Eliminar todos los productos del carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito a eliminar
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Carrito eliminado correctamente.
+        "404":
+          description: Carrito no encontrado.
+        "500":
+          description: Error interno del servidor.
+  /api/carts/{cid}/product/{pid}:
+    post:
+      summary: Agregar producto al carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto a agregar
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Producto agregado al carrito correctamente.
+        "400":
+          description: Error en la solicitud.
+        "404":
+          description: Carrito o producto no encontrado.
+        "500":
+          description: Error interno del servidor.
+    delete:
+      summary: Eliminar un producto del carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto a eliminar
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Producto eliminado del carrito correctamente.
+        "404":
+          description: Carrito o producto no encontrado.
+        "500":
+          description: Error interno del servidor.
+    put:
+      summary: Modificar cantidad de un producto del carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto a agregar
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/addProductToCart"
+      responses:
+        "200":
+          description: Producto agregado al carrito correctamente.
+        "400":
+          description: Error en la solicitud.
+        "404":
+          description: Carrito o producto no encontrado.
+        "500":
+          description: Error interno del servidor.
+
+components:
+  requestBodies:
+    updateCart:
+      description: Datos para actualizar un carrito
+      required: true
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                product:
+                  type: string
+                  description: ID del producto
+                quantity:
+                  type: number
+                  description: Cantidad del producto en el carrito
+      example:
+        - product: "65c1638618bf0c7f6caef7da"
+          quantity: 10
+        - product: "65c1638618bf0c7f6caef7dd"
+          quantity: 10
+    addProductToCart:
+      description: Datos para agregar un producto al carrito
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              quantity:
+                type: number
+                description: Cantidad del producto a agregar
+      example:
+        quantity: 3

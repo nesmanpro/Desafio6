@@ -1,0 +1,243 @@
+openapi: 3.0.0
+info:
+  title: API de Productos
+  description: Esta es una API para la gestión de productos.
+  version: 1.0.0
+paths:
+  /api/products:
+    get:
+      summary: Obtener todos los productos
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Obtiene todos los productos.
+        "500":
+          description: Error interno del servidor.
+    post:
+      summary: Agregar un nuevo producto
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/createProduct"
+      responses:
+        "201":
+          description: Producto creado correctamente.
+        "400":
+          description: Error en la solicitud.
+        "500":
+          description: Error interno del servidor.
+  /api/products/{pid}:
+    get:
+      summary: Obtener un producto por ID
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto a obtener
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Producto obtenido correctamente.
+        "404":
+          description: Producto no encontrado.
+        "500":
+          description: Error interno del servidor.
+    put:
+      summary: Actualizar un producto por ID
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto a actualizar
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/updateProduct"
+      responses:
+        "200":
+          description: Producto actualizado correctamente.
+        "404":
+          description: Producto no encontrado.
+        "500":
+          description: Error interno del servidor.
+    delete:
+      summary: Eliminar un producto por ID
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto a eliminar
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Producto eliminado correctamente.
+        "404":
+          description: Producto no encontrado.
+        "500":
+          description: Error interno del servidor.
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id autogenerado por MongoDB
+        title:
+          type: string
+          description: Título del producto
+        description:
+          type: string
+          description: Descripción del producto
+        price:
+          type: number
+          description: Precio del producto
+        img:
+          type: string
+          description: URL de la imagen del producto
+        thumbnail:
+          type: array
+          items:
+            type: string
+          description: URL de las imágenes en miniatura del producto
+        code:
+          type: string
+          description: Código único del producto
+        stock:
+          type: number
+          description: Cantidad en stock del producto
+        category:
+          type: string
+          description: Categoría del producto
+        status:
+          type: boolean
+          description: Estado del producto (disponible o no)
+        owner:
+          type: string
+          description: Propietario del producto
+      example:
+        _id: "60d21b4667d0d8992e610c85"
+        title: "Termo 1L"
+        description: "Termo Stanley 1L"
+        price: 19.99
+        img: "/src/public/img/products/stanley1l.jpg"
+        thumbnail:
+          - "http://example.com/camiseta_thumb1.jpg"
+        code: "ABC123"
+        stock: 100
+        category: "Mate"
+        status: true
+        owner: "bambam@gmail.com"
+  requestBodies:
+    createProduct:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Título del producto
+        description:
+          type: string
+          description: Descripción del producto
+        price:
+          type: number
+          description: Precio del producto
+        img:
+          type: string
+          description: URL de la imagen del producto
+        thumbnail:
+          type: array
+          items:
+            type: string
+          description: URL de las imágenes en miniatura del producto
+        code:
+          type: string
+          description: Código único del producto
+        stock:
+          type: number
+          description: Cantidad en stock del producto
+        category:
+          type: string
+          description: Categoría del producto
+        status:
+          type: boolean
+          description: Estado del producto (disponible o no)
+        owner:
+          type: string
+          description: Propietario del producto
+      example:
+        title: "Alfajore Habana"
+        description: "Alfajores de chocolate y dulce de leche"
+        price: 19.99
+        img: "/src/public/img/products/alfajor.jpg"
+        thumbnail:
+          - "http://example.com/alfajor_thumb1.jpg"
+        code: "ABC123"
+        stock: 100
+        category: "Dulces"
+        status: true
+        owner: "admin"
+    updateProduct:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Título del producto
+        description:
+          type: string
+          description: Descripción del producto
+        price:
+          type: number
+          description: Precio del producto
+        img:
+          type: string
+          description: URL de la imagen del producto
+        thumbnail:
+          type: array
+          items:
+            type: string
+          description: URL de las imágenes en miniatura del producto
+        code:
+          type: string
+          description: Código único del producto
+        stock:
+          type: number
+          description: Cantidad en stock del producto
+        category:
+          type: string
+          description: Categoría del producto
+        status:
+          type: boolean
+          description: Estado del producto (disponible o no)
+        owner:
+          type: string
+          description: Propietario del producto
+      example:
+        title: "Alfajores dulce de leche"
+        description: "Caja 12 unidades Alfajores dulce de leche Habana"
+        price: 24.99
+        img: "/src/public/img/products/alfajor.jpg"
+        thumbnail:
+          - "http://example.com/camiseta_actualizada_thumb1.jpg"
+        code: "XYZ789"
+        stock: 150
+        category: "Dulces"
+        status: true
+        owner: "admin"

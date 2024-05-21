@@ -21,7 +21,7 @@ class ProductRepository {
 
             if (prodExist) {
                 console.log('El código ya se encuentra registrado en la base de datos, introduce uno que sea unico.');
-                return;
+                return { status: 400, msg: "Error: El código ya se encuentra registrado en la base de datos, introduce uno que sea unico." };
             }
 
 

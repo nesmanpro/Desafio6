@@ -1,16 +1,19 @@
-const CartRepository = require('../repositories/cartRepository.js');
+import CartRepository from '../repositories/cartRepository.js';
 const cartRepository = new CartRepository();
-const ProductRepository = require('../repositories/productRepository.js');
+
+import ProductRepository from '../repositories/productRepository.js';
 const productRepository = new ProductRepository();
-const TicketModel = require('../models/tickets.model.js');
-const UserModel = require("../models/user.model.js");
-const { getRole } = require('../utils/userAdmin.js');
-const { codeGen, totalPrice } = require("../utils/cartLogic.js");
-const MailingManager = require("../utils/mailing.js");
+
+import TicketModel from '../models/tickets.model.js';
+import UserModel from "../models/user.model.js";
+
+import { getRole } from '../utils/userAdmin.js';
+import { codeGen, totalPrice } from "../utils/cartLogic.js";
+import MailingManager from "../utils/mailing.js";
 const mailingManager = new MailingManager();
 
 
-class CartController {
+export default class CartController {
 
     async createCart(req, res) {
         try {
@@ -193,5 +196,3 @@ class CartController {
 
 
 }
-
-module.exports = CartController;

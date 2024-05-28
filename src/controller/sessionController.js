@@ -1,10 +1,12 @@
-const { generateResetToken } = require("../utils/resetToken.js");
-const { createHash, isValidPassword } = require("../utils/hashBcrypt.js");
-const UserModel = require("../models/user.model.js");
-const MailingManager = require("../utils/mailing.js");
+import generateResetToken from "../utils/resetToken.js";
+import { createHash, isValidPassword } from "../utils/hashBcrypt.js";
+import UserModel from "../models/user.model.js";
+import MailingManager from "../utils/mailing.js";
+
 const mailingManager = new MailingManager();
 
-class SessionController {
+
+export default class SessionController {
 
     async login(req, res) {
         if (!req.user) return res.status(400).send({ status: 'error', message: 'Credenciales no validas!' });
@@ -129,4 +131,3 @@ class SessionController {
 
 }
 
-module.exports = SessionController;

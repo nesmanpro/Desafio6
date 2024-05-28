@@ -1,10 +1,12 @@
-const nodemailer = require('nodemailer');
-const configObj = require('../config/dotenv.config.js');
+
+import nodemailer from 'nodemailer';
+import configObj from '../config/dotenv.config.js';
+
 const { user_mail, pass_mail } = configObj;
 
 
 
-class mailingManager {
+export default class mailingManager {
 
     constructor() {
         this.transporter = nodemailer.createTransport({
@@ -68,5 +70,3 @@ class mailingManager {
         }
     }
 }
-
-module.exports = mailingManager;

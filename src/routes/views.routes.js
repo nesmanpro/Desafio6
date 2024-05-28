@@ -1,14 +1,14 @@
-const express = require('express');
-const router = express.Router();
+import express from 'express';
 
 // Service / controller
-const ViewsController = require('../controller/viewsController.js');
+import ViewsController from '../controller/viewsController.js';
+import CartController from '../controller/cartController.js';
+import { isAdmin, isUser, gotAuth, isPremium } from '../utils/userAdmin.js';
+
 const viewsController = new ViewsController();
-const CartController = require('../controller/cartController.js');
 const cartController = new CartController();
 
-//importamos middleware de privilegios admin / user
-const { isAdmin, isUser, gotAuth, isPremium } = require('../utils/userAdmin.js');
+const router = express.Router();
 
 
 
@@ -52,5 +52,4 @@ router.get('/premium', isPremium, viewsController.realTimeProducts);
 
 
 
-
-module.exports = router;
+export default router;

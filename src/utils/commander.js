@@ -1,4 +1,6 @@
-const { Command } = require('commander');
+
+import { Command } from 'commander';
+
 const program = new Command();
 
 //1 - Comando // 2 - La descripcion // 3 - Valor por default
@@ -7,8 +9,4 @@ program
     .option('--mode <mode>', 'Modo de trabajo', 'production')
 program.parse();
 //Finalizamos acá la configuración.
-
-//Verificamos que esto funciona:
-// console.log('Opciones:', program.opts());
-
-module.exports = program;
+export default program;

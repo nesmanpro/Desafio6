@@ -1,12 +1,13 @@
-const express = require('express');
+
+import express from 'express';
 const router = express.Router();
 
 // Service / controler
-const ProductController = require('../controller/productController.js');
+import ProductController from '../controller/productController.js';
 const productController = new ProductController();
 
 //importamos middleware de privilegios admin / user
-const { isAdmin } = require('../utils/userAdmin.js');
+import { isAdmin } from '../utils/userAdmin.js';
 
 
 // Endpoint para obtener productos y filtrarlo con query y paginacion
@@ -21,4 +22,4 @@ router.put('/:pid', isAdmin, productController.updateProduct);
 router.delete('/:pid', isAdmin, productController.deleteProduct)
 
 
-module.exports = router;
+export default router;

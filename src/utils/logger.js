@@ -1,5 +1,8 @@
-const winston = require('winston');
-const configObj = require('../config/dotenv.config.js');
+// const winston = require('winston');
+// const configObj = require('../config/dotenv.config.js');
+import winston from 'winston';
+import configObj from '../config/dotenv.config.js';
+
 const { node_env } = configObj;
 
 const levels = {
@@ -65,4 +68,4 @@ const addLogger = (req, res, next) => {
 }
 
 
-module.exports = addLogger;
+export default addLogger;

@@ -24,6 +24,7 @@
   },
   "name": "2-clase-after",
   "version": "1.0.0",
+  "type": "module",
   "main": "app.js",
   "scripts": {
     "dev": "nodemon src/app.js --mode dev",

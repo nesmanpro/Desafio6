@@ -5,6 +5,5 @@ function generateResetToken() {
     return token.toString(); // Convertir el número en una cadena de texto
 }
 
-module.exports = {
-    generateResetToken
-};
+
+export default generateResetToken;

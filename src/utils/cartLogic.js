@@ -1,4 +1,4 @@
-const codeGen = () => {
+export const codeGen = () => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const codeLength = 8;
     let code = '';
@@ -13,7 +13,7 @@ const codeGen = () => {
 }
 
 
-const totalPrice = (products) => {
+export const totalPrice = (products) => {
     let total = 0;
 
     products.forEach(item => {
@@ -23,4 +23,3 @@ const totalPrice = (products) => {
     return total;
 }
 
-module.exports = { codeGen, totalPrice }

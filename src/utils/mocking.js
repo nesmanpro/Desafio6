@@ -1,6 +1,7 @@
-const { faker } = require('@faker-js/faker');
 
-const generateProds = () => {
+import { faker } from '@faker-js/faker';
+
+export const generateProds = () => {
     return {
         id: faker.database.mongodbObjectId(),
         title: faker.commerce.product(),
@@ -14,8 +15,5 @@ const generateProds = () => {
         status: faker.datatype.boolean()
     }
 };
-
-module.exports = generateProds;
-
 
 

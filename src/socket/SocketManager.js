@@ -1,12 +1,14 @@
-const socket = require('socket.io');
-const messageModel = require("../models/message.model.js");
-const ProductRepository = require("../repositories/productRepository.js");
+
+import { Server } from 'socket.io';
+import messageModel from '../models/message.model.js';
+import ProductRepository from '../repositories/productRepository.js';
+
 const productRepository = new ProductRepository();
 
 class SocketManager {
 
     constructor(httpServer) {
-        this.io = socket(httpServer);
+        this.io = new Server(httpServer);
         this.initSocketEvents();
     }
 
@@ -39,4 +41,4 @@ class SocketManager {
     }
 }
 
-module.exports = SocketManager;
+export default SocketManager;

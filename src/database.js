@@ -1,5 +1,6 @@
-const mongoose = require('mongoose');
-const configObj = require('./config/dotenv.config.js');
+
+import mongoose from 'mongoose';
+import configObj from './config/dotenv.config.js';
 const { mongo_url } = configObj;
 
 // Patron de diseño singleton
@@ -23,4 +24,4 @@ class DataBase {
     }
 }
 
-module.exports = DataBase.getRequest();
+export default DataBase.getRequest();

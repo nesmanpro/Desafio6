@@ -1,12 +1,12 @@
-const express = require('express');
+
+import express from 'express';
 const router = express.Router();
 
-// Service / controler
-const CartController = require('../controller/cartController.js');
+
+// Service / controller
+import CartController from '../controller/cartController.js';
 const cartController = new CartController();
 
-//importamos middleware de privilegios admin / user
-const { isUser } = require('../utils/userAdmin.js');
 
 // Endpoint para crear el carrito
 router.post('/', cartController.createCart);
@@ -27,6 +27,4 @@ router.post('/:cid/purchase', cartController.endPurchase);
 
 
 
-
-
-module.exports = router;
+export default router;

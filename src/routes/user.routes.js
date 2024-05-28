@@ -1,11 +1,12 @@
-const express = require('express');
-const router = express.Router();
-const passport = require('passport');
 
-// Service / controler
-const UserController = require('../controller/userController.js');
+import express from 'express';
+import passport from 'passport';
+
+// Service / controller
+import UserController from '../controller/userController.js';
 const userController = new UserController();
 
+const router = express.Router();
 
 //Version con Passport
 router.post('/register', passport.authenticate('register', {
@@ -20,4 +21,4 @@ router.put("/premium/:uid", userController.becomePremium);
 
 
 
-module.exports = router;
+export default router;

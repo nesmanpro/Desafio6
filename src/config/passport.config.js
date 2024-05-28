@@ -1,18 +1,18 @@
-const passport = require('passport');
-const local = require('passport-local');
-const UserModel = require('../models/user.model.js');
-const { createHash, isValidPassword } = require('../utils/hashBcrypt.js');
-const GitHubStrategy = require('passport-github2');
-const configObj = require('../config/dotenv.config.js');
+import passport from 'passport';
+import { Strategy as LocalStrategy } from 'passport-local';
+import UserModel from '../models/user.model.js';
+import { createHash, isValidPassword } from '../utils/hashBcrypt.js';
+import GitHubStrategy from 'passport-github2';
+import configObj from './dotenv.config.js';
+import CartRepository from '../repositories/cartRepository.js';
 
 // Servide and Controller 
-const CartRepository = require('../repositories/cartRepository.js');
 const cartService = new CartRepository();
 
 // importacion dotenv.config
 const { GITclientID, GITclientSecret, GITcallbackURL } = configObj;
 
-const LocalStrategy = local.Strategy;
+
 
 const initializePassport = () => {
 
@@ -117,4 +117,4 @@ const initializePassport = () => {
 
 }
 
-module.exports = initializePassport;
+export default initializePassport;

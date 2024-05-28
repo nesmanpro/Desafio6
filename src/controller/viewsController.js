@@ -1,11 +1,13 @@
-const ProductRepository = require('../repositories/productRepository.js');
-const CartRepository = require('../repositories/cartRepository.js');
+import ProductRepository from '../repositories/productRepository.js';
+import CartRepository from '../repositories/cartRepository.js';
+import { getRole } from '../utils/userAdmin.js';
+import { generateProds } from '../utils/mocking.js';
+
 const prodRepository = new ProductRepository();
 const cartRepository = new CartRepository();
-const { getRole } = require('../utils/userAdmin.js');
-const generateProds = require('../utils/mocking.js')
 
-class ViewsController {
+
+export default class ViewsController {
 
 
 
@@ -312,6 +314,5 @@ class ViewsController {
     }
 }
 
-module.exports = ViewsController;
 
 

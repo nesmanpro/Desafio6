@@ -1,11 +1,13 @@
-const express = require('express');
-const router = express.Router();
-const passport = require('passport');
 
+
+import express from 'express';
+import passport from 'passport';
 
 // Service / controller
-const SessionController = require('../controller/sessionController.js');
+import SessionController from '../controller/sessionController.js';
 const sessionController = new SessionController();
+
+const router = express.Router();
 
 
 //Con passport
@@ -30,4 +32,4 @@ router.post('/changePassword', sessionController.resetPassword);
 
 
 
-module.exports = router;
+export default router;

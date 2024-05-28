@@ -1,7 +1,10 @@
-const userDTO = require('../DTO/userDTO.js');
-const UserModel = require("../models/user.model.js");
 
-class UserController {
+
+import userDTO from '../DTO/userDTO.js';
+import UserModel from "../models/user.model.js";
+
+
+export default class UserController {
 
     async register(req, res) {
         if (!req.user) return res.status(400).send({ status: 'error', message: 'Credenciales invalidas!' });
@@ -60,5 +63,3 @@ class UserController {
 
 
 }
-
-module.exports = UserController;

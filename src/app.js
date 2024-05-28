@@ -1,33 +1,38 @@
-const express = require('express');
-const multer = require('multer');
-const productsRouter = require('./routes/products.routes')
-const cartsRouter = require('./routes/carts.routes')
-const viewsRouter = require('./routes/views.routes');
-const cookieParser = require('cookie-parser');
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
-const userRoutes = require('./routes/user.routes.js');
-const sessionRoutes = require('./routes/session.routes.js');
-const cors = require("cors");
-const addLogger = require('./utils/logger.js');
-const path = require('path');
+import express from 'express';
+import multer from 'multer';
+import productsRouter from './routes/products.routes.js';
+import cartsRouter from './routes/carts.routes.js';
+import viewsRouter from './routes/views.routes.js';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
+import userRoutes from './routes/user.routes.js';
+import sessionRoutes from './routes/session.routes.js';
+import cors from 'cors';
+import addLogger from './utils/logger.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import passport from 'passport';
+import initializePassport from './config/passport.config.js';
+import configObj from './config/dotenv.config.js';
+import { createServer } from 'http';
+import exphbs from 'express-handlebars';
+import { dirname } from 'path';
 
 
 
-//Passport importacion
-const passport = require('passport');
-const initializePassport = require('./config/passport.config.js');
+// Utilidad para obtener el __dirname en ESModules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-// importacion dotenv.config
-const configObj = require('./config/dotenv.config.js');
+// Variables de configuración
 const { port, mongo_url, codeSession } = configObj;
 
-
+// Inicializar la aplicación de Express
 const app = express();
-require('./database.js');
+import './database.js';
 
 //Handlebars
-const exphbs = require('express-handlebars');
 const hbs = exphbs.create({
     runtimeOptions: {
         allowProtoPropertiesByDefault: true,
@@ -94,22 +99,20 @@ app.use('/', viewsRouter);
 
 
 
-
 // Iniciar el servidor
-const httpServer = app.listen(port, () => {
+const httpServer = createServer(app);
+httpServer.listen(port, () => {
     console.log(`Server is running on port http://localhost:${port}`);
-})
-
+});
 
 // Websocket
 
-const SocketManager = require('./socket/SocketManager.js');
+import SocketManager from './socket/SocketManager.js';
 new SocketManager(httpServer);
 
-// Swagger.io
-
-const swaggerJSDoc = require('swagger-jsdoc');
-const swaggerUiExpress = require('swagger-ui-express');
+// Importaciones para swagger
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUiExpress from 'swagger-ui-express';
 
 const swaggerOptions = {
     definition: {

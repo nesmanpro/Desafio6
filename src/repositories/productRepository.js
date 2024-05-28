@@ -1,7 +1,8 @@
-const ProdModel = require('../models/products.model.js');
+
+import ProdModel from '../models/products.model.js';
 
 
-class ProductRepository {
+export default class ProductRepository {
 
     async addProduct(newObject) {
         try {
@@ -165,5 +166,3 @@ class ProductRepository {
         return products
     }
 }
-
-module.exports = ProductRepository;

@@ -1,9 +1,7 @@
-const dotenv = require('dotenv');
-const program = require('../utils/commander.js');
+import dotenv from 'dotenv';
+import program from '../utils/commander.js';
 
 const { mode } = program.opts();
-
-
 
 
 dotenv.config({
@@ -22,4 +20,5 @@ const configObj = {
     pass_mail: process.env.passMail
 }
 
-module.exports = configObj;
+
+export default configObj;

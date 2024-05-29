@@ -6,24 +6,41 @@ import prodModel from "../src/models/products.model.js";
 import cartModel from "../src/models/cart.model.js";
 import configObj from "../src/config/dotenv.config.js";
 
+
+
+
 const { port, mongo_url } = configObj;
 const requester = supertest(`http://localhost:${port}`);
 
-const testEmail = 'test@testing.com';
-const testPassword = '1234';
-const newTestPassword = 'new1234';
-const userMock = {
-    first_name: 'Juan',
-    last_name: 'Román',
-    email: testEmail,
-    password: testPassword,
-    age: 30,
-    role: 'admin'
-};
+
+
+
+
+
 
 describe('Testing App Supermercado', () => {
+    // Datos userMock
+    const testEmail = 'test@testing.com';
+    const testPassword = '1234';
+    const newTestPassword = 'new1234';
+    const userMock = {
+        first_name: 'Juan',
+        last_name: 'Román',
+        email: testEmail,
+        password: testPassword,
+        age: 30,
+        role: 'admin'
+    };
 
 
+    async function getUserId(email) {
+        let userTest = await UserModel.findOne({ email: email });
+        if (!userTest) {
+            console.log('Usuario no encontrado');
+            throw new Error('Usuario no encontrado');
+        }
+        return userTest
+    }
 
     before(async function () {
         this.timeout(10000);
@@ -36,11 +53,15 @@ describe('Testing App Supermercado', () => {
 
     after(async function () {
         await mongoose.connection.db.collection('users').deleteOne({ email: 'admin@testing.com' });
+        const userMock2 = await getUserId('test@testing.com');
+        const cartId = userMock2.cart;
+        await mongoose.connection.db.collection('carts').deleteOne({ _id: cartId });
+
         await mongoose.connection.close();
     });
 
 
-    describe('Testing User/Session', () => {
+    describe('Testing User/Session Routes', () => {
         it('Test 1 - Endpoint POST api/users/register | Debería crear un nuevo usuario y redirigir a /products', async () => {
 
 
@@ -56,8 +77,6 @@ describe('Testing App Supermercado', () => {
         });
 
 
-
-
         it('Test 2 - Debería solicitar el restablecimiento de contraseña y generar un token', async () => {
             const { status, header } = await requester.post("/api/sessions/resetPassword").send({ email: testEmail });
 
@@ -71,7 +90,6 @@ describe('Testing App Supermercado', () => {
             expect(user.resetToken.token).to.be.a('string');
             expect(user.resetToken.expiresAt).to.be.a('date');
         });
-
 
 
         it('Test 3 - Debería restablecer la contraseña del usuario con un token válido', async () => {
@@ -98,7 +116,7 @@ describe('Testing App Supermercado', () => {
     });
 
 
-    describe('Testing Products', () => {
+    describe('Testing Products Routes', () => {
 
         const productMock = {
             title: 'Producto de prueba',
@@ -108,6 +126,7 @@ describe('Testing App Supermercado', () => {
             stock: 10,
             category: 'test'
         };
+
 
         it('Test 1 - Debería agregar un producto como administrador', async () => {
 
@@ -126,6 +145,7 @@ describe('Testing App Supermercado', () => {
 
         });
 
+
         it('Test 2 - Debería obtener un producto por su ID', async () => {
 
             const product = await prodModel.findOne({ code: 'test123' });
@@ -135,6 +155,7 @@ describe('Testing App Supermercado', () => {
             expect(status).to.eql(200);
             expect(body).to.have.property('_id', product._id.toString());
         });
+
 
         it('Test 3 - Debería eliminar un producto como administrador', async () => {
             const product = await prodModel.findOne({ code: 'test123' });
@@ -149,4 +170,71 @@ describe('Testing App Supermercado', () => {
         });
 
     });
+
+
+
+
+    describe('Cart Routes', () => {
+
+
+
+
+
+        it('Test 1 - Debería agregar un producto al carrito', async () => {
+            // Creamos o importamos los parametros que vamos a utilizar
+            const userMock2 = await getUserId('test@testing.com');
+            const cartId = userMock2.cart;
+            const prodId = '65c1638618bf0c7f6caef7de';
+
+            // hacemos la peticion POST, forzando con el set saltar el middleware
+            const { statusCode } = await requester.post(`/api/carts/${cartId}/product/${prodId}`).set('referer', 'http://localhost:8080/apidocs/').send({ quantity: 1 });
+
+
+            // extraemios el id del producto del carrito y lo pasamos a string
+            const cart = await cartModel.findById(cartId);
+            const productIdFromCart = cart.products[0].product._id.toString();
+
+
+            // verificamos y comparamos
+            expect(cart.products).to.have.lengthOf(1);
+            expect(cart.products[0].quantity).to.eql(1);
+            expect(productIdFromCart).to.eql(prodId);
+
+        });
+
+
+        it('Test 2 - Debería actualizar la cantidad de un producto en el carrito', async () => {
+            const userMock = await getUserId('test@testing.com');
+            const cartId = userMock.cart;
+            const prodId = '65c1638618bf0c7f6caef7de';
+            const newQuantity = 3;
+
+            // Actualiza la cantidad del producto en el carrito
+            const { statusCode, body } = await requester.put(`/api/carts/${cartId}/product/${prodId}`).set('referer', 'http://localhost:8080/apidocs/').send({ quantity: newQuantity });
+
+            // Verifica que la respuesta sea correcta
+            expect(statusCode).to.equal(200);
+            expect(body).to.have.property('status', 'success');
+            expect(body).to.have.property('message', 'Cantidad del producto actualizada correctamente');
+            expect(body.updatedCart).to.be.an('object');
+
+            // Verifica que la cantidad del producto en el carrito se haya actualizado correctamente
+            const updatedCart = await cartModel.findById(cartId).populate('products.product');
+            const updatedProduct = updatedCart.products.find(product => product.product._id.toString() === prodId);
+            expect(updatedProduct.quantity).to.equal(newQuantity);
+        });
+
+        it('Test 3 - Debería vaciar el carrito', async () => {
+
+            // Creamos o importamos los parametros que vamos a utilizar
+            const userMock2 = await getUserId('test@testing.com');
+            const cartId = userMock2.cart;
+
+            await requester.delete(`/api/carts/${cartId}`);
+
+            // Verificar que el carrito esté vacío
+            const cart = await cartModel.findById(cartId);
+            expect(cart.products).to.be.an('array').that.is.empty;
+        });
+    })
 });

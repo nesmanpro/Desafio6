@@ -1,4 +1,6 @@
 import multer from "multer";
+import path from "path";
+
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -11,14 +13,18 @@ const storage = multer.diskStorage({
                 destinationFolder = "./src/uploads/products";
                 break;
             case "document":
-            default:
                 destinationFolder = "./src/uploads/documents";
+                break;
+            default:
+                destinationFolder = "./src/uploads/other";
+
         }
 
         cb(null, destinationFolder);
     },
     filename: (req, file, cb) => {
-        cb(null, file.originalname);
+        const extension = path.extname(file.originalname);
+        cb(null, `${file.fieldname}_${Date.now()}${extension}`);
     }
 });
 

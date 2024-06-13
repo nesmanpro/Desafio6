@@ -53,16 +53,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 app.use(addLogger);
 
-// Middleware de multer
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, './src/public/img')
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname)
-    }
-})
-app.use(multer({ storage }).single('image'));
+// // Middleware de multer
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, './src/public/img')
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname)
+//     }
+// })
+// app.use(multer({ storage }).single('image'));
 
 // Cookie Parser
 app.use(cookieParser());

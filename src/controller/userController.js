@@ -2,6 +2,8 @@
 
 import userDTO from '../DTO/userDTO.js';
 import UserModel from "../models/user.model.js";
+import UserRepository from '../repositories/userRepository.js';
+const userRepo = new UserRepository();
 
 
 export default class UserController {
@@ -45,26 +47,32 @@ export default class UserController {
 
         try {
             const { uid } = req.params;
-            const user = await UserModel.findById(uid);
+            const user = await userRepo.findById(uid);
 
             if (!user) {
                 return res.status(404).json({ message: 'Usuario no encontrado' });
             }
 
             // Verificar que se han cargado los documentos
-            const requiredDocs = ['Identificación', 'Comprobante de domicilio', 'Comprobante de estado de cuenta'];
+            const requiredDocs = ['profile', 'products', 'document'];
             const userDocs = user.documents.map(doc => doc.name);
 
             const hasRequiredDocuments = requiredDocs.every(doc => userDocs.includes(doc));
 
             if (!hasRequiredDocuments) {
-                return res.status(400).json({ message: 'Debes cargar los siguientes documentos: Identificación, Comprobante de domicilio, Comprobante de estado de cuenta' });
+                return res.status(400).json({
+                    message: 'Debes cargar los siguientes documentos: Identificación, Comprobante de domicilio, Comprobante de estado de cuenta'
+                });
             }
 
+            console.log(userDocs)
+            console.log(requiredDocs)
+            console.log(hasRequiredDocuments)
 
             const newRol = user.role === 'user' ? 'premium' : 'user';
 
             const updated = await UserModel.findByIdAndUpdate(uid, { role: newRol }, { new: true });
+
             res.json(updated);
         } catch (error) {
             console.error(error);

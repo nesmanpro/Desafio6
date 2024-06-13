@@ -24,52 +24,58 @@ router.get('/failedregister', userController.filedRegister);
 //endpoint cambiar roll premium
 router.put("/premium/:uid", userController.becomePremium);
 // Endpoint subir archivos con multer
-router.post('/:ui/documents', upload.fields([
-    { name: 'document' }, { name: 'products' }, { name: 'profile' }]), async (req, res) => {
-        const { uid } = req.params;
-        const uploadedDocs = req.files;
+router.post('/:uid/documents', upload.fields([
+    { name: 'document' },
+    { name: 'products' },
+    { name: 'profile' }
+]), async (req, res) => {
+    console.log(req.files);
+    console.log(req.params);
 
-        try {
-            const user = await userRepo.findByEmail(uid);
+    const { uid } = req.params;
+    const uploadedDocs = req.files;
 
-            if (!user) {
-                return res.status(404).send('Usuario no encontrado');
-            }
+    try {
+        const user = await userRepo.findById(uid);
 
-            if (uploadedDocs) {
-                if (uploadedDocs.document) {
-                    user.documents = user.documents.concat(uploadedDocs.document.map(d => ({
-                        name: d.originalname,
-                        reference: d.path
-                    })));
-                }
-
-                if (uploadedDocs.products) {
-                    user.documents = user.documents.concat(uploadedDocs.products.map(d => ({
-                        name: d.originalname,
-                        reference: d.path
-                    })));
-                }
-
-                if (uploadedDocs.profile) {
-                    user.documents = user.documents.concat(uploadedDocs.profile.map(d => ({
-                        name: d.originalname,
-                        reference: d.path
-                    })));
-                }
-
-                await user.save();
-
-                res.status(200).send('Documentos correctamente guardados')
-
-            }
-        } catch (error) {
-            console.error(error);
-            res.status(500).send('Error interno del servidor')
-
+        if (!user) {
+            return res.status(404).send('Usuario no encontrado');
         }
 
-    })
+        if (uploadedDocs) {
+            if (uploadedDocs.document) {
+                user.documents = user.documents.concat(uploadedDocs.document.map(d => ({
+                    name: 'document',
+                    reference: d.path
+                })));
+            }
+
+            if (uploadedDocs.products) {
+                user.documents = user.documents.concat(uploadedDocs.products.map(d => ({
+                    name: 'products',
+                    reference: d.path
+                })));
+            }
+
+            if (uploadedDocs.profile) {
+                user.documents = user.documents.concat(uploadedDocs.profile.map(d => ({
+                    name: 'profile',
+                    reference: d.path
+                })));
+            }
+
+            await user.save();
+
+            res.status(200).send('Documentos correctamente guardados')
+
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error interno del servidor')
+
+    }
+
+})
 
 
 

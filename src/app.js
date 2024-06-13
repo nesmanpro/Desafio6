@@ -110,6 +110,7 @@ httpServer.listen(port, () => {
 import SocketManager from './socket/SocketManager.js';
 new SocketManager(httpServer);
 
+
 // Importaciones para swagger
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUiExpress from 'swagger-ui-express';

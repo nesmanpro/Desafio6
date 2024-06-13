@@ -56,9 +56,9 @@ export default class CartController {
     }
 
     async deleteProdFromCart(req, res) {
+        const cartId = req.params.cid;
+        const productId = req.params.pid;
         try {
-            const cartId = req.params.cid;
-            const productId = req.params.pid;
             const updatedCart = await cartRepository.deleteProdFromCart(cartId, productId);
             res.json({
                 status: 'success',

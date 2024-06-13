@@ -1,28 +1,43 @@
 import generateResetToken from "../utils/resetToken.js";
 import { createHash, isValidPassword } from "../utils/hashBcrypt.js";
-import UserModel from "../models/user.model.js";
-import MailingManager from "../utils/mailing.js";
+import UserRepository from "../repositories/userRepository.js";
+const UserRepo = new UserRepository();
 
+import MailingManager from "../utils/mailing.js";
 const mailingManager = new MailingManager();
 
 
 export default class SessionController {
 
     async login(req, res) {
-        if (!req.user) return res.status(400).send({ status: 'error', message: 'Credenciales no validas!' });
 
-        req.session.user = {
-            first_name: req.user.first_name,
-            last_name: req.user.last_name,
-            email: req.user.email,
-            age: req.user.age,
-            role: req.user.role,
-            cart: req.user.cart
-        };
+        const { email } = req.body;
+        try {
 
-        req.session.login = true;
+            if (!req.user) return res.status(401).send({ status: 'error', message: 'Credenciales no validas!' });
 
-        res.redirect('/')
+            req.session.user = {
+                first_name: req.user.first_name,
+                last_name: req.user.last_name,
+                email: req.user.email,
+                age: req.user.age,
+                role: req.user.role,
+                cart: req.user.cart
+            };
+
+            req.session.login = true;
+
+            const userFound = await UserRepo.findByEmail(email);
+            userFound.last_connection = new Date();
+            await userFound.save()
+
+
+            res.redirect('/')
+        } catch (error) {
+            res.status(500).send({ status: 'error', message: 'Ocurrió un error en el servidor.', error: error.message });
+        }
+
+
     }
 
     async failLogin(req, res) {
@@ -57,23 +72,23 @@ export default class SessionController {
         const { email } = req.body;
 
         try {
-            // Buscar al usuario por su correo electrónico
-            const user = await UserModel.findOne({ email });
+            // Buscar al usuario por email
+            const user = await UserRepo.findByEmail(email);
             if (!user) {
                 return res.status(404).send("Usuario no encontrado");
             }
 
-            // Generar un token 
+            // Crea token 
             const token = generateResetToken();
 
-            // Guardar el token en el usuario
+            // Guardar token usuario
             user.resetToken = {
                 token: token,
-                expiresAt: new Date(Date.now() + 3600000) // 1 hora de duración
+                expiresAt: new Date(Date.now() + 3600000) // 1 hora duración
             };
             await user.save();
 
-            // Enviar correo electrónico con el enlace de restablecimiento utilizando EmailService
+            // Enviar email con link de restablecimiento usando EmailService
             await mailingManager.sendMailNewPass(email, user.first_name, token);
 
             res.redirect("/confirmationSent");
@@ -89,7 +104,7 @@ export default class SessionController {
 
         try {
             // Buscar si usuario existe
-            const user = await UserModel.findOne({ email });
+            const user = await UserRepo.findByEmail(email);
             if (!user) {
                 return res.render("resetPass", { error: "Usuario no encontrado" });
 

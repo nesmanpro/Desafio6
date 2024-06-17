@@ -49,6 +49,8 @@ router.get('/confirmationSent', viewsController.emailConfirmation);
 router.get('/reset-password', viewsController.resetPass);
 // Vista premium
 router.get('/premium', isPremium, viewsController.realTimeProducts);
+// Vista users
+router.get('/users', isAdmin, viewsController.getUsers);
 
 
 

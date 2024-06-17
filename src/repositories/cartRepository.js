@@ -136,5 +136,15 @@ export default class CartRepository {
     }
 
 
+    async deleteCartById(cid) {
+        try {
+            await CartModel.findByIdAndDelete(cid);
+        } catch (error) {
+            console.error('Error al borrar el carrito', error);
+            throw error;
+        }
+    }
+
+
 
 }

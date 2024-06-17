@@ -69,4 +69,66 @@ export default class mailingManager {
 
         }
     }
+
+    async sendMailUserDeleted(email, first_name) {
+        try {
+
+            const mailOptions = {
+                from: `BamBam <${user_mail}>`,
+                to: email,
+                subject: 'Éste usuario fue eliminado por falta de actividad',
+                html: `
+                    <h1>Usuario borrado: 
+                    <br>
+                    <strong>${email}</strong>
+                    <br>
+                    </h1>
+                    <p>Hola ${first_name},</p>
+                    <br>
+                    <p>Nos ponemos en contacto contigo para comunicarte que lamentamos hemos tenido que eliminar tu usuario por falta de actividad. No te preocupes, siempre puedes volver a registrarte. 
+                    <br>
+                    Lamentamos las molestias.</p>
+                    <br>
+                    <br>
+                    <a href="http://localhost:8080/register">Aqui puedes volver a registrarte</a>
+                `
+            }
+            await this.transporter.sendMail(mailOptions);
+
+        } catch (error) {
+            console.error("Error al enviar el email:", error);
+            throw new Error("Error al enviar el email");
+        }
+    }
+
+    async sendMailDeletedByAdmin(email, first_name) {
+        try {
+
+            const mailOptions = {
+                from: `BamBam <${user_mail}>`,
+                to: email,
+                subject: 'Este usuario fue eliminado por el administrador',
+                html: `
+                <h1>Usuario borrado: 
+                <br>
+                <strong>${email}</strong>
+                <br>
+                </h1>
+                <p>Hola ${first_name},</p>
+                <br>
+                <p>Nos ponemos en contacto contigo para comunicarte que el administrador ha eliminado tu usuario. NSi lo deseas, puedes volver a registrarte. 
+                <br>
+                Lamentamos las molestias.</p>
+                <br>
+                <br>
+                <a href="http://localhost:8080/register">Aqui puedes volver a registrarte</a>
+                `
+            }
+            await this.transporter.sendMail(mailOptions);
+
+        } catch (error) {
+            console.error("Error al enviar el email:", error);
+            throw new Error("Error al enviar el email");
+        }
+    }
 }

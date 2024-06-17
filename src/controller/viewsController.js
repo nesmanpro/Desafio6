@@ -312,6 +312,37 @@ export default class ViewsController {
     async resetPass(req, res) {
         res.render('resetPass');
     }
+
+    async getUsers(req, res) {
+
+        const usuario = req.user;
+
+        try {
+            const { user } = req.session;
+            const isAdmin = getRole(req) === 'admin';
+            const isUser = getRole(req) === 'user';
+            const isPremium = getRole(req) === 'premium';
+
+            res.render("allUsers", { title: 'Real Time Products', user, isAdmin, isUser, isPremium, role: usuario.role, email: usuario.email });
+
+        } catch (error) {
+            req.logger.error("Error en la vista real time", error);
+            res.status(500).json({ error: "Error interno del servidor" });
+        }
+    }
+
+    // async getUsers(req, res) {
+    //     try {
+    //         const _allUsers = await userRepo.getAllUsers();
+    //         const userDtos = _allUsers.map(user => new userDTO(user.first_name, user.last_name, user.email, user.role, user.last_connection));
+
+    //         res.json(userDtos)
+    //     } catch (error) {
+    //         res.status(500).json({ message: 'Error interno del servidor' });
+    //         req.logger.error("Error al obtener los usuarios", error);
+    //     }
+    // }
+
 }
 
 

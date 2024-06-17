@@ -108,13 +108,16 @@ li a:hover::after {
 }
 
 .cardFront {
-    margin-bottom: 8rem;
+    gap: 8px;
+    letter-spacing: 0.02em;
+    border-radius: 10000px;
+    height: max-content;
 }
 
 .card {
     color: var(--dark2);
-    height: 670px;
-    width: auto;
+    height: max-content;
+    width: min-content;
     background-color: var(--light);
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     scale: 1;

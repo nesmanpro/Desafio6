@@ -23,6 +23,10 @@ router.get('/profile', userController.profile);
 router.get('/failedregister', userController.filedRegister);
 //endpoint cambiar roll premium
 router.put("/premium/:uid", userController.becomePremium);
+// Endpoint recibir todos los usuarios
+router.get('/users', userController.getUsers);
+// Endpoint recibir todos los usuarios
+router.delete('/deleteuser', userController.deleteOldUsers);
 // Endpoint subir archivos con multer
 router.post('/:uid/documents', upload.fields([
     { name: 'document' },
@@ -70,8 +74,8 @@ router.post('/:uid/documents', upload.fields([
 
         }
     } catch (error) {
-        console.error(error);
         res.status(500).send('Error interno del servidor')
+        req.logger.error("Error al enviar los archivos", error);
 
     }
 

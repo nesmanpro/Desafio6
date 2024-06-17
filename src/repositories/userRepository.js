@@ -49,4 +49,52 @@ export default class UserRepository {
         }
     }
 
+    async getAllUsers() {
+        try {
+            const _getAll = await UserModel.find({});
+            return _getAll
+        } catch (error) {
+            throw error
+        }
+    }
+
+    async deleteUserById(uid) {
+        try {
+            const deleted = await UserModel.findByIdAndDelete(uid);
+
+            if (!deleted) {
+                console.log(`El usuario ${uid} no se ha podido borrar correctamente`);
+                return null;
+            }
+            console.log(`El usuario ${uid} elimino correctamente`)
+
+
+
+        } catch (error) {
+            console.error('Parece que hubo un problema con el elemento que desea eliminar', error)
+        }
+    }
+
+
+    async becomePremium(uid, role) {
+
+        try {
+            const user = await userRepo.findById(uid);
+
+            if (!user) {
+                return res.status(404).json({ message: 'Usuario no encontrado' });
+            }
+
+
+            const newRole = role;
+
+            const updated = await UserModel.findByIdAndUpdate(uid, { role: newRole }, { new: true });
+
+        } catch (error) {
+            throw error
+        }
+    }
+
+
+
 }

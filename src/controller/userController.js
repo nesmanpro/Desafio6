@@ -65,9 +65,6 @@ export default class UserController {
                 });
             }
 
-            console.log(userDocs)
-            console.log(requiredDocs)
-            console.log(hasRequiredDocuments)
 
             const newRol = user.role === 'user' ? 'premium' : 'user';
 

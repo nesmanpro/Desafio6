@@ -24,9 +24,27 @@ h1, h3 {
     justify-content: center;
 }
 
+h1{
+    font-size: 1.5rem;
+}
+
+h2{
+    font-size: 1.3rem;
+}
+
+p,
+p strong {
+    
+    font-size: 0.8rem;
+}
+
+strong {
+    /* font-size: 10px; */
+}
+
 
 .mainCont {
-    margin: 7rem 0rem 10rem 0;
+    margin: 2rem 0rem 7rem 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -42,7 +60,7 @@ header {
     background: linear-gradient(126deg, rgba(238,119,82,1) 0%, rgba(231,60,126,1) 20%, rgba(35,166,213,1) 79%, rgba(35,213,171,1) 100%);
 	background-size: 400% 400%;
 	animation: gradient 15s ease infinite;
-    padding: 40px 0px;
+    padding: 20px 0px;
     margin-bottom: 40px;
 }
 
@@ -102,13 +120,13 @@ li a:hover::after {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-    gap: 2rem;
+    align-items: top;
+    gap: 1rem;
     /* height: calc(100vh - 64px);  */
 }
 
 .cardFront {
-    gap: 8px;
+    /* gap: 8px; */
     letter-spacing: 0.02em;
     border-radius: 10000px;
     height: max-content;
@@ -116,8 +134,9 @@ li a:hover::after {
 
 .card {
     color: var(--dark2);
-    height: max-content;
-    width: auto;
+    max-height: max-content;
+    height: min-content;
+    width: 15rem;
     background-color: var(--light);
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     scale: 1;
@@ -129,9 +148,6 @@ li a:hover::after {
 .card .text {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: 1rem;
-    align-items: first baseline;
     padding: 30px 50px;
 }
 
@@ -145,8 +161,9 @@ button a {
 
 
 .card img {
-    height: 400px;
-    width: auto;
+    height: 10rem;
+    width: 100%;
+    object-fit: cover;
 }
 
 .card:hover {
@@ -155,7 +172,7 @@ button a {
 	animation: gradient 15s ease infinite;
     color: var(--light);
     border: var(--light);
-    scale: 1.05;
+    scale: 1.04;
     transition: all .2s ease-in-out;
 }
 
@@ -517,7 +534,7 @@ jsonBtn{
 }
 
 .detailsUser{
-    font-size: 20px;
+    font-size: 10px;
 }
 
 .red{
@@ -525,13 +542,15 @@ jsonBtn{
 }
 
 .detailsUser strong{
-    font-size: 27px;
+    font-size: 18px;
 }
 
 .formUser {
     display: flex;
     flex-direction: column;
     gap: 0.7rem;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 

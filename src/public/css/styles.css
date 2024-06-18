@@ -117,7 +117,7 @@ li a:hover::after {
 .card {
     color: var(--dark2);
     height: max-content;
-    width: min-content;
+    width: auto;
     background-color: var(--light);
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     scale: 1;
@@ -143,8 +143,6 @@ button a {
     font-weight: 600;
 }
 
-
-/* Cards */
 
 .card img {
     height: 400px;
@@ -520,6 +518,10 @@ jsonBtn{
 
 .detailsUser{
     font-size: 20px;
+}
+
+.red{
+    color: var(--vibrant);
 }
 
 .detailsUser strong{

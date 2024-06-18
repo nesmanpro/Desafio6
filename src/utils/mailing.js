@@ -109,19 +109,49 @@ export default class mailingManager {
                 to: email,
                 subject: 'Este usuario fue eliminado por el administrador',
                 html: `
-                <h1>Usuario borrado: 
+                <h2>Usuario borrado: 
                 <br>
                 <strong>${email}</strong>
+                </h2>
                 <br>
-                </h1>
                 <p>Hola ${first_name},</p>
                 <br>
-                <p>Nos ponemos en contacto contigo para comunicarte que el administrador ha eliminado tu usuario. NSi lo deseas, puedes volver a registrarte. 
+                <p>Nos ponemos en contacto contigo para comunicarte que el administrador ha eliminado tu usuario. Si lo deseas, puedes volver a registrarte. 
                 <br>
                 Lamentamos las molestias.</p>
                 <br>
                 <br>
                 <a href="http://localhost:8080/register">Aqui puedes volver a registrarte</a>
+                `
+            }
+            await this.transporter.sendMail(mailOptions);
+
+        } catch (error) {
+            console.error("Error al enviar el email:", error);
+            throw new Error("Error al enviar el email");
+        }
+    }
+
+    async sendProdDeletedByAdmin(data) {
+        try {
+            const { to, pid, title } = data;
+
+            const mailOptions = {
+                from: `BamBam <${user_mail}>`,
+                to: to,
+                subject: 'Este producto fue eliminado',
+                html: `
+                <h2>Producto borrado: 
+                <br>
+                </h2>
+                <strong>${title}</strong>
+                <p>con ID: <strong>${pid}</strong></p>
+                <br>
+                <p>Hola ${to},</p>
+                <br>
+                <p>Nos ponemos en contacto contigo para comunicarte que se ha eliminado uno de tus productos. 
+                <br>
+                Lamentamos las molestias.</p>
                 `
             }
             await this.transporter.sendMail(mailOptions);

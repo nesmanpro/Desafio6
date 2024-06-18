@@ -7,6 +7,8 @@ import UserRepository from '../repositories/userRepository.js';
 const userRepository = new UserRepository();
 import CartRepository from '../repositories/cartRepository.js';
 const cartRepository = new CartRepository();
+import MailingManager from "../utils/mailing.js";
+const mailingManager = new MailingManager();
 
 
 class SocketManager {
@@ -25,8 +27,20 @@ class SocketManager {
 
 
             socket.on("deleteProd", async (id) => {
+                const prod = await productRepository.getProductById(id);
+                if (prod.owner !== 'admin') {
+                    const data = {
+                        to: prod.owner,
+                        pid: id,
+                        title: prod.title,
+                    }
+                    await productRepository.deleteProduct(id);
+                    await mailingManager.sendProdDeletedByAdmin(data)
+                    this.emitUpdatedProducts(socket);
+                }
                 await productRepository.deleteProduct(id);
                 this.emitUpdatedProducts(socket);
+
             });
 
             socket.on("addProd", async (producto) => {

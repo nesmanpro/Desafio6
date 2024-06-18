@@ -3,6 +3,7 @@ const socket = io();
 const role = document.getElementById("role").textContent;
 const email = document.getElementById("email").textContent;
 
+
 // Recibimos los productos del servidor:
 
 socket.on('products', (data) => {
@@ -34,8 +35,18 @@ const showProds = (products) => {
         card.querySelector('button').addEventListener('click', () => {
             if (role === "premium" && itm.owner === email) {
                 deleteProd(itm._id);
+                Swal.fire({
+                    title: "Succes",
+                    text: "El producto fue eliminado",
+                    icon: "success",
+                })
             } else if (role === "admin") {
                 deleteProd(itm._id);
+                Swal.fire({
+                    title: "Succes",
+                    text: "El producto fue eliminado",
+                    icon: "success",
+                })
             } else {
                 Swal.fire({
                     title: "Error",

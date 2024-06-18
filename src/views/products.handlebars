@@ -17,18 +17,20 @@
         {{/each}}
     </main>
     <div class="pageBtn">
-        {{#if hasPrevPage}}
-        <a href="/products?page={{prevPage}}">Back</a>
-        {{/if}}
-        {{#unless hasPrevPage}}
-        <p class="disable">Back</p>
-        {{/unless}}
-        {{#if hasNextPage}}
-        <a href="/products?page={{nextPage}}">Next</a>
-        {{/if}}
-        {{#unless hasNextPage}}
-        <p class="disable">Next</p>
-        {{/unless}}
-        <p>Page {{currentPage}} of {{totalPages}}</p>
+        <div class="linkContainer">
+            {{#if hasPrevPage}}
+            <a href="/products?page={{prevPage}}">Back</a>
+            {{/if}}
+            {{#unless hasPrevPage}}
+            <p class="disable">Back</p>
+            {{/unless}}
+            {{#if hasNextPage}}
+            <a href="/products?page={{nextPage}}">Next</a>
+            {{/if}}
+            {{#unless hasNextPage}}
+            <p class="disable">Next</p>
+            {{/unless}}
+            <p>Page {{currentPage}} of {{totalPages}}</p>
+        </div>
     </div>
 </section>

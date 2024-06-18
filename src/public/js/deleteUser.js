@@ -17,28 +17,33 @@ const showUsers = (users) => {
 
     users.forEach(itm => {
         const card = document.createElement('div');
-        const now = new Date();
+
         card.classList.add('card');
         card.innerHTML = `
         <div class="card cardFront">
             <div class="text">
-                <h2>${itm.first_name}</h2>
-                
-                <strong>${itm.email}</strong>
-                <p><br>Role:<strong> ${itm.role}</strong></p>
-                <p><br>Last connection:<strong> ${itm.last_connection}</strong></p>
-                <button class="delete-btn" type="button">Delete</button>
-                <br>
-                <form>
-                <label for="userRole">Select User Role:</label>
-                <br>
-                <select id="userRole" name="userRole">
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-                </select>
-                </form>
-                <br>
-                <button class="role-btn" type="button">Change Role</button>
+                <div class="titleUser">
+                    <h2>${itm.first_name}</h2>
+                    <strong>${itm.email}</strong>
+                </div>
+                <div class="detailsUser">
+                    <p>Role:<strong> ${itm.role}</strong></p>
+                    
+                </div>
+                <div>
+                    <form class="formUser">
+                        <label for="userRole">Select User Role:</label>
+                        <select id="${itm._id}" name="userRole">
+                            <option value="user">User</option>
+                            <option value="premium">Premium</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                        <button class="role-btn btnSec3" type="button">Change Role</button>
+                    </form>
+                </div>
+                <div>
+                    <button class="delete-btn" type="button">Delete</button>
+                </div>
             </div>
         </div>`;
         userCont.appendChild(card);
@@ -66,7 +71,8 @@ const showUsers = (users) => {
 
         card.querySelector('.role-btn').addEventListener('click', () => {
 
-            const user = { id: itm._id, role: itm.cart }
+            const role = document.getElementById(`${itm._id}`).value;
+
 
             if (email === itm.email) {
 
@@ -74,13 +80,16 @@ const showUsers = (users) => {
                     title: "Error",
                     text: "No se ha podido cambiar el role",
                 })
+
             } else {
 
                 Swal.fire({
                     title: "Success",
                     text: "Role modificado correctamente",
-                })
-                // deleteUser(user);
+                });
+
+                updateRole(itm._id, role);
+
             }
 
         });
@@ -93,17 +102,15 @@ const deleteUser = (id) => {
     socket.emit('deleteUser', id)
 }
 
-// // Agregar Prod
-// document.getElementById('btnSend').addEventListener('click', () => {
-//     addProd();
-// })
 
-// const addProd = () => {
+const updateRole = (id, role) => {
 
-//     const user = {
-//         role: document.getElementById('role').value,
-//         owner
-//     };
+    const dataUser = {
+        id: id,
+        role: role
+    }
 
-//     socket.emit('updateRole', user);
-// }
+    console.log(dataUser)
+
+    socket.emit('updateRole', dataUser);
+}

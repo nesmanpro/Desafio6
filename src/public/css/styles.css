@@ -129,7 +129,9 @@ li a:hover::after {
 .card .text {
     display: flex;
     flex-direction: column;
-    justify-content: left;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: first baseline;
     padding: 30px 50px;
 }
 
@@ -188,7 +190,13 @@ button {
 }
 
 .pageBtn {
+    margin-top: 3rem;
     display: flex;
+}
+
+.linkContainer{
+    display: flex;
+    justify-content: center;
     align-items: center;
     gap: 2rem;
 }
@@ -231,7 +239,6 @@ button {
 
 .pageBtn .disable {
     color: var(--dark3);
-
 }
 
 .form {
@@ -322,6 +329,12 @@ input:focus {
     margin-bottom: 10px;
 } 
 
+.btnSec:hover {
+    border: 2px solid var(--dark1);
+    transition: all .4s ease-in-out;
+    color: var(--dark1);
+} 
+
 .btnSec3 {
     background-color: var(--dark1);
     border: 2px solid var(--light);
@@ -349,11 +362,6 @@ input:focus {
     border: 2px solid var(--dark1);
 } 
 
-.btnSec:hover {
-    border: 2px solid var(--dark1);
-    transition: all .4s ease-in-out;
-    color: var(--dark1);
-} 
 
 .btnSec a:hover, .btnSec2 a:hover {
     color: var(--dark1);
@@ -501,4 +509,25 @@ jsonBtn{
     text-decoration: none;
     display: flex;
     justify-content: center;
+}
+
+/* Card User */
+
+.titleUser{
+    display: flex;
+    flex-direction: column;
+}
+
+.detailsUser{
+    font-size: 20px;
+}
+
+.detailsUser strong{
+    font-size: 27px;
+}
+
+.formUser {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
 }

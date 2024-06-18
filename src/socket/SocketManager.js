@@ -49,10 +49,11 @@ class SocketManager {
                 this.emitUpdatedProducts(socket);
             });
 
-            // socket.on("updateRole", async (uid, role) => {
-            //     await userRepository.becomePremium(uid, role);
-            //     this.emitUpdatedProducts(socket);
-            // });
+            socket.on("updateRole", async (dataUser) => {
+
+                await userRepository.becomePremium(dataUser);
+                this.emitUpdatedProducts(socket);
+            });
         });
     }
 

@@ -76,10 +76,11 @@ export default class UserRepository {
     }
 
 
-    async becomePremium(uid, role) {
+    async becomePremium(dataUser) {
 
+        const { id, role } = dataUser;
         try {
-            const user = await userRepo.findById(uid);
+            const user = await UserModel.findById(id);
 
             if (!user) {
                 return res.status(404).json({ message: 'Usuario no encontrado' });
@@ -88,7 +89,7 @@ export default class UserRepository {
 
             const newRole = role;
 
-            const updated = await UserModel.findByIdAndUpdate(uid, { role: newRole }, { new: true });
+            const updated = await UserModel.findByIdAndUpdate(id, { role: newRole }, { new: true });
 
         } catch (error) {
             throw error

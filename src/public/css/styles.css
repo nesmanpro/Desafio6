@@ -145,11 +145,36 @@ li a:hover::after {
     overflow: hidden;
 }
 
+.cardDetails {
+    color: var(--dark2);
+    height: 520px ;
+    width: 500px;
+    background-color: var(--light);
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    scale: 1;
+    transition: all .8s ease-out;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.cardDetails img{
+    height: 280px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.cardDetails .text {
+    padding: 30px 50px;
+}
+
+
 .card .text {
     display: flex;
     flex-direction: column;
     padding: 30px 50px;
 }
+
+
 
 button a {
     text-decoration: none;
@@ -166,6 +191,7 @@ button a {
     object-fit: cover;
 }
 
+.cardDetails:hover,
 .card:hover {
     background: var(--dark1);
 	background-size: 900% 900%;

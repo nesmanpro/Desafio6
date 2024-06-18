@@ -1,4 +1,7 @@
 import UserModel from "../models/user.model.js";
+import cartModel from "../models/cart.model.js";
+import MailingManager from "../utils/mailing.js";
+const mailingManager = new MailingManager();
 
 export default class UserRepository {
 
@@ -93,6 +96,35 @@ export default class UserRepository {
 
         } catch (error) {
             throw error
+        }
+    }
+
+
+    async deleteInactives() {
+        try {
+            const _aallUsers = await UserModel.find();
+            const _now = new Date();
+
+            // calcula el tiempo de inactividad de los usuarios
+            const _inactiveUsers = _aallUsers.filter(user => {
+                const _lastConnection = new Date(user.last_connection);
+                const _diffInHours = (_now - _lastConnection) / (1000 * 60 * 60);
+                return _diffInHours > 48;
+            })
+
+
+            //Borra el usuario y su correspondiente carrito
+            _inactiveUsers.map(async user => {
+                await UserModel.findByIdAndDelete(user.id);
+                await cartModel.findByIdAndDelete(user.cart);
+                console.log({ message: `Este usuario ${user.id} y su carrito (id:${user.cart}) han sido eliminados.` })
+                await mailingManager.sendMailUserDeleted(user.email, user.first_name)
+            })
+
+
+        } catch (error) {
+            console.error("Error al intentar borrar al usuario", error);
+
         }
     }
 

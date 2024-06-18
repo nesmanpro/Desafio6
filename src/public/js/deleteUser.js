@@ -8,10 +8,14 @@ socket.on('users', (data) => {
     showUsers(data);
 })
 
-// Funcion montar trabla de cards prods
-
+// Funcion montar trabla de cards prods y users
 const showUsers = (users) => {
     const userCont = document.getElementById('userCont');
+    const loader = document.getElementById('loader');
+
+    // Mostrar el loader al inicio
+    loader.style.display = 'block';
+
     userCont.innerHTML = '';
 
     const now = new Date();
@@ -21,11 +25,11 @@ const showUsers = (users) => {
         const card = document.createElement('div');
 
         const lastConnection = new Date(itm.last_connection);
-
         const diffInMs = now - lastConnection;
         const diffInHours = Math.round(diffInMs / (1000 * 60 * 60));
 
         card.classList.add('card');
+
         card.innerHTML = `
         <div class="card cardFront">
             <div class="text">
@@ -54,58 +58,66 @@ const showUsers = (users) => {
                 </div>
             </div>
         </div>`;
+
         userCont.appendChild(card);
 
         card.querySelector('.delete-btn').addEventListener('click', () => {
-
             const user = { id: itm._id, cart: itm.cart }
 
             if (email === itm.email) {
-
                 Swal.fire({
                     title: "Error",
                     text: "No puedes eliminarte a ti mismo",
                 })
             } else {
-
                 Swal.fire({
                     title: "Success",
                     text: "Usuario eliminado correctamente",
                 })
                 deleteUser(user);
             }
-
         });
 
         card.querySelector('.role-btn').addEventListener('click', () => {
-
             const role = document.getElementById(`${itm._id}`).value;
 
-
             if (email === itm.email) {
-
                 Swal.fire({
                     title: "Error",
                     text: "No se ha podido cambiar el role",
                 })
-
             } else {
-
                 Swal.fire({
                     title: "Success",
                     text: "Role modificado correctamente",
                 });
-
                 updateRole(itm._id, role);
-
             }
-
         });
 
     });
+
+
+    // Función para eliminar usuarios inactivos
+    document.getElementById('borrarInactivos').addEventListener('click', async () => {
+        Swal.fire({
+            title: 'Usuarios eliminados',
+            text: 'Se han eliminado exitosamente los usuarios inactivos',
+            icon: 'success',
+        });
+        deleteInactives();
+
+    });
+
+    loader.style.display = 'none';
 }
 
-// Eliminar user
+// Eliminar usuarios inactivos
+const deleteInactives = () => {
+    socket.emit('deleteInactives');
+}
+
+// Eliminar user uno por uno
 const deleteUser = (id) => {
     socket.emit('deleteUser', id)
 }
@@ -117,7 +129,6 @@ const updateRole = (id, role) => {
         id: id,
         role: role
     }
-
 
     socket.emit('updateRole', dataUser);
 }

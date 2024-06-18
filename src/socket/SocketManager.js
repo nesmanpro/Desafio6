@@ -8,6 +8,7 @@ const userRepository = new UserRepository();
 import CartRepository from '../repositories/cartRepository.js';
 const cartRepository = new CartRepository();
 
+
 class SocketManager {
 
     constructor(httpServer) {
@@ -44,14 +45,27 @@ class SocketManager {
             socket.emit("users", await userRepository.getAllUsers());
 
             socket.on("deleteUser", async (user) => {
-                await userRepository.deleteUserById(user.id);
-                await cartRepository.deleteCartById(user.cart);
-                this.emitUpdatedProducts(socket);
+                try {
+                    await userRepository.deleteUserById(user.id);
+                    await cartRepository.deleteCartById(user.cart);
+                    this.emitUpdatedProducts(socket);
+                } catch (error) {
+                    console.error('Error al intentar borrar el usuario:', error)
+                }
             });
 
             socket.on("updateRole", async (dataUser) => {
                 await userRepository.becomePremium(dataUser);
                 this.emitUpdatedProducts(socket);
+            });
+
+            socket.on("deleteInactives", async () => {
+                try {
+                    await userRepository.deleteInactives();
+                    this.emitUpdatedProducts(socket);
+                } catch (error) {
+                    console.error('Error al intentar borrar usuarios inactivos:', error)
+                }
             });
         });
     }

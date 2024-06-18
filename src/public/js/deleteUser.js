@@ -35,7 +35,7 @@ const showUsers = (users) => {
             <div class="text">
                 <div class="titleUser">
                     <h2>${itm.first_name}</h2>
-                    <strong>${itm.email}</strong>
+                    <strong class="mailStrong">${itm.email}</strong>
                     <p>Last connection:<br> <strong class='${diffInHours > 24 ? 'red' : ''}'>${diffInHours} hours ago</strong></p>
                 </div>
                 <div class="detailsUser">

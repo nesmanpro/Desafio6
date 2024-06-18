@@ -110,7 +110,6 @@ const updateRole = (id, role) => {
         role: role
     }
 
-    console.log(dataUser)
 
     socket.emit('updateRole', dataUser);
 }

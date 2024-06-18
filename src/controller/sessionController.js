@@ -41,8 +41,11 @@ export default class SessionController {
     }
 
     async failLogin(req, res) {
-        req.logger.warning('Fallo la estrategia, revisar codigo')
-        res.redirect('/error')
+        try {
+            res.redirect('/notfound')
+        } catch (error) {
+            req.logger.warning('Fallo la estrategia, revisar codigo')
+        }
     }
 
     async current(req, res) {

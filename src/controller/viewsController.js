@@ -2,9 +2,11 @@ import ProductRepository from '../repositories/productRepository.js';
 import CartRepository from '../repositories/cartRepository.js';
 import { getRole } from '../utils/userAdmin.js';
 import { generateProds } from '../utils/mocking.js';
+import UserRepository from '../repositories/userRepository.js';
 
 const prodRepository = new ProductRepository();
 const cartRepository = new CartRepository();
+const userRepository = new UserRepository();
 
 
 export default class ViewsController {
@@ -31,7 +33,9 @@ export default class ViewsController {
 
 
 
-    login(req, res) {
+    async login(req, res) {
+
+
         if (req.session.login) {
             return res.redirect("/products");
         }
@@ -204,6 +208,14 @@ export default class ViewsController {
         res.render('error404', { title: 'Error', user, isUser, isAdmin, isPremium })
     }
 
+    async notFound(req, res) {
+        const { user } = req.session;
+        const isAdmin = getRole(req) === 'admin';
+        const isUser = getRole(req) === 'user';
+        const isPremium = getRole(req) === 'premium';
+        res.render('noUser', { title: 'Error', user, isUser, isAdmin, isPremium })
+    }
+
 
     async realTimeProducts(req, res) {
 
@@ -330,18 +342,6 @@ export default class ViewsController {
             res.status(500).json({ error: "Error interno del servidor" });
         }
     }
-
-    // async getUsers(req, res) {
-    //     try {
-    //         const _allUsers = await userRepo.getAllUsers();
-    //         const userDtos = _allUsers.map(user => new userDTO(user.first_name, user.last_name, user.email, user.role, user.last_connection));
-
-    //         res.json(userDtos)
-    //     } catch (error) {
-    //         res.status(500).json({ message: 'Error interno del servidor' });
-    //         req.logger.error("Error al obtener los usuarios", error);
-    //     }
-    // }
 
 }
 

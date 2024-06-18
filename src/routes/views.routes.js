@@ -24,6 +24,7 @@ router.get('/products', viewsController.getProducts);
 router.get('/profile', viewsController.profile)
 // Endpoint para gestionar error 404
 router.get('/error', viewsController.error404)
+router.get('/notfound', viewsController.notFound)
 // Endpoint para la vista productDetail.handlebars
 router.get('/products/:prodId', viewsController.getProductById)
 // Endpoint chat

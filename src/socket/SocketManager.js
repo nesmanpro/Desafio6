@@ -50,7 +50,6 @@ class SocketManager {
             });
 
             socket.on("updateRole", async (dataUser) => {
-
                 await userRepository.becomePremium(dataUser);
                 this.emitUpdatedProducts(socket);
             });
